@@ -1,0 +1,3 @@
+{%- macro wrapColInQuotes(column) -%}
+  {%- if column.useQuotes %}"{{ column.name }}"{% else %}{{ column.name }}{% endif %}
+{%- endmacro -%}

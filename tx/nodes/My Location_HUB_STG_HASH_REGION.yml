@@ -1,0 +1,89 @@
+name: HUB_STG_HASH_REGION
+color: '#1C70FF'
+isSource: false
+columns:
+  - name: REGION_HK
+    allowNulls: false
+    dataType: BINARY(20)
+    defaultValue: ''
+    description: ''
+    id: d5b1e032-5fe4-4794-a5a4-7439db7e396c
+  - name: REGION_ID
+    allowNulls: false
+    dataType: number(38,0)
+    defaultValue: ''
+    description: ''
+    id: 4ca9b812-7f12-4a5f-91f0-ad97dc7b0b3e
+  - name: __LOAD_DTS
+    allowNulls: true
+    dataType: timestamp_ltz(9)
+    defaultValue: ''
+    description: ''
+    id: 1ecbbbe8-f5ab-40a2-bb1f-078dee56c387
+  - name: __RECORD_SOURCE
+    allowNulls: false
+    dataType: VARCHAR(50)
+    defaultValue: ''
+    description: ''
+    id: c93456f8-8575-423f-967b-ba560501e992
+logic: |-
+  with "STG_HASH_REGION" as (
+      SELECT
+          "REGION_HK",
+          "REGION_ID",
+          "__LOAD_DTS",
+          "__RECORD_SOURCE"
+      FROM {{ref('My Location', 'STG_HASH_REGION')}}
+  )
+  ,
+  common as (
+      SELECT
+          "STG_HASH_REGION"."REGION_HK",
+          "STG_HASH_REGION"."REGION_ID",
+          "STG_HASH_REGION"."__LOAD_DTS",
+          "STG_HASH_REGION"."__RECORD_SOURCE"
+      FROM "STG_HASH_REGION"
+  )
+
+  SELECT * FROM common
+description: ''
+logicalName: REGION Hash Stage Hub
+columnSets:
+  - itemName: BK
+    setName: BK_HUB_STG_HASH_REGION
+    columns:
+      - columnId: 4ca9b812-7f12-4a5f-91f0-ad97dc7b0b3e
+        position: 1
+        name: REGION_ID
+    id: 9ae6349b-be04-4b5e-8cbb-665594318f00
+  - itemName: LDTS
+    setName: LDTS_HUB_STG_HASH_REGION
+    columns:
+      - columnId: 1ecbbbe8-f5ab-40a2-bb1f-078dee56c387
+        position: 1
+        name: __LOAD_DTS
+    id: f8ecf89f-a00b-4869-ad18-2c14bddd2376
+  - itemName: RCS
+    setName: RCS_HUB_STG_HASH_REGION
+    columns:
+      - columnId: c93456f8-8575-423f-967b-ba560501e992
+        position: 1
+        name: __RECORD_SOURCE
+    id: 33519af0-3f74-4dc3-bc2a-e6a42f2911ed
+  - itemName: PK
+    setName: PK_HUB_STG_HASH_REGION
+    columns:
+      - columnId: d5b1e032-5fe4-4794-a5a4-7439db7e396c
+        position: 1
+        name: REGION_HK
+    id: 3a6a9f8b-b39f-47ee-9cd6-17aac2e1bb7a
+templateId: 8dea66d3-79ca-49b1-8392-f07366bb5421
+materialization: table
+storageLocationId: 02c0932a-a09d-40c3-847a-0cee0092c1a1
+id: 82168e6d-12b3-43db-b846-3154fa8aa79d
+nodeFormat: dynamic
+parentName: My Location
+references:
+  8f4fe16a-3e15-443b-9499-03a2ddac4ccf:
+    parentTableId: e9f1ed06-16c2-4eee-8f5b-76d405b48977
+    id: 8f4fe16a-3e15-443b-9499-03a2ddac4ccf

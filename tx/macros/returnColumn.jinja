@@ -1,0 +1,13 @@
+{% macro returnColumn(columnSet) %}
+    {%- set column = columnSets
+        | selectattr("itemName", "equalto", columnSet)
+        | map(attribute="columns")
+        | first
+        | map(attribute="name")
+        | first -%}
+    {%- if column -%}
+        {{ column }}
+    {%- else -%}
+        NULL
+    {%- endif -%}
+{% endmacro %}

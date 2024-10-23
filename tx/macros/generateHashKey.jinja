@@ -1,0 +1,57 @@
+{%- macro generateHashKey(objectColumnsToHash='all', hashdiff='false') -%}
+{#-
+ This macro generates a SQL SHA1 hash expression for a list of columns.
+ Args:
+     objectColumnsToHash (string, optional): The name of an existing list from the object or 'ALL'. Defaults to 'ALL'. Accepts: 'PK', 'AK', 'BK', 'DELTA', 'CUSTOM', etc.
+     hashdiff (boolean, optional): Determines the type of hashing calculation. Defaults to 'FALSE'. If 'TRUE', columns marked as 'NONDELTA' are not used for hashdiff, and null values are not converted.
+-#}
+    {%- set hashdiff = hashdiff | string | upper == 'TRUE' -%}
+
+    {# Determine the columns to hash #}
+    {%- if hashdiff -%} 
+        {# When hashdiff is true, exclude the 'NONDELTA' columns #}
+        {%- set non_delta = columnSets 
+            | selectattr("itemName", "equalto", 'NONDELTA') 
+            | map(attribute="columns") | first 
+            | map(attribute='name') | list -%}
+        {# Calculate hashdiff columns #}
+        {%- set all_columns = columns -%}
+        {%- set columns_to_hash = [] -%}
+        {%- for item in all_columns -%}
+            {%- if item.name not in non_delta  -%}
+                {%- set _ = columns_to_hash.append(item) -%}
+            {%- endif -%}
+        {%- endfor -%}
+    {%- elif objectColumnsToHash | upper == 'ALL' -%}
+        {# Use all columns #}
+        {%- set columns_to_hash = columns -%}
+    {%- else -%} 
+        {# Use the specified column set #}
+        {%- set columns_to_hash = columnSets 
+            | selectattr("itemName", "equalto", objectColumnsToHash) 
+            | map(attribute="columns") | first  -%}
+    {%- endif -%}
+
+    {# Generate the SHA1 hash expression #}
+    {%- if columns_to_hash|length == 1 -%}
+        SHA1_BINARY(NVL(UPPER(TRIM({{wrapColInQuotes(columns_to_hash[0])}}::VARCHAR)),'^^'))
+    {%- else -%}
+        {# sort columns_to_hash #}
+        {%- set columns_to_hash = columns_to_hash | sort(attribute='name') -%}
+        {%- if not hashdiff -%} 
+            SHA1_BINARY(NVL(CONCAT_WS('||',
+        {%- else -%}
+            SHA1_BINARY(CONCAT_WS('||',
+        {%- endif -%}
+        {%- for col in columns_to_hash -%}
+            IFNULL(NVL(UPPER(TRIM({{wrapColInQuotes(col)}}::VARCHAR)),'^^'), '^^')
+            {%- if not loop.last %} , {% endif -%}
+        {%- endfor -%}
+        {%- if not hashdiff -%} 
+            ), '^^||^^||^^'))
+        {%- else -%}
+            ))
+        {%- endif -%}                       
+    {%- endif -%}
+
+{%- endmacro %}

@@ -1,0 +1,126 @@
+name: SAT_STG_HASH_REGION
+color: '#F7B81C'
+isSource: false
+columns:
+  - name: REGION_HK
+    allowNulls: false
+    dataType: BINARY(20)
+    defaultValue: ''
+    description: ''
+    id: cdde8724-1feb-44cd-b8a4-fc1fcd825622
+  - name: REGION_ID
+    allowNulls: false
+    dataType: number(38,0)
+    defaultValue: ''
+    description: ''
+    id: 372b1afe-6111-468e-b1c4-d47a07b31961
+  - name: NAME
+    allowNulls: false
+    dataType: varchar(25)
+    defaultValue: ''
+    description: ''
+    id: d41cebf1-c70e-4041-bea4-f23a850f6ea5
+  - name: COMMENT
+    allowNulls: true
+    dataType: varchar(152)
+    defaultValue: ''
+    description: ''
+    id: 67995f34-7c00-4d31-981c-0ae984ef1e98
+  - name: __LOAD_DTS
+    allowNulls: true
+    dataType: timestamp_ltz(9)
+    defaultValue: ''
+    description: ''
+    id: bc2daa5f-6d25-48a7-8d23-31c170bc117b
+  - name: __LOAD_DATE_TS
+    allowNulls: false
+    dataType: TIMESTAMP
+    defaultValue: CURRENT_TIMESTAMP()
+    description: ''
+    id: 861ac007-985e-4f57-9b68-3afb2e195644
+  - name: __RECORD_SOURCE
+    allowNulls: false
+    dataType: VARCHAR(50)
+    defaultValue: ''
+    description: ''
+    id: 675990a4-6554-4adc-96ee-20a6edd86e23
+logic: |-
+  with "STG_HASH_REGION" as (
+      SELECT
+          "REGION_HK",
+          "REGION_ID",
+          "NAME",
+          "COMMENT",
+          "__LOAD_DTS",
+          "__LOAD_DATE_TS",
+          "__RECORD_SOURCE"
+      FROM {{ref('My Location', 'STG_HASH_REGION')}}
+  )
+  ,
+  common as (
+      SELECT
+          "STG_HASH_REGION"."REGION_HK",
+          "STG_HASH_REGION"."REGION_ID",
+          "STG_HASH_REGION"."NAME",
+          "STG_HASH_REGION"."COMMENT",
+          "STG_HASH_REGION"."__LOAD_DTS",
+          "STG_HASH_REGION"."__LOAD_DATE_TS",
+          "STG_HASH_REGION"."__RECORD_SOURCE"
+      FROM "STG_HASH_REGION"
+  )
+
+  SELECT * FROM common
+description: ''
+logicalName: REGION Hash Stage Satellite
+columnSets:
+  - itemName: LDTS
+    setName: LDTS_SAT_STG_HASH_REGION
+    columns:
+      - columnId: bc2daa5f-6d25-48a7-8d23-31c170bc117b
+        position: 1
+        name: __LOAD_DTS
+    id: ed0278e2-a228-4714-a837-ff25ef6ec200
+  - itemName: RCS
+    setName: RCS_SAT_STG_HASH_REGION
+    columns:
+      - columnId: 675990a4-6554-4adc-96ee-20a6edd86e23
+        position: 1
+        name: __RECORD_SOURCE
+    id: 5355de5c-66fc-4412-8fe2-42977f5c275c
+  - itemName: TDTS
+    setName: TDTS_SAT_STG_HASH_REGION
+    columns:
+      - columnId: 861ac007-985e-4f57-9b68-3afb2e195644
+        position: 1
+        name: __LOAD_DATE_TS
+    id: ca6b473f-7d13-4898-9cbd-dff23356d2ae
+  - itemName: ATTR
+    setName: ATTR_SAT_STG_HASH_REGION
+    columns:
+      - columnId: d41cebf1-c70e-4041-bea4-f23a850f6ea5
+        position: 1
+        name: NAME
+      - columnId: 67995f34-7c00-4d31-981c-0ae984ef1e98
+        position: 2
+        name: COMMENT
+      - columnId: 372b1afe-6111-468e-b1c4-d47a07b31961
+        position: 3
+        name: REGION_ID
+    id: f082e2c2-7e03-4531-a76f-d4c76c8cbbc7
+  - itemName: PK
+    setName: PK_SAT_STG_HASH_REGION
+    columns:
+      - columnId: cdde8724-1feb-44cd-b8a4-fc1fcd825622
+        position: 1
+        name: REGION_HK
+    id: db71aaf8-4643-4860-bff7-912f40715a94
+templateId: 15bf2f7e-1877-4625-a741-9bbaaef1acf1
+materialization: table
+storageLocationId: 02c0932a-a09d-40c3-847a-0cee0092c1a1
+id: f497d970-83bd-4a7f-aeaf-c22098430c56
+nodeFormat: dynamic
+parentName: My Location
+references:
+  1eafd568-52d1-40ab-a38e-f2af0a1e9442:
+    parentTableId: e9f1ed06-16c2-4eee-8f5b-76d405b48977
+    id: 1eafd568-52d1-40ab-a38e-f2af0a1e9442
