@@ -1,0 +1,232 @@
+name: dim_CUSTOMER
+id: ef18055d-1394-4035-ada3-dfa4d15e7e97
+storageLocationId: f444de18-2d02-4df6-9c54-36ca0a2c7e40
+templateId: 7c988c83-361c-42f7-a54a-158e98d0e635
+materialization: table
+isSource: false
+columns:
+  - name: CUSTOMER_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 50775ca2-4ccf-4215-9127-43981553f8e0
+  - name: __FROM_DTS
+    dataType: timestamp_ntz
+    allowNulls: false
+    defaultValue: CURRENT_TIMESTAMP()
+    description: when record was loaded into the warehouse
+    id: cc8fc0f3-b519-49b2-825e-7b1cc9d5356a
+  - name: __TO_DTS
+    dataType: timestamp_ntz
+    allowNulls: false
+    defaultValue: CURRENT_TIMESTAMP()
+    description: effective date or surrogate high date (9999-12-31)
+    id: febeacbc-f984-421e-b51b-571189ab91e2
+  - name: NAME
+    dataType: varchar(16777216)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 9186d867-cd35-4ab4-afd5-ed40803af78c
+  - name: ADDRESS
+    dataType: varchar(16777216)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 865a8fd9-21fb-43a3-b505-d25f707dbf0e
+  - name: LOCATION_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: a0996be8-d79f-42e3-8f2b-90a0f826e69f
+  - name: PHONE
+    dataType: varchar(15)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: bd3c9fc3-fc52-473e-b451-4a874accb1d7
+  - name: ACCOUNT_BALANCE_USD
+    dataType: number(12,2)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 5bf6eea4-9377-4635-8fc9-56e2d1e0af55
+  - name: MARKET_SEGMENT
+    dataType: varchar(10)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: febab32d-d3fd-492b-9ea9-afb37c1e3ee8
+  - name: COMMENT
+    dataType: varchar(16777216)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: ae95cd95-bde4-410a-9390-61aeb20eb966
+  - name: __LOAD_DTS
+    dataType: timestamp_ltz(9)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 1429cdae-2561-4cd8-8151-77ce94e43cf3
+  - name: __REC_VERSION
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: '1'
+    description: incremental change version counter for the record
+    id: d850156c-9365-434b-9734-1b8285d489dd
+  - name: __IS_LATEST
+    dataType: boolean
+    allowNulls: false
+    defaultValue: 'true'
+    description: true only on the latest effective dated record
+    id: efb8b5cd-5058-4cb0-ab0b-930fb6bf0db8
+  - name: __CREATE_DTS
+    dataType: timestamp_ntz
+    allowNulls: false
+    defaultValue: CURRENT_TIMESTAMP()
+    description: date when record was first created
+    id: 4d414f66-1460-418d-b6f7-ac808053bb36
+  - name: __UPDATE_DTS
+    dataType: timestamp_ntz
+    allowNulls: false
+    defaultValue: CURRENT_TIMESTAMP()
+    description: date when record was last updated
+    id: e4d3cb83-4cd9-48e0-809d-108726ed4520
+  - name: __T2DIFF_HASH
+    dataType: binary(20)
+    allowNulls: false
+    defaultValue: ''
+    description: hash of all columns used for quick compare
+    id: 3f3c6d71-0e53-427a-b136-44f46d2b7cfc
+  - name: __T1DIFF_HASH
+    dataType: binary(20)
+    allowNulls: false
+    defaultValue: ''
+    description: hash of all columns used for quick compare
+    id: c624f676-69ea-4add-b077-7ef9f3213c95
+columnSets:
+  - id: 24d7557e-e184-4d1a-8911-b7b58ae3f6ac
+    itemName: PK
+    setName: PK_dim_CUSTOMER
+    columns:
+      - columnId: 50775ca2-4ccf-4215-9127-43981553f8e0
+        position: 1
+        name: CUSTOMER_ID
+      - columnId: cc8fc0f3-b519-49b2-825e-7b1cc9d5356a
+        position: 2
+        name: __FROM_DTS
+  - id: a325ee85-0bb0-42b3-939c-83dc94b024db
+    itemName: DELTA
+    setName: DELTA_dim_CUSTOMER
+    columns:
+      - columnId: febab32d-d3fd-492b-9ea9-afb37c1e3ee8
+        position: 1
+        name: MARKET_SEGMENT
+  - id: 80e61a89-9c02-4182-9463-60a667915f91
+    itemName: sysTimestamp
+    setName: sysTimestamp_dim_CUSTOMER
+    columns:
+      - columnId: 1429cdae-2561-4cd8-8151-77ce94e43cf3
+        position: 1
+        name: __LOAD_DTS
+nodeFormat: dynamic
+preCreate:
+  value: ''
+  isValidated: true
+postCreate:
+  value: ''
+  isValidated: true
+preRun:
+  value: ''
+  isValidated: true
+postRun:
+  value: ''
+  isValidated: true
+AllDelta: false
+rely_button: true
+parentName: Processing_layer
+color: '#8E44AD'
+logic: |-
+  with "CUSTOMER" as (
+      SELECT
+          "CUSTOMER_ID",
+          "NAME",
+          "ADDRESS",
+          "LOCATION_ID",
+          "PHONE",
+          "ACCOUNT_BALANCE_USD",
+          "MARKET_SEGMENT",
+          "COMMENT",
+          "__LOAD_DTS"
+      FROM {{ref('My Location', 'CUSTOMER')}}
+  )
+  ,
+  common as (
+      SELECT
+          "CUSTOMER"."CUSTOMER_ID",
+          {% for colSet in columnSets -%}
+    {%- if colSet.itemName == 'sysTimestamp' -%}
+      {%- if colSet.columns[0].name | length > 0 -%}   {{ wrapColInQuotes(colSet.columns[0]) }} {{' '-}}
+      {%- else -%} 'Please designate the system timestamp field in the ''System timestamp column'' column set'
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%} 
+   AS "__FROM_DTS",
+          '9999-12-31'::TIMESTAMP_NTZ AS "__TO_DTS",
+          "CUSTOMER"."NAME",
+          "CUSTOMER"."ADDRESS",
+          "CUSTOMER"."LOCATION_ID",
+          "CUSTOMER"."PHONE",
+          "CUSTOMER"."ACCOUNT_BALANCE_USD",
+          "CUSTOMER"."MARKET_SEGMENT",
+          "CUSTOMER"."COMMENT",
+          "CUSTOMER"."__LOAD_DTS",
+          1 AS "__REC_VERSION",
+          true AS "__IS_LATEST",
+          CURRENT_TIMESTAMP() AS "__CREATE_DTS",
+          CURRENT_TIMESTAMP() AS "__UPDATE_DTS",
+          SHA1_BINARY( {%- for col in columns if  ( not ( col.name == '__REC_VERSION' or
+                                 col.name == '__IS_LATEST' or
+                                 col.name == '__FROM_DTS' or
+                                 col.name == '__TO_DTS' or
+                                 col.name == '__CREATE_DTS' or
+                                 col.name == '__UPDATE_DTS' or 
+                                 col.name == '__T2DIFF_HASH' or
+                                 col.name == '__T1DIFF_HASH' or
+                                 col.isSysTimestamp ) 
+                                 and (
+                                 col.isDelta or
+                                 isAllDelta
+                                 )
+                                 ) %}  
+      NVL(UPPER(TRIM({{wrapColInQuotes(col)}}::VARCHAR)),'^^') {%- if not loop.last %} || '|' || {% endif %}                        
+    {%- endfor %} 
+          )::BINARY(20) AS "__T2DIFF_HASH",
+          SHA1_BINARY({% if isAllDelta -%} '*null*'{% else %}
+      {%- for col in columns if not ( col.name == '__REC_VERSION' or
+                                    col.name == '__IS_LATEST' or
+                                    col.name == '__FROM_DTS' or
+                                    col.name == '__TO_DTS' or
+                                    col.name == '__CREATE_DTS' or
+                                    col.name == '__UPDATE_DTS' or 
+                                    col.name == '__T2DIFF_HASH' or
+                                    col.name == '__T1DIFF_HASH' or
+                                    col.isDelta or
+                                    col.isSysTimestamp  ) %}  
+       NVL(UPPER(TRIM({{wrapColInQuotes(col)}}::VARCHAR)),'^^') {%- if not loop.last %} || '|' || {% endif %}
+        {%- endfor -%} 
+    {% endif -%}
+    )::BINARY(20) AS "__T1DIFF_HASH"
+      FROM "CUSTOMER"
+  )
+
+  SELECT * FROM common
+description: ''
+logicalName: CUSTOMER dimension
+references:
+  1ff53037-915e-42d3-9d49-57c0f04acf3f:
+    parentTableId: 39bd16bc-a498-452c-9cba-9defbf84426c
+    id: 1ff53037-915e-42d3-9d49-57c0f04acf3f
