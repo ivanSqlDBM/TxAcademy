@@ -1,0 +1,65 @@
+sourceId: 98ad7eab-c40d-49d8-bd66-21397115b500
+name: PART
+locationId: 02c0932a-a09d-40c3-847a-0cee0092c1a1
+description: Parts we distribute
+columns:
+  - name: PART_ID
+    dataType: number(38,0)
+    id: 82aec715-8c77-4bde-a41a-d9f34c42139e
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+  - name: NAME
+    dataType: varchar(16777216)
+    id: 99dd74e1-2ba2-4757-a7c7-6ee14e70ba9f
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+  - name: MANUFACTURER
+    dataType: varchar(16777216)
+    id: 56f624b8-1a21-4220-be41-96d7a1744d2f
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+  - name: BRAND
+    dataType: varchar(16777216)
+    id: ebf8591c-a710-4ac2-8ccc-6db47d31c2aa
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+  - name: TYPE
+    dataType: varchar(16777216)
+    id: 906ec261-9da3-4d02-9690-f0184962671c
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+  - name: SIZE_CENTIMETERS
+    dataType: number(38,0)
+    id: 3feb036d-5899-46eb-a744-f71eb80ea90d
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+  - name: CONTAINER
+    dataType: varchar(16777216)
+    id: fc2d6425-6b82-49da-9652-5b0225cacaba
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+  - name: RETAIL_PRICE_USD
+    dataType: number(12,2)
+    id: 59042fc1-da17-4bd9-9707-97472322a12f
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+  - name: COMMENT
+    dataType: varchar(16777216)
+    id: 6daa3f96-fc9d-4ad3-9393-02a804939dc9
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+  - name: __LOAD_DTS
+    dataType: timestamp_ltz(9)
+    id: 003ba3ec-8465-4836-8efc-a4614212a484
+    allowNulls: true
+    defaultValue: ''
+    description: ''
