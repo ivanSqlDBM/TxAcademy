@@ -117,6 +117,7 @@ logic: |-
           "COMMENT",
           "__LOAD_DTS"
       FROM {{ref('RAW', 'CUSTOMER')}}
+
   )
   ,
   common as (
