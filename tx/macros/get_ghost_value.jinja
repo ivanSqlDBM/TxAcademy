@@ -1,0 +1,32 @@
+{%- macro get_ghost_value(col) -%}
+    {# Determine the ghost value for the column #}
+    {%- set dataType = col.dataType|upper %}
+    {%- set allowNulls = col.allowNulls %}
+    {%- if 'CHAR' in dataType or 'TEXT' in dataType or 'STRING' in dataType %}
+        'GHOST'
+    {%- elif 'NUMBER' in dataType or 'INT' in dataType or 'FLOAT' in dataType %}
+        0
+    {%- elif 'DATE' in dataType or 'TIME' in dataType %}
+        '1900-01-01'
+    {%- elif 'BINARY' in dataType %}
+        {%- if not allowNulls %}
+            {# Extract length from dataType, e.g., BINARY(20) #}
+            {%- if '(' in dataType and ')' in dataType %}
+                {%- set length = dataType.split('(')[1].split(')')[0] | int %}
+            {%- else %}
+                {# Default length if not specified #}
+                {%- set length = 1 %}
+            {%- endif %}
+            {%- set hex_string = '0' * (length * 2) %}
+        X'{{ hex_string }}'
+        {%- else %}
+        NULL
+        {%- endif %}
+    {%- else %}
+        {%- if not allowNulls %}
+        'UNKNOWN'
+        {%- else %}
+        NULL
+        {%- endif %}
+    {%- endif %}
+{%- endmacro %}
