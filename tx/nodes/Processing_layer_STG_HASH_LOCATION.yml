@@ -1,67 +1,144 @@
 name: STG_HASH_LOCATION
-color: '#999999'
+id: 6370c6e2-037f-44e0-84f5-a97fcb73ee21
+storageLocationId: f444de18-2d02-4df6-9c54-36ca0a2c7e40
+templateId: c9972b75-8b77-4599-8631-351a18354a4f
+materialization: view
 isSource: false
 columns:
   - name: LOCATION_HK
-    allowNulls: false
     dataType: BINARY(20)
+    allowNulls: false
     defaultValue: ''
     description: ''
     id: a84188e1-c7eb-40a6-b06d-80275df72966
   - name: LOCATION_ID
-    allowNulls: false
     dataType: number(38,0)
+    allowNulls: false
     defaultValue: ''
     description: ''
     id: b5808c08-08e1-42f2-92a1-a16a3781a449
   - name: NAME
-    allowNulls: false
     dataType: varchar(25)
+    allowNulls: false
     defaultValue: ''
     description: ''
     id: 3089b639-3eac-48e6-ac5e-d1b5bbc328d5
   - name: REGION_ID
-    allowNulls: false
     dataType: number(38,0)
+    allowNulls: false
     defaultValue: ''
     description: ''
     id: 0da467fc-28ed-4fe9-81f2-99de50d59701
   - name: COMMENT
-    allowNulls: true
     dataType: varchar(152)
+    allowNulls: true
     defaultValue: ''
     description: ''
     id: 0ce7e139-07ca-4d45-a63e-ddac28ea7540
   - name: __LOAD_DTS
-    allowNulls: true
     dataType: timestamp_ltz(9)
+    allowNulls: true
     defaultValue: ''
     description: ''
     id: e47b679c-2046-411f-ac1c-62e9c5df46b5
   - name: __LOAD_DATE_TS
-    allowNulls: false
     dataType: TIMESTAMP
+    allowNulls: false
     defaultValue: CURRENT_TIMESTAMP()
     description: ''
     id: 4da07d04-1e9c-4396-ae6b-0993190d56d9
   - name: __RECORD_SOURCE
-    allowNulls: false
     dataType: VARCHAR(50)
+    allowNulls: false
     defaultValue: ''
     description: ''
     id: a9b2da00-88ae-4f56-97b5-caf48815e096
   - name: __TRANSACTIONAL_DATE_TS
-    allowNulls: true
     dataType: TIMESTAMP
+    allowNulls: true
     defaultValue: ''
     description: ''
     id: c51da372-681a-4fe3-9d75-4356b32c563c
   - name: __HASHDIFF
-    allowNulls: false
     dataType: BINARY(20)
+    allowNulls: false
     defaultValue: ''
     description: ''
     id: dc199575-2400-408e-a114-6ef8e1657abb
+columnSets:
+  - id: 5fa11c42-10e1-4ea9-ac0f-1a6024021304
+    itemName: PK
+    setName: PK_STG_HASH_LOCATION
+    columns:
+      - columnId: a84188e1-c7eb-40a6-b06d-80275df72966
+        position: 1
+        name: LOCATION_HK
+  - id: cc5be2fb-9235-46b3-a193-02e809315f67
+    itemName: BK
+    setName: BK_STG_HASH_LOCATION
+    columns:
+      - columnId: b5808c08-08e1-42f2-92a1-a16a3781a449
+        position: 1
+        name: LOCATION_ID
+  - id: 4c84359c-915c-4a19-9d95-e1931c804e4d
+    itemName: NONDELTA
+    setName: NONDELTA_STG_HASH_LOCATION
+    columns:
+      - columnId: dc199575-2400-408e-a114-6ef8e1657abb
+        position: 1
+        name: __HASHDIFF
+      - columnId: 4da07d04-1e9c-4396-ae6b-0993190d56d9
+        position: 2
+        name: __LOAD_DATE_TS
+      - columnId: e47b679c-2046-411f-ac1c-62e9c5df46b5
+        position: 3
+        name: __LOAD_DTS
+      - columnId: a9b2da00-88ae-4f56-97b5-caf48815e096
+        position: 4
+        name: __RECORD_SOURCE
+      - columnId: c51da372-681a-4fe3-9d75-4356b32c563c
+        position: 5
+        name: __TRANSACTIONAL_DATE_TS
+  - id: 8639f806-df50-45a4-80fe-fe5c4a34eba5
+    itemName: LDTS
+    setName: LDTS_STG_HASH_LOCATION
+    columns:
+      - columnId: 4da07d04-1e9c-4396-ae6b-0993190d56d9
+        position: 1
+        name: __LOAD_DATE_TS
+  - id: f294b747-906d-4fea-a4a3-236d859fc63a
+    itemName: RCS
+    setName: RCS_STG_HASH_LOCATION
+    columns:
+      - columnId: a9b2da00-88ae-4f56-97b5-caf48815e096
+        position: 1
+        name: __RECORD_SOURCE
+  - id: ef750698-851a-44a6-910c-b4947e35c994
+    itemName: TDTS
+    setName: TDTS_STG_HASH_LOCATION
+    columns:
+      - columnId: c51da372-681a-4fe3-9d75-4356b32c563c
+        position: 1
+        name: __TRANSACTIONAL_DATE_TS
+  - id: 3103ee23-a33e-42c7-95ed-e59a1ff13fcb
+    itemName: ATTR
+    setName: ATTR_STG_HASH_LOCATION
+    columns:
+      - columnId: b5808c08-08e1-42f2-92a1-a16a3781a449
+        position: 1
+        name: LOCATION_ID
+      - columnId: 0da467fc-28ed-4fe9-81f2-99de50d59701
+        position: 2
+        name: REGION_ID
+      - columnId: 3089b639-3eac-48e6-ac5e-d1b5bbc328d5
+        position: 3
+        name: NAME
+      - columnId: 0ce7e139-07ca-4d45-a63e-ddac28ea7540
+        position: 4
+        name: COMMENT
+nodeFormat: dynamic
+parentName: Processing_layer
+color: '#999999'
 logic: |-
   with "LOCATION" as (
       SELECT
@@ -91,83 +168,6 @@ logic: |-
   SELECT * FROM common
 description: ''
 logicalName: LOCATION Hash Stage
-columnSets:
-  - itemName: PK
-    setName: PK_STG_HASH_LOCATION
-    columns:
-      - columnId: a84188e1-c7eb-40a6-b06d-80275df72966
-        position: 1
-        name: LOCATION_HK
-    id: 5fa11c42-10e1-4ea9-ac0f-1a6024021304
-  - itemName: BK
-    setName: BK_STG_HASH_LOCATION
-    columns:
-      - columnId: b5808c08-08e1-42f2-92a1-a16a3781a449
-        position: 1
-        name: LOCATION_ID
-    id: cc5be2fb-9235-46b3-a193-02e809315f67
-  - itemName: NONDELTA
-    setName: NONDELTA_STG_HASH_LOCATION
-    columns:
-      - columnId: dc199575-2400-408e-a114-6ef8e1657abb
-        position: 1
-        name: __HASHDIFF
-      - columnId: 4da07d04-1e9c-4396-ae6b-0993190d56d9
-        position: 2
-        name: __LOAD_DATE_TS
-      - columnId: e47b679c-2046-411f-ac1c-62e9c5df46b5
-        position: 3
-        name: __LOAD_DTS
-      - columnId: a9b2da00-88ae-4f56-97b5-caf48815e096
-        position: 4
-        name: __RECORD_SOURCE
-      - columnId: c51da372-681a-4fe3-9d75-4356b32c563c
-        position: 5
-        name: __TRANSACTIONAL_DATE_TS
-    id: 4c84359c-915c-4a19-9d95-e1931c804e4d
-  - itemName: LDTS
-    setName: LDTS_STG_HASH_LOCATION
-    columns:
-      - columnId: 4da07d04-1e9c-4396-ae6b-0993190d56d9
-        position: 1
-        name: __LOAD_DATE_TS
-    id: 8639f806-df50-45a4-80fe-fe5c4a34eba5
-  - itemName: RCS
-    setName: RCS_STG_HASH_LOCATION
-    columns:
-      - columnId: a9b2da00-88ae-4f56-97b5-caf48815e096
-        position: 1
-        name: __RECORD_SOURCE
-    id: f294b747-906d-4fea-a4a3-236d859fc63a
-  - itemName: TDTS
-    setName: TDTS_STG_HASH_LOCATION
-    columns:
-      - columnId: c51da372-681a-4fe3-9d75-4356b32c563c
-        position: 1
-        name: __TRANSACTIONAL_DATE_TS
-    id: ef750698-851a-44a6-910c-b4947e35c994
-  - itemName: ATTR
-    setName: ATTR_STG_HASH_LOCATION
-    columns:
-      - columnId: b5808c08-08e1-42f2-92a1-a16a3781a449
-        position: 1
-        name: LOCATION_ID
-      - columnId: 0da467fc-28ed-4fe9-81f2-99de50d59701
-        position: 2
-        name: REGION_ID
-      - columnId: 3089b639-3eac-48e6-ac5e-d1b5bbc328d5
-        position: 3
-        name: NAME
-      - columnId: 0ce7e139-07ca-4d45-a63e-ddac28ea7540
-        position: 4
-        name: COMMENT
-    id: 3103ee23-a33e-42c7-95ed-e59a1ff13fcb
-templateId: c9972b75-8b77-4599-8631-351a18354a4f
-materialization: view
-storageLocationId: f444de18-2d02-4df6-9c54-36ca0a2c7e40
-id: 6370c6e2-037f-44e0-84f5-a97fcb73ee21
-nodeFormat: dynamic
-parentName: Processing_layer
 references:
   8c75fa71-c596-4baf-bafb-140818e36c32:
     parentTableId: 3607b9c9-7e01-4c9b-b391-1f10f9c27f5f
