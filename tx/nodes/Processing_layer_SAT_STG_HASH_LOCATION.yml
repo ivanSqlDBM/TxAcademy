@@ -1,15 +1,3 @@
-postCreate: |
-  {# Generate the INSERT statement #}
-  INSERT INTO {{ location.databaseName }}.{{ location.schemaName }}.{{name}} (
-  {%- for col in columns %}
-    {{ col.name }}{% if not loop.last %},{% endif %}
-  {%- endfor %}
-  )
-  VALUES (
-  {%- for col in columns -%}
-    {{ get_ghost_value(col) }}{% if not loop.last %},{% endif %}
-  {%- endfor %}
-  );
 name: SAT_STG_HASH_LOCATION
 id: 139c6ff5-02d2-49fa-b132-9272916b587d
 storageLocationId: f444de18-2d02-4df6-9c54-36ca0a2c7e40
@@ -111,6 +99,18 @@ columnSets:
         position: 1
         name: LOCATION_HK
 nodeFormat: dynamic
+postCreate: |
+  {# Generate the INSERT statement #}
+  INSERT INTO {{ location.databaseName }}.{{ location.schemaName }}.{{name}} (
+  {%- for col in columns %}
+    {{ col.name }}{% if not loop.last %},{% endif %}
+  {%- endfor %}
+  )
+  VALUES (
+  {%- for col in columns -%}
+    {{ get_ghost_value(col) }}{% if not loop.last %},{% endif %}
+  {%- endfor %}
+  );
 parentName: Processing_layer
 color: '#F7B81C'
 logic: |-

@@ -234,6 +234,7 @@ logic: |-
   SELECT * FROM common
 description: ''
 logicalName: CUSTOMER dimension
+status: ValidateRunFailed
 references:
   9eebb2bc-1fe3-4d91-a786-857484f43124:
     parentTableId: 39bd16bc-a498-452c-9cba-9defbf84426c
