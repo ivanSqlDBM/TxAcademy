@@ -1,0 +1,100 @@
+name: LNK_STG_HASH_STG_HASH_REGION_STG_HASH_LOCATION
+id: 09750199-49f1-4003-a8f8-19a87a1306fd
+storageLocationId: f444de18-2d02-4df6-9c54-36ca0a2c7e40
+templateId: 72400f2e-92ce-413d-811d-3a06f0f988e4
+materialization: table
+isSource: false
+columns:
+  - name: STG_HASH_REGION_STG_HASH_LOCATION_HK
+    dataType: BINARY(20)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 3a35ed35-16a1-4005-bbcf-ae40c1333de9
+  - name: REGION_HK
+    dataType: BINARY(20)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: b629dfaa-0e19-4c3f-86bd-855de7de4830
+  - name: LOCATION_HK
+    dataType: BINARY(20)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 1165279b-948c-4416-b7c9-fbb76bc4891a
+  - name: __LOAD_DATE_TS_2
+    dataType: TIMESTAMP
+    allowNulls: false
+    defaultValue: CURRENT_TIMESTAMP()
+    description: ''
+    id: 887ec222-1178-4f64-b44f-3b87febfd7d5
+  - name: __RECORD_SOURCE_2
+    dataType: VARCHAR(50)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 79fdad1e-b258-4c7d-a38a-266e48781ebf
+columnSets:
+  - id: 6836f521-450b-41cb-8603-16233c21d565
+    itemName: AK
+    setName: AK_LNK_STG_HASH_STG_HASH_REGION_STG_HASH_LOCATION
+    columns:
+      - columnId: 1165279b-948c-4416-b7c9-fbb76bc4891a
+        position: 1
+        name: LOCATION_HK
+      - columnId: b629dfaa-0e19-4c3f-86bd-855de7de4830
+        position: 2
+        name: REGION_HK
+  - id: 6ce9b10a-987f-4f64-96bd-f38f8fabc3b9
+    itemName: LDTS
+    setName: LDTS_LNK_STG_HASH_STG_HASH_REGION_STG_HASH_LOCATION
+    columns:
+      - columnId: 887ec222-1178-4f64-b44f-3b87febfd7d5
+        position: 1
+        name: __LOAD_DATE_TS_2
+  - id: cc7e38df-4878-4bf9-8fff-9f9f93f05363
+    itemName: RCS
+    setName: RCS_LNK_STG_HASH_STG_HASH_REGION_STG_HASH_LOCATION
+    columns:
+      - columnId: 79fdad1e-b258-4c7d-a38a-266e48781ebf
+        position: 1
+        name: __RECORD_SOURCE_2
+  - id: 6a4d703e-24be-483a-ab82-a4a849b35394
+    itemName: PK
+    setName: PK_LNK_STG_HASH_STG_HASH_REGION_STG_HASH_LOCATION
+    columns:
+      - columnId: 3a35ed35-16a1-4005-bbcf-ae40c1333de9
+        position: 1
+        name: STG_HASH_REGION_STG_HASH_LOCATION_HK
+nodeFormat: dynamic
+parentName: Processing_layer
+color: '#E53E3E'
+logic: |-
+  with "STG_HASH_STG_HASH_REGION_STG_HASH_LOCATION" as (
+      SELECT
+          "STG_HASH_REGION_STG_HASH_LOCATION_HK",
+          "REGION_HK",
+          "LOCATION_HK",
+          "__LOAD_DATE_TS_2",
+          "__RECORD_SOURCE_2"
+      FROM {{ref('Processing_layer', 'STG_HASH_STG_HASH_REGION_STG_HASH_LOCATION')}}
+  )
+  ,
+  common as (
+      SELECT
+          "STG_HASH_STG_HASH_REGION_STG_HASH_LOCATION"."STG_HASH_REGION_STG_HASH_LOCATION_HK",
+          "STG_HASH_STG_HASH_REGION_STG_HASH_LOCATION"."REGION_HK",
+          "STG_HASH_STG_HASH_REGION_STG_HASH_LOCATION"."LOCATION_HK",
+          "STG_HASH_STG_HASH_REGION_STG_HASH_LOCATION"."__LOAD_DATE_TS_2",
+          "STG_HASH_STG_HASH_REGION_STG_HASH_LOCATION"."__RECORD_SOURCE_2"
+      FROM "STG_HASH_STG_HASH_REGION_STG_HASH_LOCATION"
+  )
+
+  SELECT * FROM common
+description: ''
+logicalName: REGION Hash Stage_LOCATION Hash Stage Hash Stage Link
+references:
+  6ed8e30d-5289-4b16-b571-58df69133913:
+    parentTableId: 397ee908-12dd-4099-8df5-ab3fdd168a65
+    id: 6ed8e30d-5289-4b16-b571-58df69133913

@@ -1,0 +1,149 @@
+postCreate: |
+  {# Generate the INSERT statement #}
+  INSERT INTO {{ location.databaseName }}.{{ location.schemaName }}.{{name}} (
+  {%- for col in columns %}
+    {{ col.name }}{% if not loop.last %},{% endif %}
+  {%- endfor %}
+  )
+  VALUES (
+  {%- for col in columns -%}
+    {{ get_ghost_value(col) }}{% if not loop.last %},{% endif %}
+  {%- endfor %}
+  );
+name: SAT_STG_HASH_LOCATION
+id: 139c6ff5-02d2-49fa-b132-9272916b587d
+storageLocationId: f444de18-2d02-4df6-9c54-36ca0a2c7e40
+templateId: 15bf2f7e-1877-4625-a741-9bbaaef1acf1
+materialization: table
+isSource: false
+columns:
+  - name: LOCATION_HK
+    dataType: BINARY(20)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 597fc638-332f-4b30-93d4-3c83d26615c8
+  - name: LOCATION_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 73aa05b3-a66d-4277-83e0-e226074434c5
+  - name: NAME
+    dataType: varchar(25)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: b42aa345-4347-4d84-b176-a2c560fbb021
+  - name: REGION_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 335d6223-de22-40eb-947c-cff4d24aec36
+  - name: COMMENT
+    dataType: varchar(152)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 2995750b-8144-47ed-9136-61197e0a8458
+  - name: __LOAD_DATE_TS
+    dataType: TIMESTAMP
+    allowNulls: false
+    defaultValue: CURRENT_TIMESTAMP()
+    description: ''
+    id: 11bd61fa-7c65-440b-b554-1ba38812b57f
+  - name: __RECORD_SOURCE
+    dataType: VARCHAR(50)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: f97b52ee-667c-43a3-af07-59753ac7efc7
+  - name: __TRANSACTIONAL_DATE_TS
+    dataType: TIMESTAMP
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 0f08bb5f-5147-4c07-8e00-db47c39ebdac
+columnSets:
+  - id: 7375c0e5-d544-4bee-8f8b-dae2730f7e7f
+    itemName: LDTS
+    setName: LDTS_SAT_STG_HASH_LOCATION
+    columns:
+      - columnId: 11bd61fa-7c65-440b-b554-1ba38812b57f
+        position: 1
+        name: __LOAD_DATE_TS
+  - id: 485daeae-eaf5-4f77-9b0c-a37aa508a20f
+    itemName: RCS
+    setName: RCS_SAT_STG_HASH_LOCATION
+    columns:
+      - columnId: f97b52ee-667c-43a3-af07-59753ac7efc7
+        position: 1
+        name: __RECORD_SOURCE
+  - id: f19b17b8-5b24-4a00-b38a-73cf2ae00973
+    itemName: TDTS
+    setName: TDTS_SAT_STG_HASH_LOCATION
+    columns:
+      - columnId: 0f08bb5f-5147-4c07-8e00-db47c39ebdac
+        position: 1
+        name: __TRANSACTIONAL_DATE_TS
+  - id: dc218181-b478-4a9d-8d58-f46703f76cc8
+    itemName: ATTR
+    setName: ATTR_SAT_STG_HASH_LOCATION
+    columns:
+      - columnId: 73aa05b3-a66d-4277-83e0-e226074434c5
+        position: 1
+        name: LOCATION_ID
+      - columnId: 335d6223-de22-40eb-947c-cff4d24aec36
+        position: 2
+        name: REGION_ID
+      - columnId: b42aa345-4347-4d84-b176-a2c560fbb021
+        position: 3
+        name: NAME
+      - columnId: 2995750b-8144-47ed-9136-61197e0a8458
+        position: 4
+        name: COMMENT
+  - id: 3881c0bc-2a3d-4856-afdd-cf43e2e70d76
+    itemName: PK
+    setName: PK_SAT_STG_HASH_LOCATION
+    columns:
+      - columnId: 597fc638-332f-4b30-93d4-3c83d26615c8
+        position: 1
+        name: LOCATION_HK
+nodeFormat: dynamic
+parentName: Processing_layer
+color: '#F7B81C'
+logic: |-
+  with "STG_HASH_LOCATION" as (
+      SELECT
+          "LOCATION_HK",
+          "LOCATION_ID",
+          "NAME",
+          "REGION_ID",
+          "COMMENT",
+          "__LOAD_DATE_TS",
+          "__RECORD_SOURCE",
+          "__TRANSACTIONAL_DATE_TS"
+      FROM {{ref('Processing_layer', 'STG_HASH_LOCATION')}}
+  )
+  ,
+  common as (
+      SELECT
+          "STG_HASH_LOCATION"."LOCATION_HK",
+          "STG_HASH_LOCATION"."LOCATION_ID",
+          "STG_HASH_LOCATION"."NAME",
+          "STG_HASH_LOCATION"."REGION_ID",
+          "STG_HASH_LOCATION"."COMMENT",
+          "STG_HASH_LOCATION"."__LOAD_DATE_TS",
+          "STG_HASH_LOCATION"."__RECORD_SOURCE",
+          "STG_HASH_LOCATION"."__TRANSACTIONAL_DATE_TS"
+      FROM "STG_HASH_LOCATION"
+  )
+
+  SELECT * FROM common
+description: ''
+logicalName: LOCATION Hash Stage Satellite
+references:
+  abb5e626-8bd3-45ce-a467-642527993c54:
+    parentTableId: 6370c6e2-037f-44e0-84f5-a97fcb73ee21
+    id: abb5e626-8bd3-45ce-a467-642527993c54

@@ -1,0 +1,89 @@
+name: HUB_STG_HASH_LOCATION
+id: 4abd2b1c-3015-4c6d-8575-fa3312e1f75f
+storageLocationId: f444de18-2d02-4df6-9c54-36ca0a2c7e40
+templateId: 8dea66d3-79ca-49b1-8392-f07366bb5421
+materialization: table
+isSource: false
+columns:
+  - name: LOCATION_HK
+    dataType: BINARY(20)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 0867ba35-e242-4c1c-b2d4-2688bd541d37
+  - name: LOCATION_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 64870700-8490-44f6-aa42-6703c7181487
+  - name: __LOAD_DATE_TS
+    dataType: TIMESTAMP
+    allowNulls: false
+    defaultValue: CURRENT_TIMESTAMP()
+    description: ''
+    id: 31a5422f-1708-4c2f-af0d-d73967275601
+  - name: __RECORD_SOURCE
+    dataType: VARCHAR(50)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 1ba877b6-ab13-4a7e-b099-cc53643b386d
+columnSets:
+  - id: 4e0fa857-ea4b-495f-af36-99d5d2cfbe06
+    itemName: BK
+    setName: BK_HUB_STG_HASH_LOCATION
+    columns:
+      - columnId: 64870700-8490-44f6-aa42-6703c7181487
+        position: 1
+        name: LOCATION_ID
+  - id: 9e628ea8-f16c-4a40-aa37-53370c9c7ed0
+    itemName: LDTS
+    setName: LDTS_HUB_STG_HASH_LOCATION
+    columns:
+      - columnId: 31a5422f-1708-4c2f-af0d-d73967275601
+        position: 1
+        name: __LOAD_DATE_TS
+  - id: 4a5017b9-33ad-467d-a020-1f0aaf91671c
+    itemName: RCS
+    setName: RCS_HUB_STG_HASH_LOCATION
+    columns:
+      - columnId: 1ba877b6-ab13-4a7e-b099-cc53643b386d
+        position: 1
+        name: __RECORD_SOURCE
+  - id: c10273f8-987f-4153-a91e-22aeed0252fb
+    itemName: PK
+    setName: PK_HUB_STG_HASH_LOCATION
+    columns:
+      - columnId: 0867ba35-e242-4c1c-b2d4-2688bd541d37
+        position: 1
+        name: LOCATION_HK
+nodeFormat: dynamic
+parentName: Processing_layer
+color: '#1C70FF'
+logic: |-
+  with "STG_HASH_LOCATION" as (
+      SELECT
+          "LOCATION_HK",
+          "LOCATION_ID",
+          "__LOAD_DATE_TS",
+          "__RECORD_SOURCE"
+      FROM {{ref('Processing_layer', 'STG_HASH_LOCATION')}}
+  )
+  ,
+  common as (
+      SELECT
+          "STG_HASH_LOCATION"."LOCATION_HK",
+          "STG_HASH_LOCATION"."LOCATION_ID",
+          "STG_HASH_LOCATION"."__LOAD_DATE_TS",
+          "STG_HASH_LOCATION"."__RECORD_SOURCE"
+      FROM "STG_HASH_LOCATION"
+  )
+
+  SELECT * FROM common
+description: ''
+logicalName: LOCATION Hash Stage Hub
+references:
+  81a07cb9-23d9-4922-b3ea-85fb3878e01a:
+    parentTableId: 6370c6e2-037f-44e0-84f5-a97fcb73ee21
+    id: 81a07cb9-23d9-4922-b3ea-85fb3878e01a
