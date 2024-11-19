@@ -1,0 +1,51 @@
+{%- if materialization == 'table' %}
+CREATE OR REPLACE TABLE {{ location.databaseName }}.{{ location.schemaName }}.{%- if useQuotes %}"{{ name }}"{% else %}{{ name }}{% endif %}
+(
+    {% for col in columns -%}
+        {%- if col.useQuotes %}"{{ col.name }}"{% else %}{{ col.name }}{% endif %} {{ col.dataType }}
+        {%- if not col.allowNulls %} NOT NULL
+            {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+        {%- endif %}
+        {%- if col.description | length > 0 %} COMMENT '{{ col.description }}'{% endif %}
+        {%- if not loop.last %}, {% endif %}
+    {% endfor -%}
+    {% for colSet in columnSets %}
+        {%- if colSet.itemName == 'PK' -%}
+        , CONSTRAINT  {{ colSet.setName }} PRIMARY KEY (
+            {%- for pkCol in colSet.columns -%}
+                {%- if pkCol.useQuotes %}"{{ pkCol.name }}"{% else %}{{ pkCol.name }}{% endif %}
+                {%- if not loop.last %}, {% endif -%}
+            {%- endfor -%}
+            )
+            {%- if rely_button %} RELY {% endif -%}
+        {%- endif -%}
+    {%- endfor %}
+    {% for colSet in columnSets %}
+        {%- if colSet.itemName == 'AK' -%}
+        , CONSTRAINT  {{ colSet.setName }} UNIQUE (
+            {%- for akCol in colSet.columns -%}
+                {%- if akCol.useQuotes %}"{{ akCol.name }}"{% else %}{{ akCol.name }}{% endif %}
+                {%- if not loop.last %}, {% endif -%}
+            {%- endfor -%}
+            )
+            {%- if rely_button %} RELY {% endif -%}
+        {%- endif -%}
+    {%- endfor %}
+)
+{%- if description | length > 0 %} COMMENT = '{{ description }}'{% endif %}
+;
+
+{%- elif materialization == 'view' %}
+CREATE OR REPLACE VIEW {{ location.mapping }}.{{name}}
+(
+    {% for col in columns -%}
+        {%- if col.useQuotes %}"{{ col.name }}"{% else %}{{ col.name }}{% endif %}
+        {%- if col.description | length > 0 %} COMMENT '{{ col.description }}'{% endif %}
+        {%- if not loop.last %}, {% endif %}
+    {% endfor %}
+{%- if description | length > 0 %} COMMENT = '{{ description }}'{% endif %}
+)
+AS
+{{logic}}
+;
+{%- endif %}
