@@ -1,0 +1,146 @@
+{%- macro target() -%}
+{{ location.mapping }}.{%- if useQuotes %}"{{ name }}"{% else %}{{ name }}{% endif %}
+{%- endmacro  -%}
+
+{%- macro joinCondition(alias1='',alias2='') -%}
+{%- for colSet in columnSets %}                      
+    {%- if colSet.itemName == 'BK' -%}               
+        {%- for bkCol in colSet.columns %}
+        {{alias1}}.{%- if bkCol.useQuotes %}"{{bkCol.name}}" = "{{bkCol.name}}"{% else %}{{bkCol.name}} = {{alias2}}.{{bkCol.name}}{% endif %}
+{%- if not loop.last %}  AND  {% endif %}
+        {%- endfor -%}                       
+    {%- endif -%}
+{%- endfor %}
+{%- endmacro  %}
+                 
+
+{%- if materialization == 'table' %}
+MERGE INTO {{target()}} AS TxObject
+USING (
+    WITH logic AS ( 
+        {{logic}} 
+    )
+
+    , new_recs AS (
+    SELECT logic.* 
+    , 'new recs' as __tmp_update_type      
+    FROM logic 
+    LEFT JOIN {{target()}}  dim
+    ON {{ joinCondition('logic', 'dim') }}  
+    
+    WHERE 
+    {%- for colSet in columnSets %}                      
+            {%- if colSet.itemName == 'BK' -%}               
+                {%- for bkCol in colSet.columns %}
+    dim.{{wrapColInQuotes(bkCol)}} IS NULL
+                    {%- if not loop.last %}  AND  {% endif %}
+                {%- endfor -%}                       
+            {%- endif -%}            
+        {%- endfor %}
+    )
+
+    , t2_insert AS (
+    SELECT 
+    {%- for col in columns %}
+        {% if col.name == '__REC_VERSION' %}dim.{{ wrapColInQuotes(col) }}  + 1 AS {{ wrapColInQuotes(col) }},             {#- rec version is incremented #}
+        {%- elif col.name == '__CREATE_DTS' -%}dim.{{ wrapColInQuotes(col) }},                                                  {#- original create date is recovered #}
+        {%- else -%} logic.{{wrapColInQuotes(col)}}
+            {%- if not loop.last %}, {% endif %}
+        {% endif %}
+    {%- endfor %}   
+    , 't2 insert' as __tmp_update_type       
+    FROM logic 
+    LEFT JOIN {{target()}} dim 
+    ON {{ joinCondition('logic', 'dim') }}  
+    WHERE TRUE  
+    AND dim.__IS_LATEST = 'Y'
+    AND logic.__T2DIFF_HASH != dim.__T2DIFF_HASH
+    )
+
+    , t2_expire as (
+    SELECT 
+    {%- for col in columns %}
+        {% if col.name == '__IS_LATEST' -%} FALSE AS {{ wrapColInQuotes(col)}},                                                {#- no longer latest #}                    
+        {%- elif col.name == '__TO_DTS' -%} DATEADD(NANOSECOND,-1, logic.__FROM_DTS) AS {{ wrapColInQuotes(col)}},             {#- delimit to_date to just before the latest from date #}
+        {%- else -%} dim.{{wrapColInQuotes(col)}}
+            {%- if not loop.last %}, {% endif %}
+        {% endif %}
+    {%- endfor %}    
+    , 't2 expire' as __tmp_update_type      
+    FROM logic 
+    INNER JOIN {{target()}} dim 
+    ON {{ joinCondition('logic', 'dim') }}  
+    WHERE TRUE  
+    AND dim.__IS_LATEST = 'Y'
+    AND logic.__T2DIFF_HASH != dim.__T2DIFF_HASH    
+
+    ) 
+
+ {% if not isAllDelta -%}
+    , t1_update as (
+    SELECT 
+    {%- for col in columns %}                                                                                                        {#- these columns should be taken from the dim record -#} 
+        {%- if (col.name == '__REC_VERSION' or
+                col.name == '__FROM_DTS'or
+                col.name == '__TO_DTS' or 
+                col.name == '__CREATE_DTS' ) %} 
+    dim.{{ col.name }}  AS {{ col.name }},           
+        {%- else %}
+    logic.{{wrapColInQuotes(col)}}
+            {%- if not loop.last %}, {% endif %}
+        {% endif %}
+    {%- endfor %}  
+    , 't1 update' as __tmp_update_type  
+    FROM logic 
+    INNER JOIN {{target()}} dim 
+    ON {{ joinCondition('logic', 'dim') }}  
+    WHERE TRUE  
+    AND dim.__IS_LATEST = 'Y' {# remove this to update historic records too. Performance will suffer #}
+    AND logic.__T2DIFF_HASH = dim.__T2DIFF_HASH    
+    AND logic.__T1DIFF_HASH != dim.__T1DIFF_HASH    
+    )
+ {% endif %}
+
+    , allChanges as (
+        SELECT * FROM new_recs
+        UNION ALL
+        SELECT * FROM t2_insert 
+        UNION ALL
+        SELECT * FROM t2_expire  {%- if not isAllDelta %}
+        UNION ALL
+        SELECT * FROM t1_update
+     {% endif %}    
+    )
+
+    SELECT * FROM allChanges
+
+
+) AS TxLogic 
+
+
+ON  {{ joinCondition('TxObject', 'TxLogic') }} 
+    AND  TxObject.__REC_VERSION = TxLogic.__REC_VERSION
+
+WHEN MATCHED 
+THEN UPDATE
+    SET 
+    {%- for col in columns %}         
+        TxObject.{{ col.name }} = TxLogic.{{ col.name }}
+        {%- if not loop.last -%}, {%- endif %}
+    {%- endfor -%}
+{{''}}
+WHEN NOT MATCHED THEN
+    INSERT (
+    {%- for col in columns %}
+        {{ col.name }}{%- if not loop.last -%}, {%- endif %}
+    {%- endfor -%}
+    )
+    VALUES (
+    {%- for col in columns %}
+        TxLogic.{{ col.name }} {%- if not loop.last -%}, {%- endif %}
+    {%- endfor -%}
+    )
+
+
+;
+{% endif %}
