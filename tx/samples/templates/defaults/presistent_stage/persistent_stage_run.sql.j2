@@ -1,0 +1,34 @@
+{%- if materialization == 'table' %}
+MERGE INTO {{ location.mapping }}.{{ name }} AS TxObject
+USING (
+    {{ logic }}
+) AS TxLogic
+ON
+    {%- for colSet in columnSets %}
+        {%- if colSet.itemName == 'PK' -%}
+            {%- for pkCol in colSet.columns %}
+    TxObject.{%- if pkCol.useQuotes %}"{{ pkCol.name }}"{% else %}{{ pkCol.name }}{% endif %} = TxLogic.{%- if pkCol.useQuotes %}"{{ pkCol.name }}"{% else %}{{ pkCol.name }}{% endif %}
+    {%- if not loop.last %}  AND  {% endif %}
+            {%- endfor -%}
+        {%- endif -%}
+    {%- endfor %}
+
+WHEN NOT MATCHED THEN
+    INSERT (
+    {%- for col in columns %}
+        {%- if col.useQuotes %}"{{ col.name }}"{% else %}{{ col.name }}{% endif %}{%- if not loop.last -%}, {%- endif %}
+    {%- endfor -%}
+    )
+    VALUES (
+    {%- for col in columns %}
+        TxLogic.{%- if col.useQuotes %}"{{ col.name }}"{% else %}{{ col.name }}{% endif %}{%- if not loop.last -%}, {%- endif %}
+    {%- endfor -%}
+    )
+
+WHEN MATCHED THEN
+    UPDATE SET
+    {%- for col in columns %}
+        TxObject.{%- if col.useQuotes %}"{{ col.name }}"{% else %}{{ col.name }}{% endif %} = TxLogic.{%- if col.useQuotes %}"{{ col.name }}"{% else %}{{ col.name }}{% endif %}{%- if not loop.last -%}, {%- endif %}
+    {%- endfor -%}
+;
+{%- endif %}

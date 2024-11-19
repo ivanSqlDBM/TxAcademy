@@ -1,0 +1,105 @@
+
+  name: stage
+
+  physicalName: 'stg_${parentPhysicalName}'
+
+  logicalName: 'stage ${parentLogicalName}'
+
+  color: 'orange'                                             # Color of object on diagram (string, green | blue | red | SqlDBM  colors, optional)
+
+  inheritIdentifiersAs: pk                                    # Inherit primary key columns from parent table(s) as PK or non-PK attributes (string, pk | non-pk | none, default non-pk)
+  inheritAttributes: true                                     # Inherit non-pk columns from parent table(s) (boolean, default true)
+
+  defaultColumns:
+  - name: '__load_date'
+    logicalName: 'load date'
+    dataType: date
+    comment: 'load date'
+    nullable: false
+    unique: false
+    default: 'current_date()'
+    position: last
+    logic: current_date()
+
+  whereCondition: ''                                          # Some SQL text (string, optional)
+
+  nodeSettings:
+  - groupName: 'System UI Items'
+    groupDesc: 'System UI Items'
+    isEnabled: true
+
+    items:
+    - itemType: materialization
+      default: 'table'
+      options:
+      - 'table'
+      - 'view'
+      isRequired: true
+      isEnabled: true
+
+    - itemType: toggleButton
+      itemDesc: Truncate before
+      itemName: truncateBefore
+      default: false
+      isRequired: false
+      isEnabled: true
+
+    - itemType: prePostSql
+      itemDesc: Pre Create SQL
+      itemName: preCreate
+      default: ''                                                 # Some default SQL text (string, optional)
+      isRequired: false
+      isEnabled: true
+      isValidated: false
+
+    - itemType: prePostSql
+      itemDesc: Post Create SQL
+      itemName: postCreate
+      default: ''                                                 # Some default SQL text (string, optional)
+      isRequired: false
+      isEnabled: true
+      isValidated: false
+
+    - itemType: prePostSql
+      itemDesc: Pre Run SQL
+      itemName: preRun
+      default: ''                                                 # Some default SQL text (string, optional)
+      isRequired: false
+      isEnabled: true
+      isValidated: false
+
+    - itemType: prePostSql
+      itemDesc: Post Run SQL
+      itemName: postRun
+      default: ''                                                 # Some default SQL text (string, optional)
+      isRequired: false
+      isEnabled: true
+      isValidated: false
+
+  - groupName: 'Column settings'
+    groupDesc: 'Column settings'
+    isEnabled: true
+
+    items:
+    - itemType: columnSet
+      itemName: PK
+      itemDesc: 'Primary key'
+      isRequired: false
+      isEnabled: true
+
+    - itemType: columnSet
+      itemName: AK
+      itemDesc: 'Alternate key'
+      isRequired: false
+      isEnabled: true
+
+  - groupName: 'User UI Items'
+    groupDesc: 'Optional user configured items'
+    isEnabled: true
+
+    items:
+    - itemType: toggleButton
+      itemDesc: 'Rely on constraints'
+      itemName: rely_button
+      default: true
+      isEnabled: true

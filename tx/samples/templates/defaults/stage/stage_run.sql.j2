@@ -1,0 +1,10 @@
+{% if materialization == 'table' %}
+INSERT INTO {{ location.mapping }}.{%- if useQuotes %}"{{ name }}"{% else %}{{ name }}{% endif %}
+(
+    {%- for col in columns %}
+    {%- if col.useQuotes %}"{{ col.name }}"{% else %}{{ col.name }}{% endif %}
+    {%- if not loop.last %}, {% endif %}
+    {%- endfor %}
+)
+{{ logic }};
+{%- endif %}
