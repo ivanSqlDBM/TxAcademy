@@ -1,0 +1,275 @@
+name: Dimension
+
+usageInfo: |
+  The Dimension Tx Template generates a Type 2 dimension. By default, all attributes (i.e., non-system and non-identifying columns) are considered to be delta-tracking columns. To work properly, this template requires the user to set the following Tx Object properties in the properties panel:
+
+  - Business key [itemName: BK]: the column(s) uniquely identifying a unique record of this dimension in the source system. (Do not include __FROM_DTS)
+  - 'All columns are Type 2' flag [itemName: AllDelta]: causes all attributes (i.e., non-system and non-identifying columns) to be considered as delta tracking for Type 2 changes. 
+  - 'Type 2 change tracking columns' [itemName: DELTA]: if the above flag is not set, manually set columns as Type 2 change tracking relevant. Any attributes not mentioned in this list will be treated as Type 1.
+  ** The two properties above are mutually exclusive. If 'All columns are Type 2' flag is set to true, it will take precedence over 'Type 2 change tracking columns' and the latter will be ignored **
+  - System timestamp column [itemName: sysTimestamp]: the loaded-at column for the incoming source records (e.g., load_date, etl_date_timestamp, dw_insert_date)
+
+  The Dimension Tx Template uses timestamp (i.e., nanosecond) granularity for valid from/to logic. If you prefer day granularity instead, change all timestamp type default columns (i.e., __FROM_DTS, __TO_DTS, __CREATE_DTS) to type "DATE" and change the following code in the run template:
+  DATEADD(NANOSECOND,-1, logic.__FROM_DTS)
+  to:
+  DATEADD(DAY,-1, logic.__FROM_DTS)
+
+  The Dimension Tx Template uses column value hashing to quickly compare changes in multiple Type 2 and Type 1 columns. The  __T2DIFF_HASH and __T1DIFF_HASH columns store a hash value that represents the content of a record (excluding metadata like timestamps or version numbers). This value is used to detect changes between different versions of a record.
+
+  System columns used by this template:
+  __FROM_DTS: This column captures the date and time when a specific record becomes effective. It is set to the System timestamp column of the incoming record.
+  __TO_DTS: This column holds the date and time when a record ceases to be effective, indicating the end of the validity period for that row. For active records (i.e., the current version of the dimension), this is set to a high future date (e.g., 9999-12-31). For non-active/expired records, this is set to one nanosecond less than the __FROM_DTS of the succeeding record.
+  __REC_VERSION: This column tracks the version of each record in the dimension. It increments with each type 2 change, allowing users to distinguish between different historical versions of the same record.
+  __IS_LATEST: This boolean flag indicates whether the record is the most recent version. 
+  __CREATE_DTS: This column records the date and time the record was first inserted into the dimension table. 
+  __UPDATE_DTS: This column captures the date and time when the record was last updated. 
+  __T2DIFF_HASH: stores a hash value representing the content of all Type 2 enabled attributes for a record (excluding metadata like timestamps or version numbers). 
+  __T1DIFF_HASH: stores a hash value representing the content of all Type 1 enabled attributes for a record (excluding metadata like timestamps or version numbers).   
+
+physicalName: 'dim_${parentPhysicalName}'           
+
+logicalName: '${parentLogicalName} dimension'
+                                            
+color: 'purple'                                             
+
+inheritIdentifiersAs: pk
+inheritAttributes: true 
+
+whereCondition: |
+  TRUE 
+  AND {% for colSet in columnSets -%}
+               {%- if colSet.itemName == 'sysTimestamp' -%}
+                 {%- if colSet.columns[0].name | length > 0 -%}   {{ wrapColInQuotes(colSet.columns[0]) }} {{' '-}}
+                 {%- else -%} 'Please designate the system timestamp field in the ''System timestamp column'' column set'
+                 {%- endif -%}
+               {%- endif -%}
+             {%- endfor -%} 
+  = (SELECT MAX( {%- for colSet in columnSets -%}
+               {%- if colSet.itemName == 'sysTimestamp' -%}
+                 {%- if colSet.columns[0].name | length > 0 -%}   {{ wrapColInQuotes(colSet.columns[0]) }} 
+                 {%- else -%} 'Please designate the system timestamp field in the ''System timestamp column'' column set'
+                 {%- endif -%}
+               {%- endif -%}
+             {%- endfor -%}) FROM ${parentRef})  
+
+primaryColumns:
+  - name: __FROM_DTS                            
+    logicalName: from date timestamp
+    dataType: timestamp_ntz
+    comment: when record was loaded into the warehouse
+    nullable: false                                      
+    unique: false                                        
+    default: CURRENT_TIMESTAMP()
+    position: last
+    logic: |
+      {% for colSet in columnSets -%}
+        {%- if colSet.itemName == 'sysTimestamp' -%}
+          {%- if colSet.columns[0].name | length > 0 -%}   {{ wrapColInQuotes(colSet.columns[0]) }} {{' '-}}
+          {%- else -%} 'Please designate the system timestamp field in the ''System timestamp column'' column set'
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%} 
+
+defaultColumns:                                             
+  - name: __TO_DTS                            
+    logicalName: to date timestamp
+    dataType: timestamp_ntz
+    comment: effective date or surrogate high date (9999-12-31)
+    nullable: false                                      
+    unique: false                                        
+    default: CURRENT_TIMESTAMP()
+    position: first
+    logic: "'9999-12-31'::TIMESTAMP_NTZ"
+
+  - name: __REC_VERSION                            
+    logicalName: record version
+    dataType: number(38,0)
+    comment: incremental change version counter for the record                             
+    nullable: false                                      
+    unique: false                                        
+    default: '1'
+    position: last
+    logic: '1'
+
+  - name: __IS_LATEST                          
+    logicalName: is latest
+    dataType: boolean
+    comment: true only on the latest effective dated record
+    nullable: false                                      
+    unique: false                                        
+    default: 'true'
+    position: last
+    logic: 'true'
+
+  - name: __CREATE_DTS                            
+    logicalName: create date
+    dataType: timestamp_ntz
+    comment: date when record was first created
+    nullable: false                                      
+    unique: false                                        
+    default: CURRENT_TIMESTAMP()
+    position: last
+    logic: CURRENT_TIMESTAMP()
+
+  - name: __UPDATE_DTS                            
+    logicalName: update date
+    dataType: timestamp_ntz
+    comment: date when record was last updated
+    nullable: false                                      
+    unique: false                                        
+    default: CURRENT_TIMESTAMP()
+    position: last
+    logic: CURRENT_TIMESTAMP()
+
+  - name: __T2DIFF_HASH
+    logicalName: Type 2 hash diff
+    dataType: binary(20)
+    comment: hash of all columns used for quick compare
+    nullable: false
+    unique: false
+    position: last
+    logic: |-
+      SHA1_BINARY( {%- for col in columns if ( not ( col.name == '__REC_VERSION' or
+                                     col.name == '__IS_LATEST' or
+                                     col.name == '__FROM_DTS' or
+                                     col.name == '__TO_DTS' or
+                                     col.name == '__CREATE_DTS' or
+                                     col.name == '__UPDATE_DTS' or
+                                     col.name == '__T2DIFF_HASH' or
+                                     col.name == '__T1DIFF_HASH' or
+                                     col.isSysTimestamp )
+                                     and (
+                                     col.isDELTA or
+                                     isAllDelta
+                                     )
+                                     ) %}
+          NVL(UPPER(TRIM({{wrapColInQuotes(col)}}::VARCHAR)),'^^') {%- if not loop.last %} || '|' || {% endif %}
+        {%- endfor %}
+              )::BINARY(20)
+  - name: __T1DIFF_HASH
+    logicalName: Type 1 hash diff
+    dataType: binary(20)
+    comment: hash of all columns used for quick compare
+    nullable: false
+    unique: false
+    position: last
+    logic: |-
+      SHA1_BINARY({% if isAllDelta -%} '*null*'{% else %}
+          {%- for col in columns if not ( col.name == '__REC_VERSION' or
+                                        col.name == '__IS_LATEST' or
+                                        col.name == '__FROM_DTS' or
+                                        col.name == '__TO_DTS' or
+                                        col.name == '__CREATE_DTS' or
+                                        col.name == '__UPDATE_DTS' or
+                                        col.name == '__T2DIFF_HASH' or
+                                        col.name == '__T1DIFF_HASH' or
+                                        col.isDELTA or
+                                        col.isSysTimestamp ) %}
+           NVL(UPPER(TRIM({{wrapColInQuotes(col)}}::VARCHAR)),'^^') {%- if not loop.last %} || '|' || {% endif %}
+            {%- endfor -%}
+        {% endif -%}
+        )::BINARY(20)
+
+nodeSettings:                                           
+- groupName: 'System UI Items'                          
+  groupDesc: 'System UI Items'                          
+  isEnabled: true                                                                            
+
+  items:                                                                                               
+  - itemType: materialization                              
+    default: 'table'                                       
+    options:                                               
+    - 'table'     
+    isRequired: true                                      
+    isEnabled: true
+  
+  - itemType: prePostSql
+    itemDesc: Pre Create SQL
+    itemName: preCreate
+    default: ''                                                                             
+    isRequired: false                                       
+    isEnabled: true  
+    isValidated: true
+  
+  - itemType: prePostSql
+    itemDesc: Post Create SQL
+    itemName: postCreate
+    default: ''
+    isRequired: false                                       
+    isEnabled: true  
+    isValidated: true
+  
+  - itemType: prePostSql
+    itemDesc: Pre Run SQL
+    itemName: preRun
+    default: ''                                                 
+    isRequired: false                                       
+    isEnabled: true  
+    isValidated: true
+  
+  - itemType: prePostSql
+    itemDesc: Post Run SQL
+    itemName: postRun
+    default: ''
+    isRequired: false                                       
+    isEnabled: true  
+    isValidated: true
+                                          
+- groupName: 'Dimension settings' 
+  groupDesc: 'Type 2  settings'
+  isEnabled: true
+
+  items: 
+  - itemType: columnSet                            
+    itemName: BK
+    itemDesc: 'Business key'
+    isRequired: true 
+    isEnabled: true
+
+  - itemType: toggleButton                              
+    itemDesc: 'All columns are Type 2'                               
+    itemName: isAllDelta                                 
+    default: true                                     
+    isEnabled: true
+    
+  - itemType: columnSet                            
+    itemName: DELTA
+    itemDesc: 'Or select Type 2 change tracking columns. The rest are considered Type 1'
+    isRequired: false
+    isEnabled: true
+
+  - itemType: columnSet                            
+    itemName: sysTimestamp
+    itemDesc: 'System timestamp column'
+    isRequired: true
+    isEnabled: true
+
+- groupName: 'Column settings' 
+  groupDesc: 'Column settings'
+  isEnabled: true
+
+  items:   
+  - itemType: columnSet                            
+    itemName: PK
+    itemDesc: 'Primary key'
+    isRequired: false
+    isEnabled: true
+
+  - itemType: columnSet                            
+    itemName: AK
+    itemDesc: 'Alternate key'
+    isRequired: false
+    isEnabled: true
+
+
+
+- groupName: 'User UI Items'                            
+  groupDesc: 'Optional user configured items'                            
+  isEnabled: true      
+                                                                                      
+  items:           
+  - itemType: toggleButton                              
+    itemDesc: 'Rely on constraints'                               
+    itemName: rely_button                                 
+    default: true                                     
+    isEnabled: true
