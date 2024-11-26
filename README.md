@@ -7,14 +7,14 @@ Aside from a standalone project that can be opened directly in Tx, this reposito
 
 The following folders are included as reference materials and do not affect the project itself. All other folders are artifacts of the Tx Demo project. 
 
-### `samples`
+### `tx/samples`
 Contains pre-built resources and dummy data designed to jump-start your work with the Tx Tool.
 
-### `scripts`
+### `tx/samples/scripts`
 Contains SQL scripts for creating and populating sample data.
 
-### `macros/defaults`
+### `tx/samples/scripts/macros/defaults`
 Includes the default Tx Macros used in the tool to facilitate common transformations.
 
-### `templates/defaults`
+### `tx/samples/scripts/templates/defaults`
 Includes the default Tx Templates and their latest properties.
