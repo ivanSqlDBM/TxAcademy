@@ -50,7 +50,7 @@ SELECT p_partkey, p_name, p_mfgr, p_brand, p_type, p_size, p_container, p_retail
 FROM snowflake_sample_data.tpch_sf10.part  
 ;
 
--- ************************************** location
+-- ************************************** region
 CREATE OR REPLACE TABLE region 
 (
  region_id number(38,0) NOT NULL,
