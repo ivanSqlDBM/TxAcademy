@@ -137,7 +137,7 @@ defaultColumns:
                                      col.name == '__UPDATE_DTS' or
                                      col.name == '__T2DIFF_HASH' or
                                      col.name == '__T1DIFF_HASH' or
-                                     col.isSysTimestamp )
+                                     col.issysTimestamp )
                                      and (
                                      col.isDELTA or
                                      isAllDelta
@@ -164,7 +164,7 @@ defaultColumns:
                                         col.name == '__T2DIFF_HASH' or
                                         col.name == '__T1DIFF_HASH' or
                                         col.isDELTA or
-                                        col.isSysTimestamp ) %}
+                                        col.issysTimestamp ) %}
            NVL(UPPER(TRIM({{wrapColInQuotes(col)}}::VARCHAR)),'^^') {%- if not loop.last %} || '|' || {% endif %}
             {%- endfor -%}
         {% endif -%}
