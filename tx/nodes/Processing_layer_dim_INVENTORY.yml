@@ -201,6 +201,7 @@ logic: |-
   SELECT * FROM common
 description: ''
 logicalName: INVENTORY dimension
+isAllDelta: true
 references:
   496b829b-992a-42ff-b5df-ac06db67aa4c:
     parentTableId: 05482f6b-5f10-4b87-b611-bf986c50636a

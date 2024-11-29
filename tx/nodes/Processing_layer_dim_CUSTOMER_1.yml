@@ -8,15 +8,16 @@ columns:
     defaultValue: ''
     description: ''
     useQuotes: false
-    id: 9a8705fa-c3c3-4e2a-8819-2776766834f2
+    id: c2932e7e-403b-47da-b61a-add344a7010e
     isPK: true
+    isBK: true
   - name: __FROM_DTS
     allowNulls: false
     dataType: timestamp_ntz
     defaultValue: CURRENT_TIMESTAMP()
     description: when record was loaded into the warehouse
     useQuotes: false
-    id: 8f9b677d-3967-4548-af6b-a29f12a84b69
+    id: d2d9a13e-62f4-41f9-a6b7-6efcf4f8ce50
     isPK: true
   - name: __TO_DTS
     allowNulls: false
@@ -24,105 +25,106 @@ columns:
     defaultValue: CURRENT_TIMESTAMP()
     description: effective date or surrogate high date (9999-12-31)
     useQuotes: false
-    id: 582da615-625c-48a5-9b0b-1e6df3d9e3df
+    id: ceeb1a65-7a88-4827-b2ae-4389e080830d
   - name: NAME
     allowNulls: false
     dataType: varchar(16777216)
     defaultValue: ''
     description: ''
     useQuotes: false
-    id: 0d609cf9-5930-4330-bebd-32f0c22218a6
+    id: 67f0bef9-d66a-4cee-ac2e-1feec3c4ff9d
   - name: ADDRESS
     allowNulls: false
     dataType: varchar(16777216)
     defaultValue: ''
     description: ''
     useQuotes: false
-    id: df1f84a0-73a2-4499-8fff-29ef6d18a609
+    id: 93658c90-8913-4ca1-9e51-8ef5873757d2
   - name: LOCATION_ID
     allowNulls: false
     dataType: number(38,0)
     defaultValue: ''
     description: ''
     useQuotes: false
-    id: 58cd124a-7bf8-4c9f-8ec7-9bf210f2c0da
+    id: 2f9c8fd5-be61-402b-b6e2-a3dd42661c6d
   - name: PHONE
     allowNulls: false
     dataType: varchar(15)
     defaultValue: ''
     description: ''
     useQuotes: false
-    id: a3178e73-65f0-41cf-bb1d-1adc94ca33f4
+    id: 57aa8246-128a-44c9-8c14-3ebc0a849a31
   - name: ACCOUNT_BALANCE_USD
     allowNulls: false
     dataType: number(12,2)
     defaultValue: ''
     description: ''
     useQuotes: false
-    id: ffd53a36-198a-4d2a-b073-36ca142a14bd
+    id: ba215659-f92c-424f-a20a-5f7707d6b256
   - name: MARKET_SEGMENT
     allowNulls: false
     dataType: varchar(10)
     defaultValue: ''
     description: ''
     useQuotes: false
-    id: f8151708-6273-4536-bce3-2b94c184e888
+    id: 3ce58624-080e-4002-ad29-b98efeb4c217
   - name: COMMENT
     allowNulls: true
     dataType: varchar(16777216)
     defaultValue: ''
     description: ''
     useQuotes: false
-    id: b972cffb-bf54-4793-a01a-c1f4ab699cc0
+    id: a9b4cbad-9a80-4707-b580-8741edc5c267
   - name: __LOAD_DTS
     allowNulls: true
     dataType: timestamp_ltz(9)
     defaultValue: ''
     description: ''
     useQuotes: false
-    id: 3c281257-1aaa-40c7-8a10-078d5f5c6bcd
+    id: 02d42069-1c8d-40ba-8413-6ac413c67ee7
+    issysTimestamp: true
   - name: __REC_VERSION
     allowNulls: false
     dataType: number(38,0)
     defaultValue: '1'
     description: incremental change version counter for the record
     useQuotes: false
-    id: 3fb7973a-ba79-4284-bca4-9e0833ef7148
+    id: c031b780-3168-4912-9fcc-fe7279071e7a
   - name: __IS_LATEST
     allowNulls: false
     dataType: boolean
     defaultValue: 'true'
     description: true only on the latest effective dated record
     useQuotes: false
-    id: 954fdd6d-6de9-48a9-95a3-cabf9fc9f6e7
+    id: e59d70e2-82ca-4a05-80dc-2c3b9719add7
   - name: __CREATE_DTS
     allowNulls: false
     dataType: timestamp_ntz
     defaultValue: CURRENT_TIMESTAMP()
     description: date when record was first created
     useQuotes: false
-    id: 6db25c30-3d73-4e80-b3f6-0f6f479cb2fd
+    id: 27886de7-6c84-43cd-908f-2a44a9ad4227
   - name: __UPDATE_DTS
     allowNulls: false
     dataType: timestamp_ntz
     defaultValue: CURRENT_TIMESTAMP()
     description: date when record was last updated
     useQuotes: false
-    id: 56c8ee50-28b5-44d0-a139-a5fc24b54b64
+    id: 4f66e9a4-6a3c-4a5f-90a6-d28ac6362ff2
   - name: __T2DIFF_HASH
     allowNulls: false
     dataType: binary(20)
     defaultValue: ''
     description: hash of all columns used for quick compare
     useQuotes: false
-    id: 4e25cbd6-3716-4ba0-ba2d-fb03ec36bc0e
+    id: e2949f4d-43a6-4668-bdc4-fb580198c162
   - name: __T1DIFF_HASH
     allowNulls: false
     dataType: binary(20)
     defaultValue: ''
     description: hash of all columns used for quick compare
     useQuotes: false
-    id: bd9846aa-f12a-41a9-871d-7a5e1350baf5
+    id: 7a53b982-d849-4487-a267-030b7114d307
 logic: |-
   with CUSTOMER as (
       SELECT
@@ -136,7 +138,7 @@ logic: |-
           COMMENT,
           __LOAD_DTS
       FROM {{ref('RAW', 'CUSTOMER')}}
-      WHERE WHERE TRUE 
+      WHERE TRUE 
       AND {% for colSet in columnSets -%}
                    {%- if colSet.itemName == 'sysTimestamp' -%}
                      {%- if colSet.columns[0].name | length > 0 -%}   {{ wrapColInQuotes(colSet.columns[0]) }} {{' '-}}
@@ -178,22 +180,22 @@ logic: |-
           true AS __IS_LATEST,
           CURRENT_TIMESTAMP() AS __CREATE_DTS,
           CURRENT_TIMESTAMP() AS __UPDATE_DTS,
-          SHA1_BINARY( {%- for col in columns if  ( not ( col.name == '__REC_VERSION' or
+          SHA1_BINARY( {%- for col in columns if ( not ( col.name == '__REC_VERSION' or
                                          col.name == '__IS_LATEST' or
                                          col.name == '__FROM_DTS' or
                                          col.name == '__TO_DTS' or
                                          col.name == '__CREATE_DTS' or
-                                         col.name == '__UPDATE_DTS' or 
+                                         col.name == '__UPDATE_DTS' or
                                          col.name == '__T2DIFF_HASH' or
                                          col.name == '__T1DIFF_HASH' or
-                                         col.isSysTimestamp ) 
+                                         col.isSysTimestamp )
                                          and (
-                                         col.isDelta or
+                                         col.isDELTA or
                                          isAllDelta
                                          )
-                                         ) %}  
-              NVL(UPPER(TRIM({{wrapColInQuotes(col)}}::VARCHAR)),'^^') {%- if not loop.last %} || '|' || {% endif %}                        
-            {%- endfor %} 
+                                         ) %}
+              NVL(UPPER(TRIM({{wrapColInQuotes(col)}}::VARCHAR)),'^^') {%- if not loop.last %} || '|' || {% endif %}
+            {%- endfor %}
                   )::BINARY(20) AS __T2DIFF_HASH,
           SHA1_BINARY({% if isAllDelta -%} '*null*'{% else %}
               {%- for col in columns if not ( col.name == '__REC_VERSION' or
@@ -201,13 +203,13 @@ logic: |-
                                             col.name == '__FROM_DTS' or
                                             col.name == '__TO_DTS' or
                                             col.name == '__CREATE_DTS' or
-                                            col.name == '__UPDATE_DTS' or 
+                                            col.name == '__UPDATE_DTS' or
                                             col.name == '__T2DIFF_HASH' or
                                             col.name == '__T1DIFF_HASH' or
-                                            col.isDelta or
-                                            col.isSysTimestamp  ) %}  
+                                            col.isDELTA or
+                                            col.isSysTimestamp ) %}
                NVL(UPPER(TRIM({{wrapColInQuotes(col)}}::VARCHAR)),'^^') {%- if not loop.last %} || '|' || {% endif %}
-                {%- endfor -%} 
+                {%- endfor -%}
             {% endif -%}
             )::BINARY(20) AS __T1DIFF_HASH
       FROM CUSTOMER
@@ -218,17 +220,33 @@ description: ''
 logicalName: CUSTOMER dimension
 columnSets:
   - itemName: PK
-    setName: PK_d_CUSTOMER
+    setName: PK_dim_CUSTOMER_1
     columns:
-      - columnId: 9a8705fa-c3c3-4e2a-8819-2776766834f2
+      - columnId: c2932e7e-403b-47da-b61a-add344a7010e
         position: 1
         name: CUSTOMER_ID
         useQuotes: false
-      - columnId: 8f9b677d-3967-4548-af6b-a29f12a84b69
+      - columnId: d2d9a13e-62f4-41f9-a6b7-6efcf4f8ce50
         position: 2
         name: __FROM_DTS
         useQuotes: false
-    id: c35d04cc-263f-4bc0-b568-aea2ed71980d
+    id: 46509fa2-5e9d-42d5-9000-7a6e922adea1
+  - itemName: BK
+    setName: BK_dim_CUSTOMER_1
+    columns:
+      - columnId: c2932e7e-403b-47da-b61a-add344a7010e
+        position: 1
+        name: CUSTOMER_ID
+        useQuotes: false
+    id: 3a1e47e2-08bb-4184-9d3f-ee555be80b91
+  - itemName: sysTimestamp
+    setName: sysTimestamp_dim_CUSTOMER_1
+    columns:
+      - columnId: 02d42069-1c8d-40ba-8413-6ac413c67ee7
+        position: 1
+        name: __LOAD_DTS
+        useQuotes: false
+    id: 036fdc93-b6e8-4502-b0f0-88ccf2ae20a8
 useQuotes: false
 templateId: 5a7aea4c-5adb-41ae-a296-300f66bbd5e4
 materialization: table
@@ -249,12 +267,12 @@ postRun:
   value:
     - ''
   isValidated: true
-AllDelta: true
+isAllDelta: true
 rely_button: true
-id: 857ad4a6-3811-492b-bb80-cdb3e4a8f65a
+id: 917bb5a8-4c6b-40d1-b4b4-89d9f6d7bb99
 nodeFormat: dynamic
-status: ValidateRunFailed
+status: ValidateRunSuccess
 references:
-  d4f40d5b-6421-4a77-831b-062c7b37cda1:
+  1ca7df5c-5a9a-4666-b836-b03a63009de4:
     parentTableId: 39bd16bc-a498-452c-9cba-9defbf84426c
-    id: d4f40d5b-6421-4a77-831b-062c7b37cda1
+    id: 1ca7df5c-5a9a-4666-b836-b03a63009de4
