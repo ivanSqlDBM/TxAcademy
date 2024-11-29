@@ -1,0 +1,97 @@
+name: stg_REGION
+id: b7b9a8ac-b039-4532-9786-33fdd23641e4
+storageLocationId: f444de18-2d02-4df6-9c54-36ca0a2c7e40
+templateId: 2168e0c1-186b-4952-ae36-9b93af4f4a35
+materialization: table
+isSource: false
+columns:
+  - name: REGION_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: c61c7002-a249-4b6d-965d-a52000cbf178
+    isPK: true
+  - name: NAME
+    dataType: varchar(25)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 3c85c84b-20f3-4fd0-8d69-964dfb8f7dd3
+  - name: COMMENT
+    dataType: varchar(152)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 25119564-c59e-46ab-a953-a2eb48cf7e57
+  - name: __LOAD_DTS
+    dataType: timestamp_ltz(9)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 321ba893-9784-4599-9efa-5b020f365f6e
+  - name: __load_date
+    dataType: date
+    allowNulls: false
+    defaultValue: current_date()
+    description: load date
+    id: e5be3ec2-e10f-4967-ae55-b2ec5b1884a5
+columnSets:
+  - id: ae69c5ee-d84f-4d07-99f4-498a6db83aeb
+    itemName: PK
+    setName: PK_stg_REGION
+    columns:
+      - columnId: c61c7002-a249-4b6d-965d-a52000cbf178
+        position: 1
+        name: REGION_ID
+        useQuotes: false
+nodeFormat: dynamic
+truncateBefore: false
+preCreate:
+  value:
+    - ''
+  isValidated: false
+postCreate:
+  value:
+    - ''
+  isValidated: false
+preRun:
+  value:
+    - ''
+  isValidated: false
+postRun:
+  value:
+    - ''
+  isValidated: false
+rely_button: true
+parentName: Processing_layer
+color: '#FC7917'
+logic: |-
+  with "REGION" as (
+      SELECT
+          "REGION_ID",
+          "NAME",
+          "COMMENT",
+          "__LOAD_DTS"
+      FROM {{ref('RAW', 'REGION')}}
+    WHERE TRUE 
+    AND name = '{{parameters.star_regions[0]}}'
+  )
+  ,
+  common as (
+      SELECT
+          "REGION"."REGION_ID",
+          "REGION"."NAME",
+          "REGION"."COMMENT",
+          "REGION"."__LOAD_DTS",
+          current_date() AS "__load_date"
+      FROM "REGION"
+  )
+
+  SELECT * FROM common
+description: ''
+logicalName: stage REGION
+references:
+  0af2511c-c6ab-4eee-84d4-2d9ee1a1ca1d:
+    parentTableId: 7bf9c6a5-b261-450c-9db4-58fa5fb238d5
+    id: 0af2511c-c6ab-4eee-84d4-2d9ee1a1ca1d

@@ -1,0 +1,298 @@
+name: stg_LINEITEM_SALES_ORDER
+id: 7cf9cb80-c5dd-4f50-8fdd-99cf7d9f9ef3
+storageLocationId: f444de18-2d02-4df6-9c54-36ca0a2c7e40
+templateId: 2168e0c1-186b-4952-ae36-9b93af4f4a35
+materialization: table
+isSource: false
+columns:
+  - name: LINE_NUMBER
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: b75f023c-06dd-485f-b0ae-7be176284ab8
+    isPK: true
+  - name: SALES_ORDER_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 34155428-2944-467e-963f-e8b753061894
+    isPK: true
+  - name: SALES_ORDER_ID_1
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 30db123f-9cb8-4893-95e0-d8ad5b2632a1
+    isPK: true
+  - name: PART_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 9679fe37-1714-4552-abb6-21511663f8d5
+  - name: SUPPLIER_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 3b17bfc1-4f3c-45af-a8b5-450c1368819f
+  - name: QUANTITY
+    dataType: number(12,2)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 45adec09-2531-4fc6-b68d-c000286d6dbd
+  - name: EXTENDED_PRICE_USD
+    dataType: number(12,2)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 3d93d844-b097-421c-83c7-dcc65fdb6672
+  - name: DISCOUNT_PERCENT
+    dataType: number(12,2)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 3b1f9725-b2d4-4fed-aeef-22f46f76d8ba
+  - name: TAX_PERCENT
+    dataType: number(12,2)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 5847331e-5166-4f69-a9c9-dd9dd1e8d7de
+  - name: RETURN_FLAG
+    dataType: varchar(1)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 84f7399d-6d90-49b3-930f-a5eb3daf39df
+  - name: LINE_STATUS
+    dataType: varchar(1)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: b3813dc9-84c2-4247-95aa-83e9af926c32
+  - name: SHIP_DATE
+    dataType: date
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 6d565d56-5b33-46fd-a964-ec4d5d5ade04
+  - name: COMMIT_DATE
+    dataType: date
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 05a9dcb8-cef9-4102-8e53-eca72979eadf
+  - name: RECEIPT_DATE
+    dataType: date
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 310f240f-aecf-4429-88a3-545471a1af3c
+  - name: SHIP_INSTRUCTIONS
+    dataType: varchar(25)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 1f746c6f-fd4d-4bfd-9dee-df7b0f240449
+  - name: SHIP_MODE
+    dataType: varchar(10)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 27529494-050b-489b-997f-d4edc9e1dde4
+  - name: COMMENT
+    dataType: varchar(44)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 3fed3d06-66a1-4404-b325-a24188f832f4
+  - name: __LOAD_DTS
+    dataType: timestamp_ltz(9)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: a5be16b3-770b-4937-89aa-d4b423cd36c2
+  - name: CUSTOMER_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 99bd2818-737c-47ea-a337-8dd1360b83c7
+  - name: ORDER_STATUS
+    dataType: varchar(1)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 74c1d867-ecb4-4325-b595-7c292be9ac2f
+  - name: TOTAL_PRICE_USD
+    dataType: number(12,2)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 76da0528-c827-4483-a83d-d3cb4b02bae3
+  - name: ORDER_DATE
+    dataType: date
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 6fa43a89-41f8-47ed-89f5-6ceef29f7a7a
+  - name: ORDER_PRIORITY
+    dataType: varchar(15)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 4996c675-c4da-4fbc-98ef-7228c020f029
+  - name: CLERK
+    dataType: varchar(15)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 0abe20c2-2be0-4ce6-b94b-d96ddfd4eaf8
+  - name: SHIP_PRIORITY
+    dataType: number(38,0)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: c7ae2dbb-9d6e-4c59-93d1-dda1781c115f
+  - name: COMMENT_1
+    dataType: varchar(79)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: fbc7dde9-730c-45b8-9615-4c93e6074596
+  - name: __LOAD_DTS_1
+    dataType: timestamp_ltz(9)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: c2b32f1b-e1df-458d-9358-235a41dc5462
+  - name: __load_date
+    dataType: date
+    allowNulls: false
+    defaultValue: current_date()
+    description: load date
+    id: 3336fdd3-98cc-4803-a141-9a7df000cae1
+columnSets:
+  - id: 0b0828ed-1221-4a96-b771-efc53893ba29
+    itemName: PK
+    setName: PK_stg_LINEITEM_SALES_ORDER
+    columns:
+      - columnId: b75f023c-06dd-485f-b0ae-7be176284ab8
+        position: 1
+        name: LINE_NUMBER
+        useQuotes: false
+      - columnId: 34155428-2944-467e-963f-e8b753061894
+        position: 2
+        name: SALES_ORDER_ID
+        useQuotes: false
+      - columnId: 30db123f-9cb8-4893-95e0-d8ad5b2632a1
+        position: 3
+        name: SALES_ORDER_ID_1
+        useQuotes: false
+nodeFormat: dynamic
+truncateBefore: false
+preCreate:
+  value:
+    - ''
+  isValidated: false
+postCreate:
+  value:
+    - ''
+  isValidated: false
+preRun:
+  value:
+    - ''
+  isValidated: false
+postRun:
+  value:
+    - ''
+  isValidated: false
+rely_button: true
+parentName: Processing_layer
+color: '#FC7917'
+logic: |-
+  with "LINEITEM" as (
+      SELECT
+          "LINE_NUMBER",
+          "SALES_ORDER_ID",
+          "PART_ID",
+          "SUPPLIER_ID",
+          "QUANTITY",
+          "EXTENDED_PRICE_USD",
+          "DISCOUNT_PERCENT",
+          "TAX_PERCENT",
+          "RETURN_FLAG",
+          "LINE_STATUS",
+          "SHIP_DATE",
+          "COMMIT_DATE",
+          "RECEIPT_DATE",
+          "SHIP_INSTRUCTIONS",
+          "SHIP_MODE",
+          "COMMENT",
+          "__LOAD_DTS"
+      FROM {{ref('RAW', 'LINEITEM')}}
+  ),
+  "SALES_ORDER" as (
+      SELECT
+          "SALES_ORDER_ID",
+          "CUSTOMER_ID",
+          "ORDER_STATUS",
+          "TOTAL_PRICE_USD",
+          "ORDER_DATE",
+          "ORDER_PRIORITY",
+          "CLERK",
+          "SHIP_PRIORITY",
+          "COMMENT",
+          "__LOAD_DTS"
+      FROM {{ref('RAW', 'SALES_ORDER')}}
+  )
+  ,
+  common as (
+      SELECT
+          "LINEITEM"."LINE_NUMBER",
+          "LINEITEM"."SALES_ORDER_ID",
+          "SALES_ORDER"."SALES_ORDER_ID" AS "SALES_ORDER_ID_1",
+          "LINEITEM"."PART_ID",
+          "LINEITEM"."SUPPLIER_ID",
+          "LINEITEM"."QUANTITY",
+          "LINEITEM"."EXTENDED_PRICE_USD",
+          "LINEITEM"."DISCOUNT_PERCENT",
+          "LINEITEM"."TAX_PERCENT",
+          "LINEITEM"."RETURN_FLAG",
+          "LINEITEM"."LINE_STATUS",
+          "LINEITEM"."SHIP_DATE",
+          "LINEITEM"."COMMIT_DATE",
+          "LINEITEM"."RECEIPT_DATE",
+          "LINEITEM"."SHIP_INSTRUCTIONS",
+          "LINEITEM"."SHIP_MODE",
+          "LINEITEM"."COMMENT",
+          "LINEITEM"."__LOAD_DTS",
+          "SALES_ORDER"."CUSTOMER_ID",
+          "SALES_ORDER"."ORDER_STATUS",
+          "SALES_ORDER"."TOTAL_PRICE_USD",
+          "SALES_ORDER"."ORDER_DATE",
+          "SALES_ORDER"."ORDER_PRIORITY",
+          "SALES_ORDER"."CLERK",
+          "SALES_ORDER"."SHIP_PRIORITY",
+          "SALES_ORDER"."COMMENT" AS "COMMENT_1",
+          "SALES_ORDER"."__LOAD_DTS" AS "__LOAD_DTS_1",
+          current_date() AS "__load_date"
+      FROM "LINEITEM"
+      INNER JOIN "SALES_ORDER"
+      ON /*"LINEITEM"."<column>" = "SALES_ORDER"."<column>"*/
+  )
+
+  SELECT * FROM common
+description: ''
+logicalName: stage LINEITEM_SALES_ORDER
+references:
+  32b1fb8e-83e8-4c99-970f-b8d57c69a148:
+    parentTableId: a0a33868-9cba-4ec0-9716-a91e0de8e221
+    id: 32b1fb8e-83e8-4c99-970f-b8d57c69a148
+  f00cf185-504a-4dcb-ab5f-9f065f0531bf:
+    parentTableId: 13daf578-a1fe-41c0-b60c-87844919a281
+    id: f00cf185-504a-4dcb-ab5f-9f065f0531bf

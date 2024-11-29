@@ -9,27 +9,32 @@ columns:
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: NAME
     dataType: varchar(25)
     id: 75177e6c-0f2b-4ba2-9ad7-9304ed42b44a
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: REGION_ID
     dataType: number(38,0)
     id: c4c00ac7-7701-418b-9f2b-d7be7c8991d5
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: COMMENT
     dataType: varchar(152)
     id: f03d0b7a-da26-443e-ace4-275de6e16a86
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: __LOAD_DTS
     dataType: timestamp_ltz(9)
     id: 0dd84bbf-2553-4a00-85e2-287024d6f3f8
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false

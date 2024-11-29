@@ -1,0 +1,143 @@
+name: stg_PART
+id: c4bc9281-54f5-4212-94cf-97f0dfd19a9b
+storageLocationId: f444de18-2d02-4df6-9c54-36ca0a2c7e40
+templateId: f0b6697a-7eb4-4925-9f72-ec5eb6318733
+materialization: table
+isSource: false
+columns:
+  - name: PART_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 37015a8e-a008-4081-9dcd-3c599cf2885f
+    isPK: true
+  - name: NAME
+    dataType: varchar(16777216)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 77db719b-3b90-44ed-953b-ff2d5fd6ed51
+  - name: MANUFACTURER
+    dataType: varchar(16777216)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 3274475e-001b-41e9-a3e6-528e638019c5
+  - name: BRAND
+    dataType: varchar(16777216)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: c5f49ce2-dc75-4afc-a616-c1a9fc4b2148
+  - name: TYPE
+    dataType: varchar(16777216)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: b789d9ef-0ba1-4d6b-b633-26302a4a4e94
+  - name: SIZE_CENTIMETERS
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: f41763df-9dde-4ff3-9af0-54beae4fe98e
+  - name: CONTAINER
+    dataType: varchar(16777216)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 29257365-9150-4652-970b-fd738472dae1
+  - name: RETAIL_PRICE_USD
+    dataType: number(12,2)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 56fb3af7-f9fb-49f2-bbbe-85723cbb9cb0
+  - name: COMMENT
+    dataType: varchar(16777216)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 8c7e78f3-2fb2-4153-8be7-61088092057b
+  - name: __LOAD_DTS
+    dataType: timestamp_ltz(9)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 4bd09ca3-202f-4934-9478-0f055596770a
+  - name: __load_date
+    dataType: date
+    allowNulls: false
+    defaultValue: current_date()
+    description: load date
+    id: 033f6061-ad12-4e45-9192-02cd2f8c2aea
+columnSets:
+  - id: abfe1eab-aaed-4ee2-b6fe-ca4508d04717
+    itemName: PK
+    setName: PK_stg_PART
+    columns:
+      - columnId: 37015a8e-a008-4081-9dcd-3c599cf2885f
+        position: 1
+        name: PART_ID
+        useQuotes: false
+nodeFormat: dynamic
+truncateBefore: false
+preCreate:
+  value:
+    - ''
+  isValidated: false
+postCreate:
+  value:
+    - ''
+  isValidated: false
+preRun:
+  value:
+    - ''
+  isValidated: false
+postRun:
+  value:
+    - ''
+  isValidated: false
+rely_button: true
+parentName: Processing_layer
+color: '#FC7917'
+logic: |-
+  with "PART" as (
+      SELECT
+          "PART_ID",
+          "NAME",
+          "MANUFACTURER",
+          "BRAND",
+          "TYPE",
+          "SIZE_CENTIMETERS",
+          "CONTAINER",
+          "RETAIL_PRICE_USD",
+          "COMMENT",
+          "__LOAD_DTS"
+      FROM {{ref('RAW', 'PART')}}
+  )
+  ,
+  common as (
+      SELECT
+          "PART"."PART_ID",
+          "PART"."NAME",
+          "PART"."MANUFACTURER",
+          "PART"."BRAND",
+          "PART"."TYPE",
+          "PART"."SIZE_CENTIMETERS",
+          "PART"."CONTAINER",
+          "PART"."RETAIL_PRICE_USD",
+          "PART"."COMMENT",
+          "PART"."__LOAD_DTS",
+          current_date() AS "__load_date"
+      FROM "PART"
+  )
+
+  SELECT * FROM common
+description: ''
+logicalName: stage PART
+references:
+  4729063a-22ee-4372-aa26-7c8375215ca4:
+    parentTableId: 98ad7eab-c40d-49d8-bd66-21397115b500
+    id: 4729063a-22ee-4372-aa26-7c8375215ca4

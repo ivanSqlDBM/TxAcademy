@@ -1,152 +1,112 @@
-name: dim_CUSTOMER
-id: bd4945d3-51dc-41e4-9539-2b14726bc94c
+name: dim_INVENTORY
+id: 2be1451c-cd32-4589-ac28-f49af2d74ee9
 storageLocationId: f444de18-2d02-4df6-9c54-36ca0a2c7e40
-templateId: 7c988c83-361c-42f7-a54a-158e98d0e635
+templateId: 5a7aea4c-5adb-41ae-a296-300f66bbd5e4
 materialization: table
 isSource: false
 columns:
-  - name: CUSTOMER_ID
+  - name: PART_ID
     dataType: number(38,0)
     allowNulls: false
     defaultValue: ''
-    description: ''
-    id: f3b10fcd-4366-43eb-b4d0-53cfcc1b7039
+    description: part of unique identifier with ps_suppkey
+    id: 9d1608d2-51a5-4af8-867c-57397b355826
     isPK: true
-    isBK: true
+  - name: SUPPLIER_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: part of unique identifier with ps_partkey
+    id: 288e487c-d9fc-44d3-ad0e-b589e0ea208e
+    isPK: true
   - name: __FROM_DTS
     dataType: timestamp_ntz
     allowNulls: false
     defaultValue: CURRENT_TIMESTAMP()
     description: when record was loaded into the warehouse
-    id: 1e8745b4-84a3-40cf-ba98-3b098d44c223
+    id: 5d9344be-b5c0-40a0-8349-a8290b90874e
     isPK: true
-    issysTimestamp: true
   - name: __TO_DTS
     dataType: timestamp_ntz
     allowNulls: false
     defaultValue: CURRENT_TIMESTAMP()
     description: effective date or surrogate high date (9999-12-31)
-    id: 50a7342f-2493-4dee-93df-41824709d743
-  - name: NAME
-    dataType: varchar(16777216)
-    allowNulls: false
-    defaultValue: ''
-    description: ''
-    id: ff72c900-7502-4d65-a8f4-68cc49aafcbf
-  - name: ADDRESS
-    dataType: varchar(16777216)
-    allowNulls: false
-    defaultValue: ''
-    description: ''
-    id: 47f50035-c05e-4e17-bc26-870a700fce40
-  - name: LOCATION_ID
+    id: 59c03106-0943-45e1-b634-4fb71a4fb19e
+  - name: AVAILABLE_AMOUNT
     dataType: number(38,0)
     allowNulls: false
     defaultValue: ''
-    description: ''
-    id: b040aa2d-0cb7-4045-ac2b-17a9dd3fea4e
-  - name: PHONE
-    dataType: varchar(15)
-    allowNulls: false
-    defaultValue: ''
-    description: ''
-    id: 64643ae5-a60f-445e-bc23-aa1ade9243f4
-    isDELTA: true
-  - name: ACCOUNT_BALANCE_USD
+    description: number of parts available for sale
+    id: b45dd5eb-8fd9-4578-a9ca-72c927cf7bee
+  - name: SUPPLIER_COST_USD
     dataType: number(12,2)
     allowNulls: false
     defaultValue: ''
-    description: ''
-    id: ae187c8d-71d2-4913-8a55-8d3d76d5c1fc
-  - name: MARKET_SEGMENT
-    dataType: varchar(10)
-    allowNulls: false
-    defaultValue: ''
-    description: ''
-    id: 211726d8-c6fe-4874-8e8e-073186a5fc44
+    description: original cost paid to supplier
+    id: ccccbafa-b578-4594-b99d-bf578620b373
   - name: COMMENT
     dataType: varchar(16777216)
     allowNulls: true
     defaultValue: ''
     description: ''
-    id: 6fe3a381-833a-4959-b8e6-0f0b3af35666
+    id: e904166b-5fa2-4f0b-a7d8-e85b673dc492
   - name: __LOAD_DTS
     dataType: timestamp_ltz(9)
     allowNulls: true
     defaultValue: ''
     description: ''
-    id: 555cf364-e1f4-48e5-b8c0-e9ce1f00e0c2
+    id: 28531661-e875-4aa0-abb5-091e28ff04dd
   - name: __REC_VERSION
     dataType: number(38,0)
     allowNulls: false
     defaultValue: '1'
     description: incremental change version counter for the record
-    id: c2c4382f-4e98-4c70-825f-c6d3623de781
+    id: 81b7cd94-c871-466a-9a30-e90015a452d5
   - name: __IS_LATEST
     dataType: boolean
     allowNulls: false
     defaultValue: 'true'
     description: true only on the latest effective dated record
-    id: b1883b85-3877-4d89-a9f7-6d1357cdb750
+    id: 00ca7f71-6b0d-4636-9cda-70a597158de6
   - name: __CREATE_DTS
     dataType: timestamp_ntz
     allowNulls: false
     defaultValue: CURRENT_TIMESTAMP()
     description: date when record was first created
-    id: 15c80222-4ec7-488b-9be7-fbf25491b35b
+    id: e784858b-3b15-4633-b619-e1e11d9f2df1
   - name: __UPDATE_DTS
     dataType: timestamp_ntz
     allowNulls: false
     defaultValue: CURRENT_TIMESTAMP()
     description: date when record was last updated
-    id: c202adc8-7db2-4f1e-8346-1124a37a7e99
+    id: 859e26ce-2edf-47da-8289-c02b5c569cde
   - name: __T2DIFF_HASH
     dataType: binary(20)
     allowNulls: false
     defaultValue: ''
     description: hash of all columns used for quick compare
-    id: 2784d766-cc30-4e8b-a1a9-d27080c5c58d
+    id: e70b26fe-0bf6-4091-9739-2655be7bc8f1
   - name: __T1DIFF_HASH
     dataType: binary(20)
     allowNulls: false
     defaultValue: ''
     description: hash of all columns used for quick compare
-    id: b96d851b-7b4a-45ef-afe3-1e454ab2cb2a
+    id: f44bd004-878c-49ce-a8a2-565bc6ab1f77
 columnSets:
-  - id: 1d76a347-824d-486e-af3a-ff1165fb2b08
+  - id: 6aecbe47-150c-41a4-82fa-c0a505f3e38f
     itemName: PK
-    setName: PK_dim_CUSTOMER
+    setName: PK_dim_INVENTORY
     columns:
-      - columnId: f3b10fcd-4366-43eb-b4d0-53cfcc1b7039
+      - columnId: 9d1608d2-51a5-4af8-867c-57397b355826
         position: 1
-        name: CUSTOMER_ID
+        name: PART_ID
         useQuotes: false
-      - columnId: 1e8745b4-84a3-40cf-ba98-3b098d44c223
+      - columnId: 288e487c-d9fc-44d3-ad0e-b589e0ea208e
         position: 2
-        name: __FROM_DTS
+        name: SUPPLIER_ID
         useQuotes: false
-  - id: 6724bbbb-75a4-4f08-86fd-603c74dfd2b5
-    itemName: BK
-    setName: BK_dim_CUSTOMER
-    columns:
-      - columnId: f3b10fcd-4366-43eb-b4d0-53cfcc1b7039
-        position: 1
-        name: CUSTOMER_ID
-        useQuotes: false
-  - id: cefa5883-2276-4611-8e13-ba2d8de3f091
-    itemName: DELTA
-    setName: DELTA_dim_CUSTOMER
-    columns:
-      - columnId: 64643ae5-a60f-445e-bc23-aa1ade9243f4
-        position: 1
-        name: PHONE
-        useQuotes: false
-  - id: c05eef73-2ed2-4b89-a637-3155593fab24
-    itemName: sysTimestamp
-    setName: sysTimestamp_dim_CUSTOMER
-    columns:
-      - columnId: 1e8745b4-84a3-40cf-ba98-3b098d44c223
-        position: 1
+      - columnId: 5d9344be-b5c0-40a0-8349-a8290b90874e
+        position: 3
         name: __FROM_DTS
         useQuotes: false
 nodeFormat: dynamic
@@ -166,30 +126,26 @@ postRun:
   value:
     - ''
   isValidated: true
-AllDelta: false
+AllDelta: true
 rely_button: true
 parentName: Processing_layer
-status: ValidateCreateSuccess
 color: '#8E44AD'
 logic: |-
-  with "CUSTOMER" as (
+  with "INVENTORY" as (
       SELECT
-          "CUSTOMER_ID",
-          "NAME",
-          "ADDRESS",
-          "LOCATION_ID",
-          "PHONE",
-          "ACCOUNT_BALANCE_USD",
-          "MARKET_SEGMENT",
+          "PART_ID",
+          "SUPPLIER_ID",
+          "AVAILABLE_AMOUNT",
+          "SUPPLIER_COST_USD",
           "COMMENT",
           "__LOAD_DTS"
-      FROM {{ref('RAW', 'CUSTOMER')}}
-
+      FROM {{ref('RAW', 'INVENTORY')}}
   )
   ,
   common as (
       SELECT
-          "CUSTOMER"."CUSTOMER_ID",
+          "INVENTORY"."PART_ID",
+          "INVENTORY"."SUPPLIER_ID",
           {% for colSet in columnSets -%}
     {%- if colSet.itemName == 'sysTimestamp' -%}
       {%- if colSet.columns[0].name | length > 0 -%}   {{ wrapColInQuotes(colSet.columns[0]) }} {{' '-}}
@@ -199,14 +155,10 @@ logic: |-
   {%- endfor -%} 
    AS "__FROM_DTS",
           '9999-12-31'::TIMESTAMP_NTZ AS "__TO_DTS",
-          "CUSTOMER"."NAME",
-          "CUSTOMER"."ADDRESS",
-          "CUSTOMER"."LOCATION_ID",
-          "CUSTOMER"."PHONE",
-          "CUSTOMER"."ACCOUNT_BALANCE_USD",
-          "CUSTOMER"."MARKET_SEGMENT",
-          "CUSTOMER"."COMMENT",
-          "CUSTOMER"."__LOAD_DTS",
+          "INVENTORY"."AVAILABLE_AMOUNT",
+          "INVENTORY"."SUPPLIER_COST_USD",
+          "INVENTORY"."COMMENT",
+          "INVENTORY"."__LOAD_DTS",
           1 AS "__REC_VERSION",
           true AS "__IS_LATEST",
           CURRENT_TIMESTAMP() AS "__CREATE_DTS",
@@ -243,13 +195,13 @@ logic: |-
         {%- endfor -%} 
     {% endif -%}
     )::BINARY(20) AS "__T1DIFF_HASH"
-      FROM "CUSTOMER"
+      FROM "INVENTORY"
   )
 
   SELECT * FROM common
 description: ''
-logicalName: CUSTOMER dimension
+logicalName: INVENTORY dimension
 references:
-  9eebb2bc-1fe3-4d91-a786-857484f43124:
-    parentTableId: 39bd16bc-a498-452c-9cba-9defbf84426c
-    id: 9eebb2bc-1fe3-4d91-a786-857484f43124
+  496b829b-992a-42ff-b5df-ac06db67aa4c:
+    parentTableId: 05482f6b-5f10-4b87-b611-bf986c50636a
+    id: 496b829b-992a-42ff-b5df-ac06db67aa4c
