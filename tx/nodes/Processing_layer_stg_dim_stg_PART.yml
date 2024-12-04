@@ -1,0 +1,93 @@
+name: stg_dim_stg_PART
+color: '#1EC15F'
+isSource: false
+columns:
+  - name: PART_ID
+    allowNulls: false
+    dataType: NUMBER(38,0)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 228f803d-a57a-4450-a1bc-fef722987a97
+    isPK: true
+  - name: NAME
+    allowNulls: false
+    dataType: VARCHAR(16777216)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: bcd753cb-b79c-4d65-bfb9-8806f752b849
+  - name: MANUFACTURER
+    allowNulls: false
+    dataType: VARCHAR(16777216)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 8f430c6b-f080-4a40-a240-9fe2e5bbe49b
+  - name: BRAND
+    allowNulls: false
+    dataType: VARCHAR(16777216)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 274fad96-8228-4772-92dd-baa04c175837
+  - name: SUPPLIER_COST_USD
+    allowNulls: true
+    dataType: NUMBER(12,2)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 68d219e4-2b1c-43c0-b80b-3c52cc321a08
+logic: |-
+  SELECT
+          prt.PART_ID,
+          prt.NAME,
+          prt.MANUFACTURER,
+          prt.BRAND,
+          int.SUPPLIER_COST_USD
+      FROM {{ref('Processing_layer', 'dim_stg_PART')}} prt
+      left join  {{ref('Processing_layer', 'dim_stg_INVENTORY')}} int on prt.part_id=int.part_id
+      
+      
+description: ''
+logicalName: stage stage PART dimension
+columnSets:
+  - itemName: PK
+    setName: PK_stg_dim_stg_PART
+    columns:
+      - columnId: 228f803d-a57a-4450-a1bc-fef722987a97
+        position: 1
+        name: PART_ID
+        useQuotes: false
+    id: 728fd455-da2e-4f6d-92b9-48c1343a3f64
+useQuotes: false
+templateId: 8fbe7c9f-09df-476d-a326-3eb986fbc198
+materialization: table
+storageLocationId: f444de18-2d02-4df6-9c54-36ca0a2c7e40
+truncateBefore: false
+preCreate:
+  value:
+    - ''
+  isValidated: false
+postCreate:
+  value:
+    - ''
+  isValidated: false
+preRun:
+  value:
+    - ''
+  isValidated: false
+postRun:
+  value:
+    - ''
+  isValidated: false
+rely_button: true
+id: d99d4de8-a79d-416f-ad4f-1af587ca750d
+nodeFormat: dynamic
+references:
+  9656d3e1-8919-440a-b0ad-30007a257616:
+    parentTableId: f6d87562-479c-4d70-a513-557c9637367e
+    id: 9656d3e1-8919-440a-b0ad-30007a257616
+  b17b25f0-8d1a-4020-bfc4-68cecbd63d98:
+    parentTableId: acd358f9-066f-4936-ba9c-79e8e13f7574
+    id: b17b25f0-8d1a-4020-bfc4-68cecbd63d98

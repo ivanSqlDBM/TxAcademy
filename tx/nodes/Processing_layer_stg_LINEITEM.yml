@@ -1,0 +1,215 @@
+name: stg_LINEITEM
+color: '#FC7917'
+isSource: false
+columns:
+  - name: LINE_NUMBER
+    allowNulls: false
+    dataType: NUMBER(38,0)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 310b5a45-f7d1-4143-b8da-0d023b2495f4
+    isPK: true
+  - name: SALES_ORDER_ID
+    allowNulls: false
+    dataType: NUMBER(38,0)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 52d08605-af47-46e0-8300-e9fe6990bd51
+    isPK: true
+  - name: PART_ID
+    allowNulls: false
+    dataType: NUMBER(38,0)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 72d1f8aa-3a16-4f44-844f-f19ad3d6a5e2
+  - name: SUPPLIER_ID
+    allowNulls: false
+    dataType: NUMBER(38,0)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: cab112a5-1a01-4704-a2bc-77cabe9f19f9
+  - name: QUANTITY
+    allowNulls: true
+    dataType: NUMBER(12,2)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 4b50703e-186d-49ee-875c-9c3a5674fe88
+  - name: EXTENDED_PRICE_USD
+    allowNulls: true
+    dataType: NUMBER(12,2)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 2d6e6085-638c-402b-a116-3dbc702a1808
+  - name: DISCOUNT_PERCENT
+    allowNulls: true
+    dataType: NUMBER(12,2)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 81ca8a06-466a-4653-b14e-11dd56e2115b
+  - name: TAX_PERCENT
+    allowNulls: true
+    dataType: NUMBER(12,2)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 668a8219-d7b7-4cc5-ad18-e3ef169aff86
+  - name: RETURN_FLAG
+    allowNulls: true
+    dataType: VARCHAR(1)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 330d15b1-8022-4249-9620-83c7e40d7d34
+  - name: LINE_STATUS
+    allowNulls: true
+    dataType: VARCHAR(1)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 58c28705-0ced-4529-ad1f-b5537d71e797
+  - name: SHIP_DATE
+    allowNulls: true
+    dataType: DATE
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 528b077a-320a-4a34-9e22-fa6a8f0dab27
+  - name: COMMIT_DATE
+    allowNulls: true
+    dataType: DATE
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: e7e094be-97b5-4ce1-8440-f015189d2b5f
+  - name: RECEIPT_DATE
+    allowNulls: true
+    dataType: DATE
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: c852e27f-b62a-4dea-9b90-9a4a265997cc
+  - name: SHIP_INSTRUCTIONS
+    allowNulls: true
+    dataType: VARCHAR(25)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: a853dd60-556d-4197-b1fb-19be1a9ffc19
+  - name: SHIP_MODE
+    allowNulls: true
+    dataType: VARCHAR(10)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 891b5168-ed53-48af-8fa8-aadcd5d18700
+  - name: COMMENT
+    allowNulls: true
+    dataType: VARCHAR(44)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 4437f41b-955b-4e28-aa72-ad2a7f2e9b7a
+  - name: __LOAD_DTS
+    allowNulls: true
+    dataType: TIMESTAMP_LTZ(9)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: b9bb5510-3340-448c-bb47-ade4afbce82e
+logic: |-
+  with LINEITEM as (
+      SELECT
+          LINE_NUMBER,
+          SALES_ORDER_ID,
+          PART_ID,
+          SUPPLIER_ID,
+          QUANTITY,
+          EXTENDED_PRICE_USD,
+          DISCOUNT_PERCENT,
+          TAX_PERCENT,
+          RETURN_FLAG,
+          LINE_STATUS,
+          SHIP_DATE,
+          COMMIT_DATE,
+          RECEIPT_DATE,
+          SHIP_INSTRUCTIONS,
+          SHIP_MODE,
+          COMMENT,
+          __LOAD_DTS
+      FROM {{ref('RAW', 'LINEITEM')}}
+  )
+  ,
+  common as (
+      SELECT
+          LINEITEM.LINE_NUMBER,
+          LINEITEM.SALES_ORDER_ID,
+          LINEITEM.PART_ID,
+          LINEITEM.SUPPLIER_ID,
+          LINEITEM.QUANTITY,
+          LINEITEM.EXTENDED_PRICE_USD,
+          LINEITEM.DISCOUNT_PERCENT,
+          LINEITEM.TAX_PERCENT,
+          LINEITEM.RETURN_FLAG,
+          LINEITEM.LINE_STATUS,
+          LINEITEM.SHIP_DATE,
+          LINEITEM.COMMIT_DATE,
+          LINEITEM.RECEIPT_DATE,
+          LINEITEM.SHIP_INSTRUCTIONS,
+          LINEITEM.SHIP_MODE,
+          LINEITEM.COMMENT,
+          LINEITEM.__LOAD_DTS
+      FROM LINEITEM
+  )
+
+  SELECT * FROM common
+description: ''
+logicalName: stage LINEITEM
+columnSets:
+  - itemName: PK
+    setName: PK_stg_LINEITEM
+    columns:
+      - columnId: 310b5a45-f7d1-4143-b8da-0d023b2495f4
+        position: 1
+        name: LINE_NUMBER
+        useQuotes: false
+      - columnId: 52d08605-af47-46e0-8300-e9fe6990bd51
+        position: 2
+        name: SALES_ORDER_ID
+        useQuotes: false
+    id: 36df724a-0c50-414f-9946-ac36986a9dfc
+useQuotes: false
+templateId: f0b6697a-7eb4-4925-9f72-ec5eb6318733
+materialization: table
+storageLocationId: f444de18-2d02-4df6-9c54-36ca0a2c7e40
+truncateBefore: false
+preCreate:
+  value:
+    - ''
+  isValidated: false
+postCreate:
+  value:
+    - ''
+  isValidated: false
+preRun:
+  value:
+    - ''
+  isValidated: false
+postRun:
+  value:
+    - ''
+  isValidated: false
+rely_button: true
+id: 2e538b0a-5f1c-41b1-a05e-0ed7aca24ccb
+nodeFormat: dynamic
+status: RunSuccess
+references:
+  86323d5c-5a5d-4300-aa2a-9d353604a70a:
+    parentTableId: a0a33868-9cba-4ec0-9716-a91e0de8e221
+    id: 86323d5c-5a5d-4300-aa2a-9d353604a70a

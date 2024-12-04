@@ -1,0 +1,158 @@
+name: stg_CUSTOMER
+id: 98dbb784-b8e5-4c51-a723-ff057015e2ff
+storageLocationId: f444de18-2d02-4df6-9c54-36ca0a2c7e40
+templateId: f0b6697a-7eb4-4925-9f72-ec5eb6318733
+materialization: table
+isSource: false
+columns:
+  - name: CUSTOMER_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 8ad1e49f-6b03-4298-aee0-2d03212acc4d
+    useQuotes: false
+    isPK: true
+  - name: NAME
+    dataType: varchar(16777216)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 9100a0f2-338f-4a82-8208-286810634de3
+    useQuotes: false
+  - name: ADDRESS
+    dataType: varchar(16777216)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 338f0f2b-97fc-4d5d-ba60-596cdbd8755e
+    useQuotes: false
+  - name: LOCATION_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 4391e762-3de6-4565-a0a4-9bf1eb64a58b
+    useQuotes: false
+  - name: PHONE
+    dataType: varchar(15)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 01f0aeb3-9d22-4692-98ce-4fd13e0adb0c
+    useQuotes: false
+  - name: ACCOUNT_BALANCE_USD
+    dataType: number(12,2)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 3664c8ee-0b41-4b26-ac7e-87ff5f97685e
+    useQuotes: false
+  - name: MARKET_SEGMENT
+    dataType: varchar(10)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 04f84eb8-5a14-4dfe-b8cf-a979881be9a9
+    useQuotes: false
+  - name: COMMENT
+    dataType: varchar(16777216)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 886e9d53-4375-4a3d-9647-68efbc6715f4
+    useQuotes: false
+  - name: __LOAD_DTS
+    dataType: timestamp_ltz(9)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 4028fd0d-7214-47c4-b2db-008290d895fb
+    useQuotes: false
+  - name: __load_date
+    dataType: date
+    allowNulls: false
+    defaultValue: current_date()
+    description: load date
+    id: 1a596675-eabd-47bb-a984-0b66007bc094
+    useQuotes: false
+columnSets:
+  - id: 6c08d5b9-90b7-4670-bded-9fcd68d92466
+    itemName: PK
+    setName: PK_stg_CUSTOMER
+    columns:
+      - columnId: 8ad1e49f-6b03-4298-aee0-2d03212acc4d
+        position: 1
+        name: CUSTOMER_ID
+        useQuotes: false
+nodeFormat: dynamic
+useQuotes: false
+truncateBefore: false
+preCreate:
+  value:
+    - ''
+  isValidated: false
+postCreate:
+  value:
+    - ''
+  isValidated: false
+preRun:
+  value:
+    - ''
+  isValidated: false
+postRun:
+  value:
+    - ''
+  isValidated: false
+rely_button: true
+color: '#FC7917'
+logic: |-
+  /*
+
+  {{(this)}}
+  {{ref_link('RAW', 'LOCATION')}}
+  {{ref_text('RAW', 'LOCATION')}}
+
+  {{parameters.star_regions}}
+
+  */
+
+  with CUSTOMER as (
+      SELECT
+          CUSTOMER_ID,
+          NAME,
+          ADDRESS,
+          LOCATION_ID,
+          PHONE,
+          ACCOUNT_BALANCE_USD,
+          MARKET_SEGMENT,
+          COMMENT,
+          __LOAD_DTS
+      FROM {{ref('RAW', 'CUSTOMER')}}
+  )
+  ,
+  common as (
+      SELECT
+          CUSTOMER.CUSTOMER_ID,
+          CUSTOMER.NAME,
+          CUSTOMER.ADDRESS,
+          CUSTOMER.LOCATION_ID,
+          CUSTOMER.PHONE,
+          CUSTOMER.ACCOUNT_BALANCE_USD,
+          CUSTOMER.MARKET_SEGMENT,
+          CUSTOMER.COMMENT,
+          CUSTOMER.__LOAD_DTS,
+          current_date() AS __load_date
+      FROM CUSTOMER
+  )
+
+  SELECT * FROM common
+description: ''
+logicalName: stage CUSTOMER
+references:
+  ca84b479-45e2-4510-b41b-1194cd837b9d:
+    parentTableId: 3607b9c9-7e01-4c9b-b391-1f10f9c27f5f
+    id: ca84b479-45e2-4510-b41b-1194cd837b9d
+  8559512d-94e6-4f0c-93ce-6b126846d27d:
+    parentTableId: 39bd16bc-a498-452c-9cba-9defbf84426c
+    id: 8559512d-94e6-4f0c-93ce-6b126846d27d

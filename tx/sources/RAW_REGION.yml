@@ -9,21 +9,25 @@ columns:
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: NAME
     dataType: varchar(25)
     id: bb0637a0-34e4-4b41-ae96-3c7b5b992e89
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: COMMENT
     dataType: varchar(152)
     id: 1c54c6a3-6741-4350-8dc0-fe68ac665441
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: __LOAD_DTS
     dataType: timestamp_ltz(9)
     id: f05daa02-15b9-4ffa-8780-90c892e2b051
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false

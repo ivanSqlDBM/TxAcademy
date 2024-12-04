@@ -1,0 +1,260 @@
+name: dim_stg_INVENTORY
+color: '#8E44AD'
+isSource: false
+columns:
+  - name: PART_ID
+    allowNulls: false
+    dataType: NUMBER(38,0)
+    defaultValue: ''
+    description: part of unique identifier with ps_suppkey
+    useQuotes: false
+    id: 052e06ad-972e-4ed5-b027-a0dc7cae1e67
+    isPK: true
+    isBK: true
+  - name: SUPPLIER_ID
+    allowNulls: false
+    dataType: NUMBER(38,0)
+    defaultValue: ''
+    description: part of unique identifier with ps_partkey
+    useQuotes: false
+    id: 211e2e2e-d6e8-4074-85f5-0dcf2bf05b02
+    isPK: true
+    isBK: true
+  - name: __FROM_DTS
+    allowNulls: false
+    dataType: timestamp_ntz
+    defaultValue: CURRENT_TIMESTAMP()
+    description: when record was loaded into the warehouse
+    useQuotes: false
+    id: dd659aa4-e1cf-46c4-ab03-f21bc5f073df
+    isPK: true
+  - name: __TO_DTS
+    allowNulls: false
+    dataType: timestamp_ntz
+    defaultValue: CURRENT_TIMESTAMP()
+    description: effective date or surrogate high date (9999-12-31)
+    useQuotes: false
+    id: f627b094-536a-4c95-b8e3-df103957015c
+  - name: AVAILABLE_AMOUNT
+    allowNulls: false
+    dataType: NUMBER(38,0)
+    defaultValue: ''
+    description: number of parts available for sale
+    useQuotes: false
+    id: 807e48ad-d2bf-43cf-9eb2-260761b153c3
+  - name: SUPPLIER_COST_USD
+    allowNulls: false
+    dataType: NUMBER(12,2)
+    defaultValue: ''
+    description: original cost paid to supplier
+    useQuotes: false
+    id: 1cd71ffe-5acd-4234-93d6-c8b717833c4e
+  - name: COMMENT
+    allowNulls: true
+    dataType: VARCHAR(16777216)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 675259ac-267c-4036-8faf-0ab0506032b0
+  - name: __LOAD_DTS
+    allowNulls: true
+    dataType: TIMESTAMP_LTZ(9)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: d9101d25-eb4e-4a7b-810c-5e7cc15655ca
+    issysTimestamp: true
+  - name: __REC_VERSION
+    allowNulls: false
+    dataType: number(38,0)
+    defaultValue: '1'
+    description: incremental change version counter for the record
+    useQuotes: false
+    id: 6de9c60e-691c-45e9-8e35-460f88dfbb9a
+  - name: __IS_LATEST
+    allowNulls: false
+    dataType: boolean
+    defaultValue: 'true'
+    description: true only on the latest effective dated record
+    useQuotes: false
+    id: 3121683f-95bf-428f-8075-5119897d9516
+  - name: __CREATE_DTS
+    allowNulls: false
+    dataType: timestamp_ntz
+    defaultValue: CURRENT_TIMESTAMP()
+    description: date when record was first created
+    useQuotes: false
+    id: 98775abe-91c0-419f-9a3b-86be7531dd33
+  - name: __UPDATE_DTS
+    allowNulls: false
+    dataType: timestamp_ntz
+    defaultValue: CURRENT_TIMESTAMP()
+    description: date when record was last updated
+    useQuotes: false
+    id: be6f3280-b7a7-45f5-b6b0-25e85662ff9d
+  - name: __T2DIFF_HASH
+    allowNulls: false
+    dataType: binary(20)
+    defaultValue: ''
+    description: hash of all columns used for quick compare
+    useQuotes: false
+    id: 38778e95-342c-4efb-9b4d-d384ce9272b8
+  - name: __T1DIFF_HASH
+    allowNulls: false
+    dataType: binary(20)
+    defaultValue: ''
+    description: hash of all columns used for quick compare
+    useQuotes: false
+    id: a4e364ba-90c9-40a8-9f4d-413e63637cd2
+logic: |-
+  with stg_INVENTORY as (
+      SELECT
+          PART_ID,
+          SUPPLIER_ID,
+          AVAILABLE_AMOUNT,
+          SUPPLIER_COST_USD,
+          COMMENT,
+          __LOAD_DTS
+      FROM {{ref('Processing_layer', 'stg_INVENTORY')}}
+      WHERE TRUE 
+      AND {% for colSet in columnSets -%}
+                   {%- if colSet.itemName == 'sysTimestamp' -%}
+                     {%- if colSet.columns[0].name | length > 0 -%}   {{ wrapColInQuotes(colSet.columns[0]) }} {{' '-}}
+                     {%- else -%} 'Please designate the system timestamp field in the ''System timestamp column'' column set'
+                     {%- endif -%}
+                   {%- endif -%}
+                 {%- endfor -%} 
+      = (SELECT MAX( {%- for colSet in columnSets -%}
+                   {%- if colSet.itemName == 'sysTimestamp' -%}
+                     {%- if colSet.columns[0].name | length > 0 -%}   {{ wrapColInQuotes(colSet.columns[0]) }} 
+                     {%- else -%} 'Please designate the system timestamp field in the ''System timestamp column'' column set'
+                     {%- endif -%}
+                   {%- endif -%}
+                 {%- endfor -%}) FROM {{ref('Processing_layer', 'stg_INVENTORY')}})  
+
+  )
+  ,
+  common as (
+      SELECT
+          stg_INVENTORY.PART_ID,
+          stg_INVENTORY.SUPPLIER_ID,
+          {% for colSet in columnSets -%}
+            {%- if colSet.itemName == 'sysTimestamp' -%}
+              {%- if colSet.columns[0].name | length > 0 -%}   {{ wrapColInQuotes(colSet.columns[0]) }} {{' '-}}
+              {%- else -%} 'Please designate the system timestamp field in the ''System timestamp column'' column set'
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%} 
+   AS __FROM_DTS,
+          '9999-12-31'::TIMESTAMP_NTZ AS __TO_DTS,
+          stg_INVENTORY.AVAILABLE_AMOUNT,
+          stg_INVENTORY.SUPPLIER_COST_USD,
+          stg_INVENTORY.COMMENT,
+          stg_INVENTORY.__LOAD_DTS,
+          1 AS __REC_VERSION,
+          true AS __IS_LATEST,
+          CURRENT_TIMESTAMP() AS __CREATE_DTS,
+          CURRENT_TIMESTAMP() AS __UPDATE_DTS,
+          SHA1_BINARY( {%- for col in columns if ( not ( col.name == '__REC_VERSION' or
+                                         col.name == '__IS_LATEST' or
+                                         col.name == '__FROM_DTS' or
+                                         col.name == '__TO_DTS' or
+                                         col.name == '__CREATE_DTS' or
+                                         col.name == '__UPDATE_DTS' or
+                                         col.name == '__T2DIFF_HASH' or
+                                         col.name == '__T1DIFF_HASH' or
+                                         col.issysTimestamp )
+                                         and (
+                                         col.isDELTA or
+                                         isAllDelta
+                                         )
+                                         ) %}
+              NVL(UPPER(TRIM({{wrapColInQuotes(col)}}::VARCHAR)),'^^') {%- if not loop.last %} || '|' || {% endif %}
+            {%- endfor %}
+                  )::BINARY(20) AS __T2DIFF_HASH,
+          SHA1_BINARY({% if isAllDelta -%} '*null*'{% else %}
+              {%- for col in columns if not ( col.name == '__REC_VERSION' or
+                                            col.name == '__IS_LATEST' or
+                                            col.name == '__FROM_DTS' or
+                                            col.name == '__TO_DTS' or
+                                            col.name == '__CREATE_DTS' or
+                                            col.name == '__UPDATE_DTS' or
+                                            col.name == '__T2DIFF_HASH' or
+                                            col.name == '__T1DIFF_HASH' or
+                                            col.isDELTA or
+                                            col.issysTimestamp ) %}
+               NVL(UPPER(TRIM({{wrapColInQuotes(col)}}::VARCHAR)),'^^') {%- if not loop.last %} || '|' || {% endif %}
+                {%- endfor -%}
+            {% endif -%}
+            )::BINARY(20) AS __T1DIFF_HASH
+      FROM stg_INVENTORY
+  )
+
+  SELECT * FROM common
+description: ''
+logicalName: stage INVENTORY dimension
+columnSets:
+  - itemName: PK
+    setName: PK_dim_stg_INVENTORY
+    columns:
+      - columnId: 052e06ad-972e-4ed5-b027-a0dc7cae1e67
+        position: 1
+        name: PART_ID
+        useQuotes: false
+      - columnId: 211e2e2e-d6e8-4074-85f5-0dcf2bf05b02
+        position: 2
+        name: SUPPLIER_ID
+        useQuotes: false
+      - columnId: dd659aa4-e1cf-46c4-ab03-f21bc5f073df
+        position: 3
+        name: __FROM_DTS
+        useQuotes: false
+    id: 1cad68d0-c899-4900-8c06-572258fd757f
+  - itemName: BK
+    setName: BK_dim_stg_INVENTORY
+    columns:
+      - columnId: 052e06ad-972e-4ed5-b027-a0dc7cae1e67
+        position: 1
+        name: PART_ID
+        useQuotes: false
+      - columnId: 211e2e2e-d6e8-4074-85f5-0dcf2bf05b02
+        position: 2
+        name: SUPPLIER_ID
+        useQuotes: false
+    id: c953908a-3477-4f1e-ad20-daea69b1fe7c
+  - itemName: sysTimestamp
+    setName: sysTimestamp_dim_stg_INVENTORY
+    columns:
+      - columnId: d9101d25-eb4e-4a7b-810c-5e7cc15655ca
+        position: 1
+        name: __LOAD_DTS
+        useQuotes: false
+    id: 701d0459-7a97-4ccc-9cb3-7e0aa5234dcf
+useQuotes: false
+templateId: 7c988c83-361c-42f7-a54a-158e98d0e635
+materialization: table
+storageLocationId: f444de18-2d02-4df6-9c54-36ca0a2c7e40
+preCreate:
+  value:
+    - ''
+  isValidated: true
+postCreate:
+  value:
+    - ''
+  isValidated: true
+preRun:
+  value:
+    - ''
+  isValidated: true
+postRun:
+  value:
+    - ''
+  isValidated: true
+isAllDelta: true
+rely_button: true
+id: acd358f9-066f-4936-ba9c-79e8e13f7574
+nodeFormat: dynamic
+references:
+  8e10bb3f-bf49-4bc8-8e60-dab11ff184e6:
+    parentTableId: 3bda313a-a5ee-4ed6-82e1-033fb918045c
+    id: 8e10bb3f-bf49-4bc8-8e60-dab11ff184e6

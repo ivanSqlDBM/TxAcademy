@@ -1,0 +1,4 @@
+{% macro group_by(columns) %}
+GROUP BY
+{% for col in range(1, columns + 1) %}{{ col }}{% if not loop.last %}, {% endif %}{% endfor %}
+{% endmacro %}

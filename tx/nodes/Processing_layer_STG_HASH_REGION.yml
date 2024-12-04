@@ -11,54 +11,68 @@ columns:
     defaultValue: ''
     description: ''
     id: 330d0d34-a01d-4c10-8843-277e8baa4e82
+    isPK: true
+    isNONDELTA: true
   - name: REGION_ID
     dataType: number(38,0)
     allowNulls: false
     defaultValue: ''
     description: ''
     id: 3f4a226c-70d5-4096-ac01-3753c7d665f4
+    isBK: true
+    isATTR: true
   - name: NAME
     dataType: varchar(25)
     allowNulls: false
     defaultValue: ''
     description: ''
     id: 108fc2d7-3a4a-4db2-985a-9c7c3b207bf1
+    isATTR: true
   - name: COMMENT
     dataType: varchar(152)
     allowNulls: true
     defaultValue: ''
     description: ''
     id: a43a8a6f-1fcf-4df3-92e6-0c07ce297702
+    isATTR: true
   - name: __LOAD_DTS
     dataType: timestamp_ltz(9)
     allowNulls: true
     defaultValue: ''
     description: ''
     id: 8bf6c02f-58a5-4220-8da4-122abf91b33e
+    isNONDELTA: true
+    isLDTS: true
   - name: __LOAD_DATE_TS
     dataType: TIMESTAMP
     allowNulls: false
     defaultValue: CURRENT_TIMESTAMP()
     description: ''
     id: 01969619-9ba5-451a-a9b6-01c6d82b8ae0
+    isNONDELTA: true
   - name: __RECORD_SOURCE
     dataType: VARCHAR(50)
     allowNulls: false
     defaultValue: ''
     description: ''
     id: 9bd8fe75-6443-4938-bebe-bb52f0f368ac
+    isNONDELTA: true
+    isRCS: true
   - name: __TRANSACTIONAL_DATE_TS
     dataType: TIMESTAMP
     allowNulls: true
     defaultValue: ''
     description: ''
     id: 3a93f85a-d63f-4b08-9a15-54d4b784fad7
+    isNONDELTA: true
+    isTDTS: true
   - name: __HASHDIFF
     dataType: BINARY(20)
     allowNulls: false
     defaultValue: ''
     description: ''
     id: b4b6a9df-5c1c-4217-b3f1-4056f9526321
+    isNONDELTA: true
 columnSets:
   - id: 66478cb3-906b-4173-8dae-f55b0e0fa4dc
     itemName: PK
@@ -67,6 +81,7 @@ columnSets:
       - columnId: 330d0d34-a01d-4c10-8843-277e8baa4e82
         position: 1
         name: REGION_HK
+        useQuotes: false
   - id: 680a5e7f-bcb8-4619-9278-647d65c52786
     itemName: BK
     setName: BK_STG_HASH_REGION
@@ -74,6 +89,7 @@ columnSets:
       - columnId: 3f4a226c-70d5-4096-ac01-3753c7d665f4
         position: 1
         name: REGION_ID
+        useQuotes: false
   - id: a07e57ea-c1a1-4f72-9e42-11ecee54d8df
     itemName: NONDELTA
     setName: NONDELTA_STG_HASH_REGION
@@ -81,21 +97,27 @@ columnSets:
       - columnId: b4b6a9df-5c1c-4217-b3f1-4056f9526321
         position: 1
         name: __HASHDIFF
+        useQuotes: false
       - columnId: 01969619-9ba5-451a-a9b6-01c6d82b8ae0
         position: 2
         name: __LOAD_DATE_TS
+        useQuotes: false
       - columnId: 8bf6c02f-58a5-4220-8da4-122abf91b33e
         position: 3
         name: __LOAD_DTS
+        useQuotes: false
       - columnId: 9bd8fe75-6443-4938-bebe-bb52f0f368ac
         position: 4
         name: __RECORD_SOURCE
+        useQuotes: false
       - columnId: 3a93f85a-d63f-4b08-9a15-54d4b784fad7
         position: 5
         name: __TRANSACTIONAL_DATE_TS
+        useQuotes: false
       - columnId: 330d0d34-a01d-4c10-8843-277e8baa4e82
         position: 6
         name: REGION_HK
+        useQuotes: false
   - id: 789e6762-8ef2-45cb-af4b-c587dec890fa
     itemName: LDTS
     setName: LDTS_STG_HASH_REGION
@@ -103,6 +125,7 @@ columnSets:
       - columnId: 8bf6c02f-58a5-4220-8da4-122abf91b33e
         position: 1
         name: __LOAD_DTS
+        useQuotes: false
   - id: 5356d349-a617-4256-9f97-0dd220e968c1
     itemName: RCS
     setName: RCS_STG_HASH_REGION
@@ -110,6 +133,7 @@ columnSets:
       - columnId: 9bd8fe75-6443-4938-bebe-bb52f0f368ac
         position: 1
         name: __RECORD_SOURCE
+        useQuotes: false
   - id: 68335352-a15e-4a3e-be9d-44fa46ab3109
     itemName: TDTS
     setName: TDTS_STG_HASH_REGION
@@ -117,6 +141,7 @@ columnSets:
       - columnId: 3a93f85a-d63f-4b08-9a15-54d4b784fad7
         position: 1
         name: __TRANSACTIONAL_DATE_TS
+        useQuotes: false
   - id: 30f8aa2d-56f1-4c81-aadd-6277a7e718ac
     itemName: ATTR
     setName: ATTR_STG_HASH_REGION
@@ -124,12 +149,15 @@ columnSets:
       - columnId: 108fc2d7-3a4a-4db2-985a-9c7c3b207bf1
         position: 1
         name: NAME
+        useQuotes: false
       - columnId: a43a8a6f-1fcf-4df3-92e6-0c07ce297702
         position: 2
         name: COMMENT
+        useQuotes: false
       - columnId: 3f4a226c-70d5-4096-ac01-3753c7d665f4
         position: 3
         name: REGION_ID
+        useQuotes: false
 nodeFormat: dynamic
 parentName: Processing_layer
 color: '#999999'

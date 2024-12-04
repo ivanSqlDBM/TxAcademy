@@ -1,0 +1,359 @@
+name: dim_stg_LINEITEM
+color: '#8E44AD'
+isSource: false
+columns:
+  - name: LINE_NUMBER
+    allowNulls: false
+    dataType: NUMBER(38,0)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 0e3b5a13-0ba1-4fa3-833d-fc254452d2a4
+    isPK: true
+    isBK: true
+  - name: SALES_ORDER_ID
+    allowNulls: false
+    dataType: NUMBER(38,0)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: c2e89b43-5581-4aad-8c74-6e017935f046
+    isPK: true
+    isBK: true
+  - name: __FROM_DTS
+    allowNulls: false
+    dataType: timestamp_ntz
+    defaultValue: CURRENT_TIMESTAMP()
+    description: when record was loaded into the warehouse
+    useQuotes: false
+    id: ec14148c-693c-4b7b-9a1d-b34ecf89c64d
+    isPK: true
+  - name: __TO_DTS
+    allowNulls: false
+    dataType: timestamp_ntz
+    defaultValue: CURRENT_TIMESTAMP()
+    description: effective date or surrogate high date (9999-12-31)
+    useQuotes: false
+    id: bba57012-69ca-4fd2-8191-997caac2daac
+  - name: PART_ID
+    allowNulls: false
+    dataType: NUMBER(38,0)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: dbce0e00-62a6-466d-bb2c-bfd2b1d68b88
+  - name: SUPPLIER_ID
+    allowNulls: false
+    dataType: NUMBER(38,0)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: d8b04a4f-4e96-47e9-bbcf-a9f398373471
+  - name: QUANTITY
+    allowNulls: true
+    dataType: NUMBER(12,2)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 6a1f930f-19e5-4a87-8377-e794197daf1a
+  - name: EXTENDED_PRICE_USD
+    allowNulls: true
+    dataType: NUMBER(12,2)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: c0f98bb0-974f-4f88-9d71-e9fa658f0237
+  - name: DISCOUNT_PERCENT
+    allowNulls: true
+    dataType: NUMBER(12,2)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: a6224ce6-3731-4363-a321-62eccfb5bd62
+  - name: TAX_PERCENT
+    allowNulls: true
+    dataType: NUMBER(12,2)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 8bbefcfb-6814-478c-956e-2c78c6ff30f9
+  - name: RETURN_FLAG
+    allowNulls: true
+    dataType: VARCHAR(1)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 3f104997-5846-461d-ae6d-b08b907d8581
+  - name: LINE_STATUS
+    allowNulls: true
+    dataType: VARCHAR(1)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: aa9df22a-e4c5-4d3c-9d4b-4709505b5045
+  - name: SHIP_DATE
+    allowNulls: true
+    dataType: DATE
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 2ba62fe5-662d-4125-9b70-9f9668a9b83d
+  - name: COMMIT_DATE
+    allowNulls: true
+    dataType: DATE
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 047d2dd2-7ac9-4110-9e49-eeaccd9debe1
+  - name: RECEIPT_DATE
+    allowNulls: true
+    dataType: DATE
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: f4ce7818-749d-4515-bdae-8685b888e6f4
+  - name: SHIP_INSTRUCTIONS
+    allowNulls: true
+    dataType: VARCHAR(25)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 192e9b29-5240-46eb-a797-df3d46567b85
+  - name: SHIP_MODE
+    allowNulls: true
+    dataType: VARCHAR(10)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: a205c092-8311-4e1a-81d3-5a51b3ade9f0
+  - name: COMMENT
+    allowNulls: true
+    dataType: VARCHAR(44)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: f5258907-b823-4806-8285-08ef1aaa7b02
+  - name: __LOAD_DTS
+    allowNulls: true
+    dataType: TIMESTAMP_LTZ(9)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 2bba0153-a626-4844-a777-2f435af1c379
+    issysTimestamp: true
+  - name: __REC_VERSION
+    allowNulls: false
+    dataType: number(38,0)
+    defaultValue: '1'
+    description: incremental change version counter for the record
+    useQuotes: false
+    id: 518fe201-6f73-485a-8a7c-cc959c57bdd5
+  - name: __IS_LATEST
+    allowNulls: false
+    dataType: boolean
+    defaultValue: 'true'
+    description: true only on the latest effective dated record
+    useQuotes: false
+    id: 1b6a35ae-e99c-4a72-8d07-0d5168052448
+  - name: __CREATE_DTS
+    allowNulls: false
+    dataType: timestamp_ntz
+    defaultValue: CURRENT_TIMESTAMP()
+    description: date when record was first created
+    useQuotes: false
+    id: c7be23dc-0ee3-4e98-b305-ecd41aec9412
+  - name: __UPDATE_DTS
+    allowNulls: false
+    dataType: timestamp_ntz
+    defaultValue: CURRENT_TIMESTAMP()
+    description: date when record was last updated
+    useQuotes: false
+    id: 27303ec9-b91f-47ba-b02e-6d81764cd17f
+  - name: __T2DIFF_HASH
+    allowNulls: false
+    dataType: binary(20)
+    defaultValue: ''
+    description: hash of all columns used for quick compare
+    useQuotes: false
+    id: 90487ae6-e85c-4c5b-ba93-7d7de7ff5ace
+  - name: __T1DIFF_HASH
+    allowNulls: false
+    dataType: binary(20)
+    defaultValue: ''
+    description: hash of all columns used for quick compare
+    useQuotes: false
+    id: 4aa84ba0-7c7f-4dfd-9af8-7ee516879c66
+logic: |-
+  with stg_LINEITEM as (
+      SELECT
+          LINE_NUMBER,
+          SALES_ORDER_ID,
+          PART_ID,
+          SUPPLIER_ID,
+          QUANTITY,
+          EXTENDED_PRICE_USD,
+          DISCOUNT_PERCENT,
+          TAX_PERCENT,
+          RETURN_FLAG,
+          LINE_STATUS,
+          SHIP_DATE,
+          COMMIT_DATE,
+          RECEIPT_DATE,
+          SHIP_INSTRUCTIONS,
+          SHIP_MODE,
+          COMMENT,
+          __LOAD_DTS
+      FROM {{ref('Processing_layer', 'stg_LINEITEM')}}
+      WHERE TRUE 
+      AND {% for colSet in columnSets -%}
+                   {%- if colSet.itemName == 'sysTimestamp' -%}
+                     {%- if colSet.columns[0].name | length > 0 -%}   {{ wrapColInQuotes(colSet.columns[0]) }} {{' '-}}
+                     {%- else -%} 'Please designate the system timestamp field in the ''System timestamp column'' column set'
+                     {%- endif -%}
+                   {%- endif -%}
+                 {%- endfor -%} 
+      = (SELECT MAX( {%- for colSet in columnSets -%}
+                   {%- if colSet.itemName == 'sysTimestamp' -%}
+                     {%- if colSet.columns[0].name | length > 0 -%}   {{ wrapColInQuotes(colSet.columns[0]) }} 
+                     {%- else -%} 'Please designate the system timestamp field in the ''System timestamp column'' column set'
+                     {%- endif -%}
+                   {%- endif -%}
+                 {%- endfor -%}) FROM {{ref('Processing_layer', 'stg_LINEITEM')}})  
+
+  )
+  ,
+  common as (
+      SELECT
+          stg_LINEITEM.LINE_NUMBER,
+          stg_LINEITEM.SALES_ORDER_ID,
+          {% for colSet in columnSets -%}
+            {%- if colSet.itemName == 'sysTimestamp' -%}
+              {%- if colSet.columns[0].name | length > 0 -%}   {{ wrapColInQuotes(colSet.columns[0]) }} {{' '-}}
+              {%- else -%} 'Please designate the system timestamp field in the ''System timestamp column'' column set'
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%} 
+   AS __FROM_DTS,
+          '9999-12-31'::TIMESTAMP_NTZ AS __TO_DTS,
+          stg_LINEITEM.PART_ID,
+          stg_LINEITEM.SUPPLIER_ID,
+          stg_LINEITEM.QUANTITY,
+          stg_LINEITEM.EXTENDED_PRICE_USD,
+          stg_LINEITEM.DISCOUNT_PERCENT,
+          stg_LINEITEM.TAX_PERCENT,
+          stg_LINEITEM.RETURN_FLAG,
+          stg_LINEITEM.LINE_STATUS,
+          stg_LINEITEM.SHIP_DATE,
+          stg_LINEITEM.COMMIT_DATE,
+          stg_LINEITEM.RECEIPT_DATE,
+          stg_LINEITEM.SHIP_INSTRUCTIONS,
+          stg_LINEITEM.SHIP_MODE,
+          stg_LINEITEM.COMMENT,
+          stg_LINEITEM.__LOAD_DTS,
+          1 AS __REC_VERSION,
+          true AS __IS_LATEST,
+          CURRENT_TIMESTAMP() AS __CREATE_DTS,
+          CURRENT_TIMESTAMP() AS __UPDATE_DTS,
+          SHA1_BINARY( {%- for col in columns if ( not ( col.name == '__REC_VERSION' or
+                                         col.name == '__IS_LATEST' or
+                                         col.name == '__FROM_DTS' or
+                                         col.name == '__TO_DTS' or
+                                         col.name == '__CREATE_DTS' or
+                                         col.name == '__UPDATE_DTS' or
+                                         col.name == '__T2DIFF_HASH' or
+                                         col.name == '__T1DIFF_HASH' or
+                                         col.issysTimestamp )
+                                         and (
+                                         col.isDELTA or
+                                         isAllDelta
+                                         )
+                                         ) %}
+              NVL(UPPER(TRIM({{wrapColInQuotes(col)}}::VARCHAR)),'^^') {%- if not loop.last %} || '|' || {% endif %}
+            {%- endfor %}
+                  )::BINARY(20) AS __T2DIFF_HASH,
+          SHA1_BINARY({% if isAllDelta -%} '*null*'{% else %}
+              {%- for col in columns if not ( col.name == '__REC_VERSION' or
+                                            col.name == '__IS_LATEST' or
+                                            col.name == '__FROM_DTS' or
+                                            col.name == '__TO_DTS' or
+                                            col.name == '__CREATE_DTS' or
+                                            col.name == '__UPDATE_DTS' or
+                                            col.name == '__T2DIFF_HASH' or
+                                            col.name == '__T1DIFF_HASH' or
+                                            col.isDELTA or
+                                            col.issysTimestamp ) %}
+               NVL(UPPER(TRIM({{wrapColInQuotes(col)}}::VARCHAR)),'^^') {%- if not loop.last %} || '|' || {% endif %}
+                {%- endfor -%}
+            {% endif -%}
+            )::BINARY(20) AS __T1DIFF_HASH
+      FROM stg_LINEITEM
+  )
+
+  SELECT * FROM common
+description: ''
+logicalName: stage LINEITEM dimension
+columnSets:
+  - itemName: PK
+    setName: PK_dim_stg_LINEITEM
+    columns:
+      - columnId: 0e3b5a13-0ba1-4fa3-833d-fc254452d2a4
+        position: 1
+        name: LINE_NUMBER
+        useQuotes: false
+      - columnId: c2e89b43-5581-4aad-8c74-6e017935f046
+        position: 2
+        name: SALES_ORDER_ID
+        useQuotes: false
+      - columnId: ec14148c-693c-4b7b-9a1d-b34ecf89c64d
+        position: 3
+        name: __FROM_DTS
+        useQuotes: false
+    id: 8154f9a5-74bf-42d7-87f1-be03e8ac2665
+  - itemName: BK
+    setName: BK_dim_stg_LINEITEM
+    columns:
+      - columnId: c2e89b43-5581-4aad-8c74-6e017935f046
+        position: 1
+        name: SALES_ORDER_ID
+        useQuotes: false
+      - columnId: 0e3b5a13-0ba1-4fa3-833d-fc254452d2a4
+        position: 2
+        name: LINE_NUMBER
+        useQuotes: false
+    id: a42f2c19-fa87-4019-83c4-65d5a0cfc07d
+  - itemName: sysTimestamp
+    setName: sysTimestamp_dim_stg_LINEITEM
+    columns:
+      - columnId: 2bba0153-a626-4844-a777-2f435af1c379
+        position: 1
+        name: __LOAD_DTS
+        useQuotes: false
+    id: 961ce2f9-d55d-4b18-93af-5e1090ed57c8
+useQuotes: false
+templateId: 7c988c83-361c-42f7-a54a-158e98d0e635
+materialization: table
+storageLocationId: f444de18-2d02-4df6-9c54-36ca0a2c7e40
+preCreate:
+  value:
+    - ''
+  isValidated: true
+postCreate:
+  value:
+    - ''
+  isValidated: true
+preRun:
+  value:
+    - ''
+  isValidated: true
+postRun:
+  value:
+    - ''
+  isValidated: true
+isAllDelta: true
+rely_button: true
+id: 7ae0bf28-fa70-48c5-986d-49553ceec669
+nodeFormat: dynamic
+references:
+  e40812be-7bbd-46cf-9435-45717702bb62:
+    parentTableId: 2e538b0a-5f1c-41b1-a05e-0ed7aca24ccb
+    id: e40812be-7bbd-46cf-9435-45717702bb62

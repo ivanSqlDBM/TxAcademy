@@ -1,0 +1,287 @@
+name: dim_stg_PART
+color: '#8E44AD'
+isSource: false
+columns:
+  - name: PART_ID
+    allowNulls: false
+    dataType: NUMBER(38,0)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 61c0e157-ccee-4028-96ca-3696834c2b7f
+    isPK: true
+    isBK: true
+  - name: __FROM_DTS
+    allowNulls: false
+    dataType: timestamp_ntz
+    defaultValue: CURRENT_TIMESTAMP()
+    description: when record was loaded into the warehouse
+    useQuotes: false
+    id: d1bb3e97-89de-4404-a1db-c3f218a9fc0d
+    isPK: true
+  - name: __TO_DTS
+    allowNulls: false
+    dataType: timestamp_ntz
+    defaultValue: CURRENT_TIMESTAMP()
+    description: effective date or surrogate high date (9999-12-31)
+    useQuotes: false
+    id: e197130e-f3e4-44d8-a529-933e6e3842e4
+  - name: NAME
+    allowNulls: false
+    dataType: VARCHAR(16777216)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 5727ee73-e139-4562-bc76-38bd74a88d22
+  - name: MANUFACTURER
+    allowNulls: false
+    dataType: VARCHAR(16777216)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 75b85434-4ff7-4f26-b655-d1ad4d23cd82
+  - name: BRAND
+    allowNulls: false
+    dataType: VARCHAR(16777216)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 07e15ae2-217d-44d6-9298-4ccb8f24e685
+  - name: TYPE
+    allowNulls: false
+    dataType: VARCHAR(16777216)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: deade1e4-9ae1-49ca-9185-a0df4b87b610
+  - name: SIZE_CENTIMETERS
+    allowNulls: false
+    dataType: NUMBER(38,0)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: ae58fd01-815f-48ba-8ca4-c1fa871d0e81
+  - name: CONTAINER
+    allowNulls: false
+    dataType: VARCHAR(16777216)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: c28589b5-1aff-419d-9eeb-695949c27ba3
+  - name: RETAIL_PRICE_USD
+    allowNulls: false
+    dataType: NUMBER(12,2)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: f9acec72-14ae-4040-aaf0-1909faa952cc
+  - name: COMMENT
+    allowNulls: true
+    dataType: VARCHAR(16777216)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: ddc3f665-2825-4ea1-921b-0bdcb74bb866
+  - name: __LOAD_DTS
+    allowNulls: true
+    dataType: TIMESTAMP_LTZ(9)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    id: 8d0e6069-b6d4-4ad5-a42e-c245ca0959ad
+    issysTimestamp: true
+  - name: __REC_VERSION
+    allowNulls: false
+    dataType: number(38,0)
+    defaultValue: '1'
+    description: incremental change version counter for the record
+    useQuotes: false
+    id: 4ffb9a61-54a4-41f8-83f4-618524f9cfc5
+  - name: __IS_LATEST
+    allowNulls: false
+    dataType: boolean
+    defaultValue: 'true'
+    description: true only on the latest effective dated record
+    useQuotes: false
+    id: ab3b6302-f5a0-4d94-9365-992fb92061d1
+  - name: __CREATE_DTS
+    allowNulls: false
+    dataType: timestamp_ntz
+    defaultValue: CURRENT_TIMESTAMP()
+    description: date when record was first created
+    useQuotes: false
+    id: c5811a2f-2ed9-4b4b-874a-2dc078f0ad5b
+  - name: __UPDATE_DTS
+    allowNulls: false
+    dataType: timestamp_ntz
+    defaultValue: CURRENT_TIMESTAMP()
+    description: date when record was last updated
+    useQuotes: false
+    id: 1cdfce23-b4c0-4eb9-a014-c9bab732ee8b
+  - name: __T2DIFF_HASH
+    allowNulls: false
+    dataType: binary(20)
+    defaultValue: ''
+    description: hash of all columns used for quick compare
+    useQuotes: false
+    id: 6eef5a57-18b3-415d-adba-54dcd36be23b
+  - name: __T1DIFF_HASH
+    allowNulls: false
+    dataType: binary(20)
+    defaultValue: ''
+    description: hash of all columns used for quick compare
+    useQuotes: false
+    id: bfe20511-61a4-4a40-a292-b4ddb68e97d9
+logic: |-
+
+  with stg_PART as (
+      SELECT
+          PART_ID,
+          NAME,
+          MANUFACTURER,
+          BRAND,
+          TYPE,
+          SIZE_CENTIMETERS,
+          CONTAINER,
+          RETAIL_PRICE_USD,
+          COMMENT,
+          __LOAD_DTS
+      FROM {{ref('Processing_layer', 'stg_PART')}}
+      WHERE TRUE 
+      AND {% for colSet in columnSets -%}
+                   {%- if colSet.itemName == 'sysTimestamp' -%}
+                     {%- if colSet.columns[0].name | length > 0 -%}   {{ wrapColInQuotes(colSet.columns[0]) }} {{' '-}}
+                     {%- else -%} 'Please designate the system timestamp field in the ''System timestamp column'' column set'
+                     {%- endif -%}
+                   {%- endif -%}
+                 {%- endfor -%} 
+      = (SELECT MAX( {%- for colSet in columnSets -%}
+                   {%- if colSet.itemName == 'sysTimestamp' -%}
+                     {%- if colSet.columns[0].name | length > 0 -%}   {{ wrapColInQuotes(colSet.columns[0]) }} 
+                     {%- else -%} 'Please designate the system timestamp field in the ''System timestamp column'' column set'
+                     {%- endif -%}
+                   {%- endif -%}
+                 {%- endfor -%}) FROM {{ref('Processing_layer', 'stg_PART')}})  
+
+  )
+  ,
+  common as (
+      SELECT
+          stg_PART.PART_ID,
+          {% for colSet in columnSets -%}
+            {%- if colSet.itemName == 'sysTimestamp' -%}
+              {%- if colSet.columns[0].name | length > 0 -%}   {{ wrapColInQuotes(colSet.columns[0]) }} {{' '-}}
+              {%- else -%} 'Please designate the system timestamp field in the ''System timestamp column'' column set'
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%} 
+   AS __FROM_DTS,
+          '9999-12-31'::TIMESTAMP_NTZ AS __TO_DTS,
+          stg_PART.NAME,
+          stg_PART.MANUFACTURER,
+          stg_PART.BRAND,
+          stg_PART.TYPE,
+          stg_PART.SIZE_CENTIMETERS,
+          stg_PART.CONTAINER,
+          stg_PART.RETAIL_PRICE_USD,
+          stg_PART.COMMENT,
+          stg_PART.__LOAD_DTS,
+          1 AS __REC_VERSION,
+          true AS __IS_LATEST,
+          CURRENT_TIMESTAMP() AS __CREATE_DTS,
+          CURRENT_TIMESTAMP() AS __UPDATE_DTS,
+          SHA1_BINARY( {%- for col in columns if ( not ( col.name == '__REC_VERSION' or
+                                         col.name == '__IS_LATEST' or
+                                         col.name == '__FROM_DTS' or
+                                         col.name == '__TO_DTS' or
+                                         col.name == '__CREATE_DTS' or
+                                         col.name == '__UPDATE_DTS' or
+                                         col.name == '__T2DIFF_HASH' or
+                                         col.name == '__T1DIFF_HASH' or
+                                         col.issysTimestamp )
+                                         and (
+                                         col.isDELTA or
+                                         isAllDelta
+                                         )
+                                         ) %}
+              NVL(UPPER(TRIM({{wrapColInQuotes(col)}}::VARCHAR)),'^^') {%- if not loop.last %} || '|' || {% endif %}
+            {%- endfor %}
+                  )::BINARY(20) AS __T2DIFF_HASH,
+          SHA1_BINARY({% if isAllDelta -%} '*null*'{% else %}
+              {%- for col in columns if not ( col.name == '__REC_VERSION' or
+                                            col.name == '__IS_LATEST' or
+                                            col.name == '__FROM_DTS' or
+                                            col.name == '__TO_DTS' or
+                                            col.name == '__CREATE_DTS' or
+                                            col.name == '__UPDATE_DTS' or
+                                            col.name == '__T2DIFF_HASH' or
+                                            col.name == '__T1DIFF_HASH' or
+                                            col.isDELTA or
+                                            col.issysTimestamp ) %}
+               NVL(UPPER(TRIM({{wrapColInQuotes(col)}}::VARCHAR)),'^^') {%- if not loop.last %} || '|' || {% endif %}
+                {%- endfor -%}
+            {% endif -%}
+            )::BINARY(20) AS __T1DIFF_HASH
+      FROM stg_PART
+  )
+
+  SELECT * FROM common
+description: ''
+logicalName: stage PART dimension
+columnSets:
+  - itemName: PK
+    setName: PK_dim_stg_PART
+    columns:
+      - columnId: 61c0e157-ccee-4028-96ca-3696834c2b7f
+        position: 1
+        name: PART_ID
+        useQuotes: false
+      - columnId: d1bb3e97-89de-4404-a1db-c3f218a9fc0d
+        position: 2
+        name: __FROM_DTS
+        useQuotes: false
+    id: 5b189c73-1abc-4391-84fb-74d1ce53a059
+  - itemName: BK
+    setName: BK_dim_stg_PART
+    columns:
+      - columnId: 61c0e157-ccee-4028-96ca-3696834c2b7f
+        position: 1
+        name: PART_ID
+        useQuotes: false
+    id: 115fc112-61be-41d3-b8df-bcf723c9be63
+  - itemName: sysTimestamp
+    setName: sysTimestamp_dim_stg_PART
+    columns:
+      - columnId: 8d0e6069-b6d4-4ad5-a42e-c245ca0959ad
+        position: 1
+        name: __LOAD_DTS
+        useQuotes: false
+    id: 7115931c-2a32-47d1-bd1a-621a057cfec6
+useQuotes: false
+templateId: 7c988c83-361c-42f7-a54a-158e98d0e635
+materialization: table
+storageLocationId: f444de18-2d02-4df6-9c54-36ca0a2c7e40
+preCreate:
+  value:
+    - ''
+  isValidated: true
+postCreate:
+  value:
+    - ''
+  isValidated: true
+preRun:
+  value:
+    - ''
+  isValidated: true
+postRun:
+  value:
+    - ''
+  isValidated: true
+isAllDelta: true
+rely_button: true
+id: f6d87562-479c-4d70-a513-557c9637367e
+nodeFormat: dynamic
+references:
+  11ebaa80-c77d-49c1-bfa4-67fa466ef7d1:
+    parentTableId: 0d892dbd-ef63-401d-8243-31bfdf15ef8b
+    id: 11ebaa80-c77d-49c1-bfa4-67fa466ef7d1
