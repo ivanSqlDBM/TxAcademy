@@ -55,7 +55,7 @@ whereCondition: |
 primaryColumns:
   - name: __FROM_DTS                            
     logicalName: from date timestamp
-    dataType: timestamp_ntz
+    dataType: timestamp_ntz(9)
     comment: when record was loaded into the warehouse
     nullable: false                                      
     unique: false                                        
@@ -64,7 +64,7 @@ primaryColumns:
     logic: |
       {% for colSet in columnSets -%}
         {%- if colSet.itemName == 'sysTimestamp' -%}
-          {%- if colSet.columns[0].name | length > 0 -%}   {{ wrapColInQuotes(colSet.columns[0]) }} {{' '-}}
+          {%- if colSet.columns[0].name | length > 0 -%}   {{ wrapColInQuotes(colSet.columns[0]) }}::TIMESTAMP_NTZ {{' '-}}
           {%- else -%} 'Please designate the system timestamp field in the ''System timestamp column'' column set'
           {%- endif -%}
         {%- endif -%}
@@ -73,7 +73,7 @@ primaryColumns:
 defaultColumns:                                             
   - name: __TO_DTS                            
     logicalName: to date timestamp
-    dataType: timestamp_ntz
+    dataType: timestamp_ntz(9)
     comment: effective date or surrogate high date (9999-12-31)
     nullable: false                                      
     unique: false                                        
@@ -89,7 +89,7 @@ defaultColumns:
     unique: false                                        
     default: '1'
     position: last
-    logic: '1'
+    logic: '1::NUMBER(38,0)'
 
   - name: __IS_LATEST                          
     logicalName: is latest
@@ -103,23 +103,23 @@ defaultColumns:
 
   - name: __CREATE_DTS                            
     logicalName: create date
-    dataType: timestamp_ntz
+    dataType: timestamp_ntz(9)
     comment: date when record was first created
     nullable: false                                      
     unique: false                                        
     default: CURRENT_TIMESTAMP()
     position: last
-    logic: CURRENT_TIMESTAMP()
+    logic: CURRENT_TIMESTAMP()::TIMESTAMP_NTZ
 
   - name: __UPDATE_DTS                            
     logicalName: update date
-    dataType: timestamp_ntz
+    dataType: timestamp_ntz(9)
     comment: date when record was last updated
     nullable: false                                      
     unique: false                                        
     default: CURRENT_TIMESTAMP()
     position: last
-    logic: CURRENT_TIMESTAMP()
+    logic: CURRENT_TIMESTAMP()::TIMESTAMP_NTZ
 
   - name: __T2DIFF_HASH
     logicalName: Type 2 hash diff
