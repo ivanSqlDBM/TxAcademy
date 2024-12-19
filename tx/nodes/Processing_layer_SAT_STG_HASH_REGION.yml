@@ -11,42 +11,49 @@ columns:
     defaultValue: ''
     description: ''
     id: 73b41068-8e9c-4381-8ce2-42a053135f09
+    isPK: true
   - name: REGION_ID
     dataType: number(38,0)
     allowNulls: false
     defaultValue: ''
     description: ''
     id: e9c3fa6d-1c96-4e99-80be-3153f4374935
+    isATTR: true
   - name: NAME
     dataType: varchar(25)
     allowNulls: false
     defaultValue: ''
     description: ''
     id: 65fcf593-692d-42e1-bcd8-3c5a772e6114
+    isATTR: true
   - name: COMMENT
     dataType: varchar(152)
     allowNulls: true
     defaultValue: ''
     description: ''
     id: 96ecda73-48e6-45a0-83d2-f75771843076
+    isATTR: true
   - name: __LOAD_DTS
     dataType: timestamp_ltz(9)
     allowNulls: true
     defaultValue: ''
     description: ''
     id: 5ff2b082-39fc-40bb-a25d-174d497f1cec
+    isLDTS: true
   - name: __RECORD_SOURCE
     dataType: VARCHAR(50)
     allowNulls: false
     defaultValue: ''
     description: ''
     id: e7d4f5da-cf27-469f-bdae-19a65b1db5cc
+    isRCS: true
   - name: __TRANSACTIONAL_DATE_TS
     dataType: TIMESTAMP
     allowNulls: true
     defaultValue: ''
     description: ''
     id: 35e08edb-6b29-440c-acdd-0a4d7c2b7bfa
+    isTDTS: true
 columnSets:
   - id: cb276e00-6a80-41f9-b155-fc592127894b
     itemName: LDTS
@@ -55,6 +62,7 @@ columnSets:
       - columnId: 5ff2b082-39fc-40bb-a25d-174d497f1cec
         position: 1
         name: __LOAD_DTS
+        useQuotes: false
   - id: 6bc247af-98df-4c8f-87cf-3b26c172bee3
     itemName: RCS
     setName: RCS_SAT_STG_HASH_REGION
@@ -62,6 +70,7 @@ columnSets:
       - columnId: e7d4f5da-cf27-469f-bdae-19a65b1db5cc
         position: 1
         name: __RECORD_SOURCE
+        useQuotes: false
   - id: f3ac0aa1-22fa-414a-b5bc-38dea0a73392
     itemName: TDTS
     setName: TDTS_SAT_STG_HASH_REGION
@@ -69,6 +78,7 @@ columnSets:
       - columnId: 35e08edb-6b29-440c-acdd-0a4d7c2b7bfa
         position: 1
         name: __TRANSACTIONAL_DATE_TS
+        useQuotes: false
   - id: 58f9870b-3d59-4922-bc98-342c928101c4
     itemName: ATTR
     setName: ATTR_SAT_STG_HASH_REGION
@@ -76,12 +86,15 @@ columnSets:
       - columnId: 65fcf593-692d-42e1-bcd8-3c5a772e6114
         position: 1
         name: NAME
+        useQuotes: false
       - columnId: 96ecda73-48e6-45a0-83d2-f75771843076
         position: 2
         name: COMMENT
+        useQuotes: false
       - columnId: e9c3fa6d-1c96-4e99-80be-3153f4374935
         position: 3
         name: REGION_ID
+        useQuotes: false
   - id: e7260c5d-a1e0-4592-836e-10c2e69b5e76
     itemName: PK
     setName: PK_SAT_STG_HASH_REGION
@@ -89,6 +102,7 @@ columnSets:
       - columnId: 73b41068-8e9c-4381-8ce2-42a053135f09
         position: 1
         name: REGION_HK
+        useQuotes: false
 nodeFormat: dynamic
 postCreate: |
   {# Generate the INSERT statement #}

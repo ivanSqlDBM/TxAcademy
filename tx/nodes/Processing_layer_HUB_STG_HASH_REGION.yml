@@ -11,24 +11,28 @@ columns:
     defaultValue: ''
     description: ''
     id: 582d1fb3-b1dd-44e3-b9d5-ddea593767d8
+    isPK: true
   - name: REGION_ID
     dataType: number(38,0)
     allowNulls: false
     defaultValue: ''
     description: ''
     id: e96c62d5-e8bd-4dbf-8fe3-1db135a18a66
+    isBK: true
   - name: __LOAD_DTS
     dataType: timestamp_ltz(9)
     allowNulls: true
     defaultValue: ''
     description: ''
     id: 6a625e7b-dc44-4d53-a36e-d814c84fd926
+    isLDTS: true
   - name: __RECORD_SOURCE
     dataType: VARCHAR(50)
     allowNulls: false
     defaultValue: ''
     description: ''
     id: f409565c-3ab9-44ec-857b-73d9e2bc1425
+    isRCS: true
 columnSets:
   - id: 3a5bbe9e-f4df-442d-93e8-3f02529be8a9
     itemName: BK
@@ -37,6 +41,7 @@ columnSets:
       - columnId: e96c62d5-e8bd-4dbf-8fe3-1db135a18a66
         position: 1
         name: REGION_ID
+        useQuotes: false
   - id: 0a00507d-ceea-49fd-a040-d5f1b76e76c4
     itemName: LDTS
     setName: LDTS_HUB_STG_HASH_REGION
@@ -44,6 +49,7 @@ columnSets:
       - columnId: 6a625e7b-dc44-4d53-a36e-d814c84fd926
         position: 1
         name: __LOAD_DTS
+        useQuotes: false
   - id: 1061f0e6-b18e-4931-bada-b47852b3f802
     itemName: RCS
     setName: RCS_HUB_STG_HASH_REGION
@@ -51,6 +57,7 @@ columnSets:
       - columnId: f409565c-3ab9-44ec-857b-73d9e2bc1425
         position: 1
         name: __RECORD_SOURCE
+        useQuotes: false
   - id: e90b78cd-df61-4403-a22a-3cfb949dabd6
     itemName: PK
     setName: PK_HUB_STG_HASH_REGION
@@ -58,8 +65,10 @@ columnSets:
       - columnId: 582d1fb3-b1dd-44e3-b9d5-ddea593767d8
         position: 1
         name: REGION_HK
+        useQuotes: false
 nodeFormat: dynamic
 parentName: Processing_layer
+status: ValidateRunSuccess
 color: '#1C70FF'
 logic: |-
   with "STG_HASH_REGION" as (

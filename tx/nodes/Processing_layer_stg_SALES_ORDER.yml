@@ -1,0 +1,154 @@
+name: stg_SALES_ORDER
+id: b291e163-632d-4928-a328-9ab442e67f4f
+storageLocationId: f444de18-2d02-4df6-9c54-36ca0a2c7e40
+templateId: f0b6697a-7eb4-4925-9f72-ec5eb6318733
+materialization: table
+isSource: false
+columns:
+  - name: SALES_ORDER_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 000d2c97-0de7-48d7-84d2-8edd1b9f1cdd
+    useQuotes: false
+    isPK: true
+  - name: CUSTOMER_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 41cb29c4-234b-46c8-a3d3-d5cde7d78dbc
+    useQuotes: false
+  - name: ORDER_STATUS
+    dataType: varchar(1)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: b9ad0e20-f915-4b49-a736-7fa6a48a493c
+    useQuotes: false
+  - name: TOTAL_PRICE_USD
+    dataType: number(12,2)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 93191773-6076-4800-803e-9073c27f034a
+    useQuotes: false
+  - name: ORDER_DATE
+    dataType: date
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: da892720-c4dc-4b39-9242-953e1ea30db3
+    useQuotes: false
+  - name: ORDER_PRIORITY
+    dataType: varchar(15)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: fcadb450-7c58-4edc-9038-3c6fe61d5011
+    useQuotes: false
+  - name: CLERK
+    dataType: varchar(15)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: a70539ca-90d9-4b49-a69a-0681c40534e9
+    useQuotes: false
+  - name: SHIP_PRIORITY
+    dataType: number(38,0)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 7df0e005-da93-4183-bc7d-d5855f8d1f07
+    useQuotes: false
+  - name: COMMENT
+    dataType: varchar(79)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 5c8a8a66-6165-4951-a85c-73995971ea4c
+    useQuotes: false
+  - name: __LOAD_DTS
+    dataType: timestamp_ltz(9)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 3e8a0fbb-23a4-42ed-ac60-075de3cdb04f
+    useQuotes: false
+  - name: __load_date
+    dataType: date
+    allowNulls: false
+    defaultValue: current_date()
+    description: load date
+    id: 14256dd2-7885-487e-86c5-2b02f67cea50
+    useQuotes: false
+columnSets:
+  - id: 9857ab0c-8de8-4c41-bcdd-95cbe65f76f1
+    itemName: PK
+    setName: PK_stg_SALES_ORDER
+    columns:
+      - columnId: 000d2c97-0de7-48d7-84d2-8edd1b9f1cdd
+        position: 1
+        name: SALES_ORDER_ID
+        useQuotes: false
+nodeFormat: dynamic
+useQuotes: false
+truncateBefore: false
+preCreate:
+  value:
+    - ''
+  isValidated: false
+postCreate:
+  value:
+    - ''
+  isValidated: false
+preRun:
+  value:
+    - ''
+  isValidated: false
+postRun:
+  value:
+    - ''
+  isValidated: false
+rely_button: true
+color: '#FC7917'
+logic: |-
+  with SALES_ORDER as (
+      SELECT
+          SALES_ORDER_ID,
+          CUSTOMER_ID,
+          ORDER_STATUS,
+          TOTAL_PRICE_USD,
+          ORDER_DATE,
+          ORDER_PRIORITY,
+          CLERK,
+          SHIP_PRIORITY,
+          COMMENT,
+          __LOAD_DTS
+      FROM {{ref('RAW', 'SALES_ORDER')}}
+  )
+  ,
+  common as (
+      SELECT
+          SALES_ORDER.SALES_ORDER_ID,
+          SALES_ORDER.CUSTOMER_ID,
+          SALES_ORDER.ORDER_STATUS,
+          SALES_ORDER.TOTAL_PRICE_USD,
+          SALES_ORDER.ORDER_DATE,
+          SALES_ORDER.ORDER_PRIORITY,
+          SALES_ORDER.CLERK,
+          SALES_ORDER.SHIP_PRIORITY,
+          SALES_ORDER.COMMENT,
+          SALES_ORDER.__LOAD_DTS,
+          current_date() AS __load_date
+      FROM SALES_ORDER
+  )
+
+  SELECT * FROM common
+description: ''
+logicalName: stage SALES_ORDER
+references:
+  fb99518d-ec75-48fa-a968-bffc5549fe9c:
+    parentTableId: 13daf578-a1fe-41c0-b60c-87844919a281
+    id: fb99518d-ec75-48fa-a968-bffc5549fe9c

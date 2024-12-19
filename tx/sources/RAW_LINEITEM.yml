@@ -9,99 +9,116 @@ columns:
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: SALES_ORDER_ID
     dataType: number(38,0)
     id: 05520023-7e73-4c4a-b038-e13953976e72
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: PART_ID
     dataType: number(38,0)
     id: c7646f6a-d4b7-41d4-878b-402f18d21c7d
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: SUPPLIER_ID
     dataType: number(38,0)
     id: a90baed0-0fdc-408a-91ed-bcc3855b2b32
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: QUANTITY
     dataType: number(12,2)
     id: d4153aee-37df-4f22-a0d5-87d31c3f7a2b
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: EXTENDED_PRICE_USD
     dataType: number(12,2)
     id: ac0a45e3-dfd3-4e97-afc3-1fa9141a728d
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: DISCOUNT_PERCENT
     dataType: number(12,2)
     id: 1f6a7336-09ac-4e78-9cf2-c38a27e5510a
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: TAX_PERCENT
     dataType: number(12,2)
     id: 5e7fe594-9b4d-4409-810b-7580ad636e1c
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: RETURN_FLAG
     dataType: varchar(1)
     id: 1c234a29-a40c-4206-b6a5-827bd4a8de98
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: LINE_STATUS
     dataType: varchar(1)
     id: 06f078b1-f6bf-4c78-a0e8-9d6b983d1531
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: SHIP_DATE
     dataType: date
     id: 2bcfd41d-640b-4c05-ad99-124b34009434
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: COMMIT_DATE
     dataType: date
     id: 599d8a73-b4e1-4ce2-a558-50e9e1ac0276
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: RECEIPT_DATE
     dataType: date
     id: f69ed5e7-a9d0-4cb9-8cf1-d83a2a385f86
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: SHIP_INSTRUCTIONS
     dataType: varchar(25)
     id: b1feb1b9-ac52-4079-9fb0-1a6a541dad1c
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: SHIP_MODE
     dataType: varchar(10)
     id: 604e1308-a552-4c52-b55d-ee9958d0b8a2
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: COMMENT
     dataType: varchar(44)
     id: fe7f0e9b-bcc0-4f6c-a0a9-fd7af4c194b6
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: __LOAD_DTS
     dataType: timestamp_ltz(9)
     id: 41f464a0-5076-4001-a465-a0571d313f60
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false

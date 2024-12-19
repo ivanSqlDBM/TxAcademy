@@ -1,13 +1,20 @@
 {% macro returnColumn(columnSet) %}
-    {%- set column = columnSets
-        | selectattr("itemName", "equalto", columnSet)
-        | map(attribute="columns")
-        | first
-        | map(attribute="name")
-        | first -%}
-    {%- if column -%}
-        {{ column }}
-    {%- else -%}
-        NULL
+    {# Set the variable 'column' by filtering 'columnSets' #}
+    {# Find the item where 'itemName' matches the 'columnSet' argument #}
+    {%- set column = columnSets 
+        | selectattr("itemName", "equalto", columnSet)  
+        | map(attribute="columns")  
+        | first 
+        | map(attribute="name")  
+        | first -%} 
+    
+    {# If a column is found, return it; otherwise, return 'NULL' #}
+    {%- if column -%} 
+        {%- set columnLoc = columns 
+        | selectattr("name", "equalto", column) 
+        | first -%} 
+        {{ wrapColInQuotes (columnLoc) }}  {# Output the found column #}
+    {%- else -%} 
+        NULL  {# Return 'NULL' if no column is found #}
     {%- endif -%}
 {% endmacro %}

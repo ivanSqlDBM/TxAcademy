@@ -1,0 +1,306 @@
+name: stg_STG_HASH_INVENTORY_LINEITEM
+id: f955bcf6-c54d-4f6c-8e2b-76f9055e4928
+storageLocationId: f444de18-2d02-4df6-9c54-36ca0a2c7e40
+templateId: f0b6697a-7eb4-4925-9f72-ec5eb6318733
+materialization: table
+isSource: false
+columns:
+  - name: INVENTORY_HK
+    dataType: BINARY(20)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 559cf978-2537-4b95-888b-7629b11bec8f
+    isPK: true
+  - name: LINE_NUMBER
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 28d13f3e-bc18-4e62-93d6-216377ec00c2
+    isPK: true
+  - name: SALES_ORDER_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: cf04e5c2-e5e6-445c-bfcc-02a027a4d308
+    isPK: true
+  - name: PART_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: part of unique identifier with ps_suppkey
+    id: cfe6c0fa-7a0e-4500-a725-4487da439e47
+  - name: SUPPLIER_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: part of unique identifier with ps_partkey
+    id: 5d5bdcf0-4701-42c3-a468-e5eefb72f83e
+  - name: AVAILABLE_AMOUNT
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: number of parts available for sale
+    id: 4a621001-8306-4729-9ee5-62318087c20d
+  - name: SUPPLIER_COST_USD
+    dataType: number(12,2)
+    allowNulls: false
+    defaultValue: ''
+    description: original cost paid to supplier
+    id: 0be2b8d3-2bd2-4862-805f-4b0b4c6037e0
+  - name: COMMENT
+    dataType: varchar(16777216)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 036947dc-8707-44e3-b678-e5d74fee6f3e
+  - name: __LOAD_DTS
+    dataType: timestamp_ltz(9)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: d58acd1a-3e55-4b2d-8c07-9375fc50e4cb
+  - name: __LOAD_DATE_TS
+    dataType: TIMESTAMP
+    allowNulls: false
+    defaultValue: CURRENT_TIMESTAMP()
+    description: ''
+    id: 1281aa1f-5042-4514-8461-98fee4c586f1
+  - name: __RECORD_SOURCE
+    dataType: VARCHAR(50)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 859c1f95-bc40-4309-ad46-9d40664cd300
+  - name: __TRANSACTIONAL_DATE_TS
+    dataType: TIMESTAMP
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 8e3e18ce-16d7-4e07-81cf-19efaf1840c5
+  - name: __HASHDIFF
+    dataType: BINARY(20)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: b02272ec-ba7e-4650-9db2-414fd0abd99e
+  - name: PART_ID_1
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: f7e95ca6-f1fa-4179-8423-862884b3352d
+  - name: SUPPLIER_ID_1
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 539367a0-1892-4ce8-8e39-f4cbb0dd1419
+  - name: QUANTITY
+    dataType: number(12,2)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: d9654996-0073-41f5-a332-285850538a7a
+  - name: EXTENDED_PRICE_USD
+    dataType: number(12,2)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 21e1eded-809c-4b95-93e3-3824c7eb9eec
+  - name: DISCOUNT_PERCENT
+    dataType: number(12,2)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 0525c7ea-49e5-4e2f-b702-249b0cc07d80
+  - name: TAX_PERCENT
+    dataType: number(12,2)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 86d8b8f1-713e-4506-beb0-b62d7e1add59
+  - name: RETURN_FLAG
+    dataType: varchar(1)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: aad5cdd1-33b7-4f3a-a936-a9d841ab5e56
+  - name: LINE_STATUS
+    dataType: varchar(1)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 406e0586-1243-4ea1-913e-843db789b70d
+  - name: SHIP_DATE
+    dataType: date
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 93d00157-7570-4a37-9c12-4ad02bc5b23c
+  - name: COMMIT_DATE
+    dataType: date
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: d09f91bf-01f3-448f-84f3-34241fc82837
+  - name: RECEIPT_DATE
+    dataType: date
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: ffdb81c1-22c7-49b5-a4a7-9f918b4a5c71
+  - name: SHIP_INSTRUCTIONS
+    dataType: varchar(25)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 8853c514-a677-47b6-9840-96eff26bf076
+  - name: SHIP_MODE
+    dataType: varchar(10)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 2b927159-5bb5-413b-aa49-030611c895c0
+  - name: COMMENT_1
+    dataType: varchar(44)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: e079afd8-2e33-4d6d-b659-ea185ee4f797
+  - name: __LOAD_DTS_1
+    dataType: timestamp_ltz(9)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 9a4640c5-4faf-45b9-b70b-722fd14480c8
+  - name: __load_date
+    dataType: date
+    allowNulls: false
+    defaultValue: current_date()
+    description: load date
+    id: 80ed85e7-098e-4c31-9058-83ea373d953b
+columnSets:
+  - id: 56232c61-468f-49a4-918d-94a4cb3bcc39
+    itemName: PK
+    setName: PK_stg_STG_HASH_INVENTORY_LINEITEM
+    columns:
+      - columnId: 559cf978-2537-4b95-888b-7629b11bec8f
+        position: 1
+        name: INVENTORY_HK
+        useQuotes: false
+      - columnId: 28d13f3e-bc18-4e62-93d6-216377ec00c2
+        position: 2
+        name: LINE_NUMBER
+        useQuotes: false
+      - columnId: cf04e5c2-e5e6-445c-bfcc-02a027a4d308
+        position: 3
+        name: SALES_ORDER_ID
+        useQuotes: false
+nodeFormat: dynamic
+truncateBefore: false
+preCreate:
+  value:
+    - ''
+  isValidated: false
+postCreate:
+  value:
+    - ''
+  isValidated: false
+preRun:
+  value:
+    - ''
+  isValidated: false
+postRun:
+  value:
+    - ''
+  isValidated: false
+rely_button: true
+parentName: Processing_layer
+color: '#FC7917'
+logic: |-
+  with "STG_HASH_INVENTORY" as (
+      SELECT
+          "INVENTORY_HK",
+          "PART_ID",
+          "SUPPLIER_ID",
+          "AVAILABLE_AMOUNT",
+          "SUPPLIER_COST_USD",
+          "COMMENT",
+          "__LOAD_DTS",
+          "__LOAD_DATE_TS",
+          "__RECORD_SOURCE",
+          "__TRANSACTIONAL_DATE_TS",
+          "__HASHDIFF"
+      FROM {{ref('Processing_layer', 'STG_HASH_INVENTORY')}}
+  ),
+  "LINEITEM" as (
+      SELECT
+          "LINE_NUMBER",
+          "SALES_ORDER_ID",
+          "PART_ID",
+          "SUPPLIER_ID",
+          "QUANTITY",
+          "EXTENDED_PRICE_USD",
+          "DISCOUNT_PERCENT",
+          "TAX_PERCENT",
+          "RETURN_FLAG",
+          "LINE_STATUS",
+          "SHIP_DATE",
+          "COMMIT_DATE",
+          "RECEIPT_DATE",
+          "SHIP_INSTRUCTIONS",
+          "SHIP_MODE",
+          "COMMENT",
+          "__LOAD_DTS"
+      FROM {{ref('RAW', 'LINEITEM')}}
+  )
+  ,
+  common as (
+      SELECT
+          "STG_HASH_INVENTORY"."INVENTORY_HK",
+          "LINEITEM"."LINE_NUMBER",
+          "LINEITEM"."SALES_ORDER_ID",
+          "STG_HASH_INVENTORY"."PART_ID",
+          "STG_HASH_INVENTORY"."SUPPLIER_ID",
+          "STG_HASH_INVENTORY"."AVAILABLE_AMOUNT",
+          "STG_HASH_INVENTORY"."SUPPLIER_COST_USD",
+          "STG_HASH_INVENTORY"."COMMENT",
+          "STG_HASH_INVENTORY"."__LOAD_DTS",
+          "STG_HASH_INVENTORY"."__LOAD_DATE_TS",
+          "STG_HASH_INVENTORY"."__RECORD_SOURCE",
+          "STG_HASH_INVENTORY"."__TRANSACTIONAL_DATE_TS",
+          "STG_HASH_INVENTORY"."__HASHDIFF",
+          "LINEITEM"."PART_ID" AS "PART_ID_1",
+          "LINEITEM"."SUPPLIER_ID" AS "SUPPLIER_ID_1",
+          "LINEITEM"."QUANTITY",
+          "LINEITEM"."EXTENDED_PRICE_USD",
+          "LINEITEM"."DISCOUNT_PERCENT",
+          "LINEITEM"."TAX_PERCENT",
+          "LINEITEM"."RETURN_FLAG",
+          "LINEITEM"."LINE_STATUS",
+          "LINEITEM"."SHIP_DATE",
+          "LINEITEM"."COMMIT_DATE",
+          "LINEITEM"."RECEIPT_DATE",
+          "LINEITEM"."SHIP_INSTRUCTIONS",
+          "LINEITEM"."SHIP_MODE",
+          "LINEITEM"."COMMENT" AS "COMMENT_1",
+          "LINEITEM"."__LOAD_DTS" AS "__LOAD_DTS_1",
+          current_date() AS "__load_date"
+      FROM "STG_HASH_INVENTORY"
+      INNER JOIN "LINEITEM"
+      ON /*"STG_HASH_INVENTORY"."<column>" = "LINEITEM"."<column>"*/
+  )
+
+  SELECT * FROM common
+description: ''
+logicalName: stage INVENTORY Hash Stage_LINEITEM
+references:
+  63921cd5-6bd8-4c3e-8ed0-e353b260188a:
+    parentTableId: 61369b42-a7df-4b81-ab83-3315dd130ffd
+    id: 63921cd5-6bd8-4c3e-8ed0-e353b260188a
+  f2fae50b-4ef1-4fb9-ae48-326b7fa5bf35:
+    parentTableId: a0a33868-9cba-4ec0-9716-a91e0de8e221
+    id: f2fae50b-4ef1-4fb9-ae48-326b7fa5bf35

@@ -1,0 +1,290 @@
+name: stg_REGION_PART_SUPPLIER
+id: 66a8c2b3-7ad1-475f-b704-84686782072c
+storageLocationId: f444de18-2d02-4df6-9c54-36ca0a2c7e40
+templateId: f0b6697a-7eb4-4925-9f72-ec5eb6318733
+materialization: table
+isSource: false
+columns:
+  - name: REGION_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 713a9727-d354-4741-8f38-a3f50544f46f
+    useQuotes: false
+    isPK: true
+  - name: PART_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 5c8dc4a1-670b-44fd-8192-b88a94802d11
+    useQuotes: false
+    isPK: true
+  - name: SUPPLIER_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 1a8d3e20-4b5a-4939-af52-5284f7349be9
+    useQuotes: false
+    isPK: true
+  - name: NAME
+    dataType: varchar(25)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 53b0f472-ebde-4be8-9c19-e5221521009b
+    useQuotes: false
+  - name: COMMENT
+    dataType: varchar(152)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 1e304198-fac0-4019-a3ff-b96c6be5caa2
+    useQuotes: false
+  - name: __LOAD_DTS
+    dataType: timestamp_ltz(9)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: dd67c863-88e7-4fde-8586-8d38d6623e4e
+    useQuotes: false
+  - name: NAME_1
+    dataType: varchar(16777216)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: eb58e6ef-22df-415b-9e90-ea305c595d4f
+    useQuotes: false
+  - name: MANUFACTURER
+    dataType: varchar(16777216)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 8aa1496f-8bfb-41c7-b17c-c829721e2a19
+    useQuotes: false
+  - name: BRAND
+    dataType: varchar(16777216)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 968a683d-f284-470a-91f9-14f6518f14a2
+    useQuotes: false
+  - name: TYPE
+    dataType: varchar(16777216)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 8053178a-16c1-431a-9444-1ac77a0b0e33
+    useQuotes: false
+  - name: SIZE_CENTIMETERS
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 04b8c90b-ae8a-4d3c-8dc3-ad915522a87b
+    useQuotes: false
+  - name: CONTAINER
+    dataType: varchar(16777216)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: e0d0797c-2733-4cce-af08-7b57b052c82c
+    useQuotes: false
+  - name: RETAIL_PRICE_USD
+    dataType: number(12,2)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 9cc5d263-ef98-4c60-8071-93d31b6e0b58
+    useQuotes: false
+  - name: COMMENT_1
+    dataType: varchar(16777216)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: cab7082b-7b95-4e92-974f-ddc5e9096e32
+    useQuotes: false
+  - name: __LOAD_DTS_1
+    dataType: timestamp_ltz(9)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: dc6c6264-a378-42be-b87b-4d121fcd7d81
+    useQuotes: false
+  - name: NAME_2
+    dataType: varchar(16777216)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: f4de937f-db20-4adf-ac1a-49586eda2ca2
+    useQuotes: false
+  - name: ADDRESS
+    dataType: varchar(16777216)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 7820e3c0-1e1c-4532-a3ac-f2f8b3d79ede
+    useQuotes: false
+  - name: LOCATION_ID
+    dataType: number(38,0)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 385f91d9-3ea3-4e02-b31a-f07024934b4e
+    useQuotes: false
+  - name: PHONE
+    dataType: varchar(16777216)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: bf8bd288-9d7e-4c77-8374-bedd1f8a2394
+    useQuotes: false
+  - name: ACCOUNT_BALANCE_USD
+    dataType: number(12,2)
+    allowNulls: false
+    defaultValue: ''
+    description: ''
+    id: 717d6057-27be-4f96-b83d-536f65c3344a
+    useQuotes: false
+  - name: COMMENT_2
+    dataType: varchar(16777216)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 1e6abe71-d4cf-4b92-9b57-e46164a8c2e3
+    useQuotes: false
+  - name: __LOAD_DTS_2
+    dataType: timestamp_ltz(9)
+    allowNulls: true
+    defaultValue: ''
+    description: ''
+    id: 559c0b69-505d-4fa5-868a-a9e63edf716a
+    useQuotes: false
+  - name: __load_date
+    dataType: date
+    allowNulls: false
+    defaultValue: current_date()
+    description: load date
+    id: 12b3c14d-9417-468b-884f-390cf8518289
+    useQuotes: false
+columnSets:
+  - id: e3f0f59f-72e5-42c9-b6ac-43284763ae11
+    itemName: PK
+    setName: PK_stg_REGION_PART_SUPPLIER
+    columns:
+      - columnId: 713a9727-d354-4741-8f38-a3f50544f46f
+        position: 1
+        name: REGION_ID
+        useQuotes: false
+      - columnId: 5c8dc4a1-670b-44fd-8192-b88a94802d11
+        position: 2
+        name: PART_ID
+        useQuotes: false
+      - columnId: 1a8d3e20-4b5a-4939-af52-5284f7349be9
+        position: 3
+        name: SUPPLIER_ID
+        useQuotes: false
+nodeFormat: dynamic
+useQuotes: false
+truncateBefore: false
+preCreate:
+  value:
+    - ''
+  isValidated: false
+postCreate:
+  value:
+    - ''
+  isValidated: false
+preRun:
+  value:
+    - ''
+  isValidated: false
+postRun:
+  value:
+    - ''
+  isValidated: false
+rely_button: true
+color: '#FC7917'
+logic: |-
+  with REGION as (
+      SELECT
+          REGION_ID,
+          NAME,
+          COMMENT,
+          __LOAD_DTS
+      FROM {{ref('RAW', 'REGION')}}
+  ),
+  PART as (
+      SELECT
+          PART_ID,
+          NAME,
+          MANUFACTURER,
+          BRAND,
+          TYPE,
+          SIZE_CENTIMETERS,
+          CONTAINER,
+          RETAIL_PRICE_USD,
+          COMMENT,
+          __LOAD_DTS
+      FROM {{ref('RAW', 'PART')}}
+  ),
+  SUPPLIER as (
+      SELECT
+          SUPPLIER_ID,
+          NAME,
+          ADDRESS,
+          LOCATION_ID,
+          PHONE,
+          ACCOUNT_BALANCE_USD,
+          COMMENT,
+          __LOAD_DTS
+      FROM {{ref('RAW', 'SUPPLIER')}}
+  )
+  ,
+  common as (
+      SELECT
+          REGION.REGION_ID,
+          PART.PART_ID,
+          SUPPLIER.SUPPLIER_ID,
+          REGION.NAME,
+          REGION.COMMENT,
+          REGION.__LOAD_DTS,
+          PART.NAME AS NAME_1,
+          PART.MANUFACTURER,
+          PART.BRAND,
+          PART.TYPE,
+          PART.SIZE_CENTIMETERS,
+          PART.CONTAINER,
+          PART.RETAIL_PRICE_USD,
+          PART.COMMENT AS COMMENT_1,
+          PART.__LOAD_DTS AS __LOAD_DTS_1,
+          SUPPLIER.NAME AS NAME_2,
+          SUPPLIER.ADDRESS,
+          SUPPLIER.LOCATION_ID,
+          SUPPLIER.PHONE,
+          SUPPLIER.ACCOUNT_BALANCE_USD,
+          SUPPLIER.COMMENT AS COMMENT_2,
+          SUPPLIER.__LOAD_DTS AS __LOAD_DTS_2,
+          current_date() AS __load_date
+      FROM REGION
+      INNER JOIN PART
+      ON /*"REGION"."<column>" = "PART"."<column>"*/
+      INNER JOIN SUPPLIER
+      ON /*"REGION"."<column>" = "SUPPLIER"."<column>"*/
+  )
+
+  SELECT * FROM common
+description: ''
+logicalName: stage REGION_PART_SUPPLIER
+references:
+  2429131d-efa2-4bdd-a065-757166b88bbe:
+    parentTableId: 7bf9c6a5-b261-450c-9db4-58fa5fb238d5
+    id: 2429131d-efa2-4bdd-a065-757166b88bbe
+  249a4529-8815-40fa-9394-6108b2b4e09c:
+    parentTableId: 98ad7eab-c40d-49d8-bd66-21397115b500
+    id: 249a4529-8815-40fa-9394-6108b2b4e09c
+  a7ef388f-6960-4e42-82a3-ab7682e02a80:
+    parentTableId: 3a6e1d05-5999-4e6e-b3a8-053d74649db6
+    id: a7ef388f-6960-4e42-82a3-ab7682e02a80

@@ -9,33 +9,39 @@ columns:
     allowNulls: false
     defaultValue: ''
     description: part of unique identifier with ps_suppkey
+    useQuotes: false
   - name: SUPPLIER_ID
     dataType: number(38,0)
     id: 66565a9e-7cd6-495e-a442-1c6dc59ba042
     allowNulls: false
     defaultValue: ''
     description: part of unique identifier with ps_partkey
+    useQuotes: false
   - name: AVAILABLE_AMOUNT
     dataType: number(38,0)
     id: 17603ef9-b851-4822-bbfa-61cf581037f6
     allowNulls: false
     defaultValue: ''
     description: number of parts available for sale
+    useQuotes: false
   - name: SUPPLIER_COST_USD
     dataType: number(12,2)
     id: f8fdc4fb-de22-4223-9ad2-426384964611
     allowNulls: false
     defaultValue: ''
     description: original cost paid to supplier
+    useQuotes: false
   - name: COMMENT
     dataType: varchar(16777216)
     id: ae92bce5-ba2a-46b5-85c3-70c8a56692e1
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
   - name: __LOAD_DTS
     dataType: timestamp_ltz(9)
     id: 6af29ba2-47c9-49a9-abde-f2b939fcb531
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false

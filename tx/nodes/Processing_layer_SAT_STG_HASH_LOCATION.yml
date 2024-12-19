@@ -11,48 +11,56 @@ columns:
     defaultValue: ''
     description: ''
     id: 597fc638-332f-4b30-93d4-3c83d26615c8
+    isPK: true
   - name: LOCATION_ID
     dataType: number(38,0)
     allowNulls: false
     defaultValue: ''
     description: ''
     id: 73aa05b3-a66d-4277-83e0-e226074434c5
+    isATTR: true
   - name: NAME
     dataType: varchar(25)
     allowNulls: false
     defaultValue: ''
     description: ''
     id: b42aa345-4347-4d84-b176-a2c560fbb021
+    isATTR: true
   - name: REGION_ID
     dataType: number(38,0)
     allowNulls: false
     defaultValue: ''
     description: ''
     id: 335d6223-de22-40eb-947c-cff4d24aec36
+    isATTR: true
   - name: COMMENT
     dataType: varchar(152)
     allowNulls: true
     defaultValue: ''
     description: ''
     id: 2995750b-8144-47ed-9136-61197e0a8458
+    isATTR: true
   - name: __LOAD_DATE_TS
     dataType: TIMESTAMP
     allowNulls: false
     defaultValue: CURRENT_TIMESTAMP()
     description: ''
     id: 11bd61fa-7c65-440b-b554-1ba38812b57f
+    isLDTS: true
   - name: __RECORD_SOURCE
     dataType: VARCHAR(50)
     allowNulls: false
     defaultValue: ''
     description: ''
     id: f97b52ee-667c-43a3-af07-59753ac7efc7
+    isRCS: true
   - name: __TRANSACTIONAL_DATE_TS
     dataType: TIMESTAMP
     allowNulls: true
     defaultValue: ''
     description: ''
     id: 0f08bb5f-5147-4c07-8e00-db47c39ebdac
+    isTDTS: true
 columnSets:
   - id: 7375c0e5-d544-4bee-8f8b-dae2730f7e7f
     itemName: LDTS
@@ -61,6 +69,7 @@ columnSets:
       - columnId: 11bd61fa-7c65-440b-b554-1ba38812b57f
         position: 1
         name: __LOAD_DATE_TS
+        useQuotes: false
   - id: 485daeae-eaf5-4f77-9b0c-a37aa508a20f
     itemName: RCS
     setName: RCS_SAT_STG_HASH_LOCATION
@@ -68,6 +77,7 @@ columnSets:
       - columnId: f97b52ee-667c-43a3-af07-59753ac7efc7
         position: 1
         name: __RECORD_SOURCE
+        useQuotes: false
   - id: f19b17b8-5b24-4a00-b38a-73cf2ae00973
     itemName: TDTS
     setName: TDTS_SAT_STG_HASH_LOCATION
@@ -75,6 +85,7 @@ columnSets:
       - columnId: 0f08bb5f-5147-4c07-8e00-db47c39ebdac
         position: 1
         name: __TRANSACTIONAL_DATE_TS
+        useQuotes: false
   - id: dc218181-b478-4a9d-8d58-f46703f76cc8
     itemName: ATTR
     setName: ATTR_SAT_STG_HASH_LOCATION
@@ -82,15 +93,19 @@ columnSets:
       - columnId: 73aa05b3-a66d-4277-83e0-e226074434c5
         position: 1
         name: LOCATION_ID
+        useQuotes: false
       - columnId: 335d6223-de22-40eb-947c-cff4d24aec36
         position: 2
         name: REGION_ID
+        useQuotes: false
       - columnId: b42aa345-4347-4d84-b176-a2c560fbb021
         position: 3
         name: NAME
+        useQuotes: false
       - columnId: 2995750b-8144-47ed-9136-61197e0a8458
         position: 4
         name: COMMENT
+        useQuotes: false
   - id: 3881c0bc-2a3d-4856-afdd-cf43e2e70d76
     itemName: PK
     setName: PK_SAT_STG_HASH_LOCATION
@@ -98,6 +113,7 @@ columnSets:
       - columnId: 597fc638-332f-4b30-93d4-3c83d26615c8
         position: 1
         name: LOCATION_HK
+        useQuotes: false
 nodeFormat: dynamic
 postCreate: |
   {# Generate the INSERT statement #}
@@ -121,7 +137,7 @@ logic: |-
           "NAME",
           "REGION_ID",
           "COMMENT",
-          "__LOAD_DATE_TS",
+          "__LOAD_DATE_TS2",
           "__RECORD_SOURCE",
           "__TRANSACTIONAL_DATE_TS"
       FROM {{ref('Processing_layer', 'STG_HASH_LOCATION')}}
@@ -134,7 +150,7 @@ logic: |-
           "STG_HASH_LOCATION"."NAME",
           "STG_HASH_LOCATION"."REGION_ID",
           "STG_HASH_LOCATION"."COMMENT",
-          "STG_HASH_LOCATION"."__LOAD_DATE_TS",
+          "STG_HASH_LOCATION"."__LOAD_DATE_TS2" as "__LOAD_DATE_TS",
           "STG_HASH_LOCATION"."__RECORD_SOURCE",
           "STG_HASH_LOCATION"."__TRANSACTIONAL_DATE_TS"
       FROM "STG_HASH_LOCATION"
