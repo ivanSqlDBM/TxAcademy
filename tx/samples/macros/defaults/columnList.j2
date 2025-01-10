@@ -1,0 +1,8 @@
+{%- macro columnList(tableName='') -%}
+{# Loop over each column in the 'columns' list, if 'tableName' is provided (not an empty string), output 'tableName.'
+  and output the column name wrapped in quotes using 'wrapColInQuotes' macro #}
+    {%- for col in columns -%}
+      {% if tableName != '' %}{{tableName}}.{% endif %}{{ wrapColInQuotes(col) }}
+      {%- if not loop.last %}, {% endif %}
+    {% endfor -%}
+{%- endmacro %}

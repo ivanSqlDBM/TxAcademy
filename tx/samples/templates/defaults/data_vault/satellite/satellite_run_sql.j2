@@ -1,0 +1,28 @@
+{%- macro target() -%}
+{{ location.mapping }}.{%- if useQuotes %}"{{ name }}"{% else %}{{ name }}{% endif %}
+{%- endmacro  -%}
+
+{# Extract all primary key columns into a list #}
+{%- set pk_columns = columnSets 
+  | selectattr("itemName", "equalto", 'PK') 
+  | map(attribute="columns") | first -%}
+
+{%- if materialization == 'table' %}
+INSERT INTO {{ target() }}
+(
+  {{ columnList() }}
+)
+WITH TxLogic AS (
+  {{ logic }}
+)
+SELECT 
+  {{ columnList("TxLogic") }}
+FROM TxLogic
+LEFT JOIN {{ target() }} AS TxSat
+  ON
+    {%- for col in pk_columns %}
+      TxLogic.{{wrapColInQuotes(col)}} = TxSat.{{wrapColInQuotes(col)}}{{ " AND" if not loop.last }}
+    {%- endfor %}
+WHERE
+  TxSat.{{wrapColInQuotes(pk_columns[0])}} IS NULL
+{%- endif %}

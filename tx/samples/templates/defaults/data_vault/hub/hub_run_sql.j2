@@ -1,0 +1,34 @@
+{%- macro target() -%}
+{{ location.mapping }}.{%- if useQuotes %}"{{ name }}"{% else %}{{ name }}{% endif %}
+{%- endmacro  -%}
+
+{# Extract all primary key columns into a list #}
+{%- set pk_columns = columnSets 
+  | selectattr("itemName", "equalto", 'PK') 
+  | map(attribute="columns") | first -%}
+
+{%- if materialization == 'table' %}
+INSERT INTO {{ target() }}
+(
+  {{ columnList() }}
+)
+WITH TxLogic AS (
+  {{ logic }}
+),
+-- Deduplicate records based on primary keys using DISTINCT
+DedupedTxLogic AS (
+  SELECT DISTINCT
+    {{ columnList("TxLogic") }}
+  FROM TxLogic
+)
+SELECT 
+  {{ columnList("DedupedTxLogic") }}
+FROM DedupedTxLogic
+LEFT JOIN {{ target() }} AS TxHub
+  ON
+    {%- for col in pk_columns %}
+      DedupedTxLogic.{{wrapColInQuotes(col)}} = TxHub.{{wrapColInQuotes(col)}}{{ " AND" if not loop.last }}
+    {%- endfor %}
+WHERE
+  TxHub.{{wrapColInQuotes(pk_columns[0])}} IS NULL
+{%- endif %}

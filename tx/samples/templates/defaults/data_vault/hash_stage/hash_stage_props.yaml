@@ -1,0 +1,159 @@
+name: Data Vault - Hash Stage
+usageInfo: |
+  The Data Vault Hash Stage Template is designed to create a staging structure optimized for loading data into a Data Vault model. 
+  This template hashes key attributes to provide a consistent and reliable way to track changes, regardless of the source data format. 
+  To function correctly, this template requires the user to set the following properties in the properties panel:
+
+  - Business Key [itemName: BK]: the column(s) uniquely identifying a record in the source system, used to calculate the primary hash key.
+  - 'NON Delta Tracking Columns' [itemName: NONDELTA]: specifies columns that are not subject to delta tracking and are used in the __HASHDIFF column to identify non-tracking attributes.
+  - Load Date System column [itemName: LDTS]: designates the system column for load timestamps, which records the exact time a record was loaded.
+  - Record Source System column [itemName: RCS]: a fixed identifier for the source system, used in lineage tracking and auditing.
+  - Transactional Date System column [itemName: TDTS]: tracks the date and time of the transactional event in the source system.
+  - Transactional Data Field [itemName: TDF]: field that represents the transactional event in the source.
+  - Attributes fields for Satellite [itenName: ATTR]: the column(s) that will be inherited in the satellite element.
+
+  System columns used by this template:
+  - ${parentPhysicalName}_HK: a hash key generated based on the Business Key (BK) to provide a unique identifier for each record.
+  - __LOAD_DATE_TS: the load timestamp column that stores the date and time a record was inserted into the stage.
+  - __RECORD_SOURCE: stores the record source name, which provides data lineage for each entry.
+  - __TRANSACTIONAL_DATE_TS: tracks the timestamp of the source system's transactional event (optional).
+  - __HASHDIFF: a hash value calculated from the NON Delta Tracking Columns (NONDELTA), enabling efficient comparison for attribute changes.
+
+  Macros used by this:
+  - {{generateHashKey(objectColumnsToHash='all', hashdiff='false)}}
+  - {{returnColumn(columnSet)}}
+  - {{wrapColInQuotes(column)}}
+
+  The Data Vault Hash Stage Template ensures accuracy by using SHA1_BINARY hashing to compare changes in records, facilitating integration into the Data Vault model.
+
+physicalName: 'STG_HASH_${parentPhysicalName}'
+logicalName: '${parentLogicalName} Hash Stage'
+color: 'grey'
+
+primaryColumns:
+  - name: '${parentPhysicalName}_HK'
+    logicalName: 'Hash Key'
+    dataType: BINARY(20)
+    nullable: false
+    unique: false
+    position: 'first'
+    logic: 'CAST(({{generateHashKey(''BK'',''FALSE'')}}) AS BINARY(20))'
+
+defaultColumns:
+  - name: '__LOAD_DATE_TS'
+    logicalName: 'Load Timestamp'
+    dataType: 'TIMESTAMP'
+    nullable: false
+    unique: false
+    default: 'CURRENT_TIMESTAMP()'
+    position: 'last'
+    logic: current_timestamp()
+  - name: '__RECORD_SOURCE'
+    logicalName: 'Record Source'
+    dataType: 'VARCHAR(50)'
+    nullable: false
+    unique: false
+    position: 'last'
+    logic: '''{{location.name}}'''
+  - name: '__TRANSACTIONAL_DATE_TS'
+    logicalName: 'Transaction Date'
+    dataType: 'TIMESTAMP'
+    nullable: true
+    unique: false
+    position: 'last'
+    logic: |
+      {% macro returnColumn(columnSet) -%}
+        {%- set column = columnSets
+          | selectattr("itemName", "equalto", columnSet)
+          | map(attribute="columns")
+          | first
+          | map(attribute="name")
+          | first -%}
+        {%- if column -%}
+      {{ column }}
+        {%- else -%}
+      NULL
+        {%- endif -%}
+      {%- endmacro -%}
+      {{returnColumn('TDF')}}  
+  - name: '__HASHDIFF'
+    logicalName: 'Hash Diff'
+    dataType: 'BINARY(20)'
+    nullable: false
+    unique: false
+    position: 'last'
+    logic: 'CAST(({{generateHashKey(''NONDELTA'',''TRUE'')}}) AS BINARY(20))'
+
+nodeSettings:
+- groupName: 'System UI Items'
+  groupDesc: 'System UI Items'
+  isEnabled: true
+  items:
+  - itemType: materialization
+    default: 'view'
+    isRequired: true
+    isEnabled: true
+
+- groupName: 'Column Settings'
+  groupDesc: 'Column settings'
+  isEnabled: true
+  items:
+  - itemType: textLine
+    itemDesc: 'Hub Group Name'
+    itemName: 'hubGroupName'
+    isRequired: true
+    isEnabled: true
+  
+  - itemType: columnSet
+    itemName: PK
+    itemDesc: 'Primary Key'
+    isRequired: true
+    isEnabled: true
+
+  - itemType: columnSet                            
+    itemName: BK                                               
+    itemDesc: 'Business key - For hash calculation'
+    isRequired: true
+    isEnabled: true
+
+  - itemType: columnSet
+    itemDesc: 'Alternate Key Columns'
+    itemName: AK
+    isRequired: false
+    isEnabled: true
+
+  - itemType: columnSet
+    itemDesc: 'NON Delta Tracking Columns - For hashdiff calculation'
+    itemName: 'NONDELTA'
+    isRequired: true
+    isEnabled: true
+
+  - itemType: columnSet
+    itemDesc: 'Load Date System column'
+    itemName: 'LDTS'
+    isRequired: true
+    isEnabled: true
+
+  - itemType: columnSet
+    itemDesc: 'Record Source System column'
+    itemName: 'RCS'
+    isRequired: true
+    isEnabled: true
+
+  - itemType: columnSet
+    itemDesc: 'Transactional Date System column'
+    itemName: 'TDTS'
+    isRequired: true
+    isEnabled: true    
+
+  - itemType: columnSet
+    itemDesc: 'Transactional Date Field'
+    itemName: 'TDF'
+    isRequired: true
+    isEnabled: true   
+
+  - itemType: columnSet
+    itemDesc: 'Attribute fields for Satellite'
+    itemName: 'ATTR'
+    isRequired: true
+    isEnabled: true

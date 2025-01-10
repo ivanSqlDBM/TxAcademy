@@ -1,0 +1,67 @@
+name: Data Vault - Hub
+
+usageInfo: |
+  The Data Vault Hub Template creates a centralized structure for storing unique business keys in a Data Vault model. 
+  This template consolidates records by business key and assigns a consistent record source. 
+  **This template requires the successful execution of the Data Vault - Hash Stage template** to populate the necessary hashed keys and prepare data for insertion into the Hub.
+
+  System columns used by this template:
+  - ${parentPhysicalName}_HK: the unique hash key for each business entity, generated in the previous Hash Stage.
+  - __LOAD_DATE_TS: the load timestamp, marking the time a record was added to the hub.
+  - __RECORD_SOURCE: stores the origin of each record, essential for auditing and lineage tracking.
+
+  Ensure that the required columns (BK, LDTS, RCS) are properly configured in the Hash Stage template before running the Hub Template. 
+  This template is designed for integration into a larger Data Vault model and requires that each source record's business key and load information are consistent and complete.
+
+physicalName: 'HUB_${parentPhysicalName}'
+logicalName: '${parentLogicalName} Hub'
+color: 'blue'
+
+inheritIdentifiersAs: pk
+inheritAttributes: false
+inheritColumnSet:                                           # Inherit columnSet columns from parent table(s) (AK | BK | DELTA | FK | custom string)
+  - BK 
+  - LDTS
+  - RCS
+
+nodeSettings:
+- groupName: 'System UI Items'
+  groupDesc: 'System UI Items'
+  isEnabled: true
+  items:
+  - itemType: materialization
+    default: 'table'
+    options:
+    - 'transient'
+    - 'table'
+    - 'view'
+    isRequired: true
+    isEnabled: true
+
+- groupName: 'Column Settings'
+  groupDesc: 'Column settings'
+  isEnabled: true
+  items:
+  - itemType: textLine
+    itemDesc: 'Hub Group Name'
+    itemName: 'hubGroupName'
+    isRequired: true
+    isEnabled: false
+
+  - itemType: columnSet                            
+    itemName: BK                                               
+    itemDesc: 'Business Key'
+    isRequired: true
+    isEnabled: false
+
+  - itemType: columnSet
+    itemDesc: 'Load date system column'
+    itemName: 'LDTS'
+    isRequired: true
+    isEnabled: false
+
+  - itemType: columnSet
+    itemDesc: 'Record source system column'
+    itemName: 'RCS'
+    isRequired: true
+    isEnabled: false

@@ -1,0 +1,140 @@
+name: Data Vault - Satellite
+
+usageInfo: |
+  The Data Vault Satellite Template extends the hub by tracking historical changes to descriptive attributes, supporting a complete history of attribute changes. 
+  **This template requires the successful execution of the Data Vault - Hash Stage template** to provide necessary hash keys and prepare data for attribute-level tracking in the Satellite.
+
+  Key Properties to Configure:
+  - Primary Key [itemName: PK]: serves as the unique identifier for each record in the satellite, inheriting the hash key from the Hash Stage.
+  - Attributes [itemName: ATTR]: inherited descriptive attributes to be tracked for change over time.
+  - Load Date System column [itemName: LDTS]: inherited from the Hash Stage, this column captures the timestamp when a record is loaded into the satellite.
+  - Record Source System column [itemName: RCS]: identifies the source of each record, inherited for lineage purposes.
+  - Transactional Date System column [itemName: TDTS]: the source system's date for the transactional event.
+
+  System columns used by this template:
+  -  ${parentPhysicalName}_HK: the unique hash key linking each satellite record to its parent hub entry.
+  - __LOAD_DATE_TS: the timestamp indicating when a record was added to the satellite.
+  - __RECORD_SOURCE: records the origin of each satellite entry, supporting lineage and auditability.
+  - __TRANSACTIONAL_DATE_TS: captures the date associated with the original source transaction (optional).
+
+  Ensure that the required columns (PK, ATTR, LDTS, RCS, TDTS) are properly configured in the Hash Stage template before running the Satellite Template. 
+  This template integrates into a larger Data Vault model, capturing changes to descriptive attributes for a comprehensive history of each entity.
+
+physicalName: 'SAT_${parentPhysicalName}'
+logicalName: '${parentLogicalName} Satellite'
+color: 'yellow'
+
+inheritIdentifiersAs: pk
+inheritAttributes: false
+inheritColumnSet:                                           # Inherit columnSet columns from parent table(s) (AK | BK | DELTA | FK | custom string)
+  - ATTR
+  - TDTS
+  - RCS
+  - LDTS
+
+nodeSettings:
+- groupName: 'System UI Items'
+  groupDesc: 'System UI Items'
+  isEnabled: true
+  items:
+  - itemType: materialization
+    default: 'table'
+    options:
+    - 'transient'
+    - 'table'
+    - 'view'
+    isRequired: true
+    isEnabled: true
+
+  - itemType: prePostSql
+    itemDesc: Post Create SQL
+    itemName: postCreate
+    isRequired: false
+    isEnabled: true
+    isValidated: false
+    default: |
+      {# Generate the INSERT statement #}
+      {%- macro get_ghost_value(col) -%}
+      {# Determine the ghost value for the column #}
+        {%- set dataType = col.dataType|upper %}
+        {%- set allowNulls = col.allowNulls %}
+        {%- if 'CHAR' in dataType or 'TEXT' in dataType or 'STRING' in dataType %}
+        'GHOST'
+        {%- elif 'NUMBER' in dataType or 'INT' in dataType or 'FLOAT' in dataType %}
+        0
+        {%- elif 'DATE' in dataType or 'TIME' in dataType %}
+        '1900-01-01'
+        {%- elif 'BINARY' in dataType %}
+          {%- if not allowNulls %}
+            {# Extract length from dataType, e.g., BINARY(20) #}
+            {%- if '(' in dataType and ')' in dataType %}
+                {%- set length = dataType.split('(')[1].split(')')[0] | int %}
+            {%- else %}
+                {# Default length if not specified #}
+                {%- set length = 1 %}
+            {%- endif %}
+            {%- set hex_string = '0' * (length * 2) %}
+        X'{{ hex_string }}'
+          {%- else %}
+        NULL
+          {%- endif %}
+        {%- else %}
+          {%- if not allowNulls %}
+        'UNKNOWN'
+          {%- else %}
+        NULL
+          {%- endif %}
+      {%- endif %}
+      {%- endmacro %}
+      
+      INSERT INTO {{ location.databaseName }}.{{ location.schemaName }}.{{name}} (
+      {%- for col in columns %}
+        {{ col.name }}{% if not loop.last %},{% endif %}
+      {%- endfor %}
+      )
+      VALUES (
+      {%- for col in columns -%}
+        {{ get_ghost_value(col) }}{% if not loop.last %},{% endif %}
+      {%- endfor %}
+      );
+
+- groupName: 'Column Settings'
+  groupDesc: 'Column settings'
+  isEnabled: true
+  items:
+  - itemType: textLine
+    itemDesc: 'Hub Group Name'
+    itemName: 'hubGroupName'
+    isRequired: true
+    isEnabled: false
+
+  - itemType: columnSet
+    itemName: PK
+    itemDesc: 'Primary Key'
+    isRequired: true
+    isEnabled: true
+
+  - itemType: columnSet
+    itemName: ATTR
+    itemDesc: 'Attributes'
+    isRequired: true
+    isEnabled: false    
+
+  - itemType: columnSet
+    itemDesc: 'Load Date System column'
+    itemName: 'LDTS'
+    isRequired: true
+    isEnabled: false
+
+  - itemType: columnSet
+    itemDesc: 'Record Source System column'
+    itemName: 'RCS'
+    isRequired: true
+    isEnabled: false
+
+  - itemType: columnSet
+    itemDesc: 'Transactional Date System column'
+    itemName: 'TDTS'
+    isRequired: true
+    isEnabled: false            
+    
