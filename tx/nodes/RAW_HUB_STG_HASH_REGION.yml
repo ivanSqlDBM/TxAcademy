@@ -1,0 +1,105 @@
+name: HUB_STG_HASH_REGION
+color: '#1C70FF'
+isSource: false
+columns:
+  - name: REGION_HK
+    allowNulls: false
+    dataType: BINARY(20)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    identity: false
+    id: dab0ef81-f42c-446b-ab62-4341b6265643
+    isPK: true
+  - name: REGION_ID
+    allowNulls: false
+    dataType: NUMBER(38,0)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    identity: false
+    id: b50c0461-53ae-4209-97c1-945d9334ac47
+    isBK: true
+  - name: __LOAD_DATE_TS
+    allowNulls: false
+    dataType: TIMESTAMP_LTZ(9)
+    defaultValue: CURRENT_TIMESTAMP()
+    description: ''
+    useQuotes: false
+    identity: false
+    id: 442b1513-eb62-426c-918a-c9e9fcd508f5
+    isLDTS: true
+  - name: __RECORD_SOURCE
+    allowNulls: false
+    dataType: VARCHAR(3)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    identity: false
+    id: b5f4c992-a04b-47b6-8330-69eb1d9cc182
+    isRCS: true
+logic: |-
+  with STG_HASH_REGION as (
+      SELECT
+          REGION_HK,
+          REGION_ID,
+          __LOAD_DATE_TS,
+          __RECORD_SOURCE
+      FROM {{ref('RAW', 'STG_HASH_REGION')}}
+  )
+  ,
+  common as (
+      SELECT
+          STG_HASH_REGION.REGION_HK,
+          STG_HASH_REGION.REGION_ID,
+          STG_HASH_REGION.__LOAD_DATE_TS,
+          STG_HASH_REGION.__RECORD_SOURCE
+      FROM STG_HASH_REGION
+  )
+
+  SELECT * FROM common
+description: ''
+logicalName: REGION Hash Stage Hub
+columnSets:
+  - itemName: BK
+    setName: BK_HUB_STG_HASH_REGION
+    columns:
+      - columnId: b50c0461-53ae-4209-97c1-945d9334ac47
+        position: 1
+        name: REGION_ID
+        useQuotes: false
+    id: 129d3e4f-851c-4740-81b4-da9e3019ad71
+  - itemName: LDTS
+    setName: LDTS_HUB_STG_HASH_REGION
+    columns:
+      - columnId: 442b1513-eb62-426c-918a-c9e9fcd508f5
+        position: 1
+        name: __LOAD_DATE_TS
+        useQuotes: false
+    id: 0e7e4f81-eb8e-4947-84e9-c72d7e81b467
+  - itemName: RCS
+    setName: RCS_HUB_STG_HASH_REGION
+    columns:
+      - columnId: b5f4c992-a04b-47b6-8330-69eb1d9cc182
+        position: 1
+        name: __RECORD_SOURCE
+        useQuotes: false
+    id: c4bfbcbc-a8f5-403f-b585-d3dfbf0c9951
+  - itemName: PK
+    setName: PK_HUB_STG_HASH_REGION
+    columns:
+      - columnId: dab0ef81-f42c-446b-ab62-4341b6265643
+        position: 1
+        name: REGION_HK
+        useQuotes: false
+    id: 8caa0e21-b7aa-4ab8-ad0d-02e56d719bd3
+useQuotes: false
+templateId: 8dea66d3-79ca-49b1-8392-f07366bb5421
+materialization: table
+storageLocationId: b614539f-ff7f-4901-a7ea-6b07219e0881
+id: 58bbeebb-f957-453a-83eb-be8e30ae0295
+nodeFormat: dynamic
+references:
+  5a5db663-bec6-44e8-aad1-707778f9da21:
+    parentTableId: 2e4d32ff-0d2c-425f-a46b-b353f4a5669c
+    id: 5a5db663-bec6-44e8-aad1-707778f9da21
