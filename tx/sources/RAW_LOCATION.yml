@@ -1,6 +1,6 @@
 sourceId: 3607b9c9-7e01-4c9b-b391-1f10f9c27f5f
 name: LOCATION
-locationId: 02c0932a-a09d-40c3-847a-0cee0092c1a1
+locationId: b614539f-ff7f-4901-a7ea-6b07219e0881
 description: location assigned to \ncustomer or supplier
 columns:
   - name: LOCATION_ID
@@ -9,27 +9,37 @@ columns:
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: NAME
     dataType: varchar(25)
     id: 75177e6c-0f2b-4ba2-9ad7-9304ed42b44a
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: REGION_ID
     dataType: number(38,0)
     id: c4c00ac7-7701-418b-9f2b-d7be7c8991d5
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: COMMENT
     dataType: varchar(152)
     id: f03d0b7a-da26-443e-ace4-275de6e16a86
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: __LOAD_DTS
     dataType: timestamp_ltz(9)
     id: 0dd84bbf-2553-4a00-85e2-287024d6f3f8
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false

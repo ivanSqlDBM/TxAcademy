@@ -1,6 +1,6 @@
 sourceId: 13daf578-a1fe-41c0-b60c-87844919a281
 name: SALES_ORDER
-locationId: 02c0932a-a09d-40c3-847a-0cee0092c1a1
+locationId: b614539f-ff7f-4901-a7ea-6b07219e0881
 description: single order per customer
 columns:
   - name: SALES_ORDER_ID
@@ -9,57 +9,77 @@ columns:
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: CUSTOMER_ID
     dataType: number(38,0)
     id: 7a2b45ca-3232-4eaa-b58e-853d44d4d797
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: ORDER_STATUS
     dataType: varchar(1)
     id: 9c6d8cd9-10b7-400d-a1c1-4c7b64d3283a
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: TOTAL_PRICE_USD
     dataType: number(12,2)
     id: 71a38b92-051c-49ad-aef6-a6d94b03b19c
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: ORDER_DATE
     dataType: date
     id: 4b0da1ca-cde5-426f-9034-ac130e38eea3
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: ORDER_PRIORITY
     dataType: varchar(15)
     id: 9059b9eb-e3c9-4a0a-ad83-2ce1aaf2a9ff
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: CLERK
     dataType: varchar(15)
     id: 146db1c5-982b-417a-af25-303f5df1ce05
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: SHIP_PRIORITY
     dataType: number(38,0)
     id: 4c86b67a-c89e-4f05-85a2-36be28192ae6
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: COMMENT
     dataType: varchar(79)
     id: 4496b0bd-f4c0-453e-a383-a0394c66be59
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: __LOAD_DTS
     dataType: timestamp_ltz(9)
     id: f1db7a17-da88-4183-8146-9c1d686ead93
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false

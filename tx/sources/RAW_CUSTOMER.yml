@@ -1,6 +1,6 @@
 sourceId: 39bd16bc-a498-452c-9cba-9defbf84426c
 name: CUSTOMER
-locationId: 02c0932a-a09d-40c3-847a-0cee0092c1a1
+locationId: b614539f-ff7f-4901-a7ea-6b07219e0881
 description: Registered cusotmers
 columns:
   - name: CUSTOMER_ID
@@ -9,51 +9,69 @@ columns:
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: NAME
     dataType: varchar(16777216)
     id: b2828b6d-320f-49f1-884b-1b02e09a45f4
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: ADDRESS
     dataType: varchar(16777216)
     id: b67a5a0d-b1f3-43ab-b229-0b99e08a7279
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: LOCATION_ID
     dataType: number(38,0)
     id: b8a7cc32-dbcd-4b13-adf2-12c7a61f09f4
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: PHONE
     dataType: varchar(15)
     id: 97a99150-22cf-493a-9934-139aea478b74
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: ACCOUNT_BALANCE_USD
     dataType: number(12,2)
     id: 681022e1-52e7-4652-87c7-b925ea867470
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: MARKET_SEGMENT
     dataType: varchar(10)
     id: a910832a-e9bf-43ff-adbd-342f6bdcebff
     allowNulls: false
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: COMMENT
     dataType: varchar(16777216)
     id: 4fad04ea-55bd-4d02-8927-e2b7ecdb2145
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
   - name: __LOAD_DTS
     dataType: timestamp_ltz(9)
     id: a75113a9-90bf-4a7e-a82f-d09108f7acf8
     allowNulls: true
     defaultValue: ''
     description: ''
+    useQuotes: false
+    identity: false
