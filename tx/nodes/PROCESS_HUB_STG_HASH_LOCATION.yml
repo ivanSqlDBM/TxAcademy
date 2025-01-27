@@ -1,0 +1,105 @@
+name: HUB_STG_HASH_LOCATION
+color: '#1C70FF'
+isSource: false
+columns:
+  - name: LOCATION_HK
+    allowNulls: false
+    dataType: BINARY(20)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    identity: false
+    id: a75fec4b-2de3-4c9e-9844-dfbe9a3d5a95
+    isPK: true
+  - name: LOCATION_ID
+    allowNulls: false
+    dataType: NUMBER(38,0)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    identity: false
+    id: 13cd1567-147d-4184-ac8d-f8203c7a3fac
+    isBK: true
+  - name: __LOAD_DATE_TS
+    allowNulls: false
+    dataType: TIMESTAMP_LTZ(9)
+    defaultValue: CURRENT_TIMESTAMP()
+    description: ''
+    useQuotes: false
+    identity: false
+    id: 63422325-0f49-4326-9b24-131947a85dad
+    isLDTS: true
+  - name: __RECORD_SOURCE
+    allowNulls: false
+    dataType: VARCHAR(3)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    identity: false
+    id: da1eee3e-1dc1-4dab-ac0a-b0bac92a3eef
+    isRCS: true
+logic: |-
+  with STG_HASH_LOCATION as (
+      SELECT
+          LOCATION_HK,
+          LOCATION_ID,
+          __LOAD_DATE_TS,
+          __RECORD_SOURCE
+      FROM {{ref('PROCESS', 'STG_HASH_LOCATION')}}
+  )
+  ,
+  common as (
+      SELECT
+          STG_HASH_LOCATION.LOCATION_HK,
+          STG_HASH_LOCATION.LOCATION_ID,
+          STG_HASH_LOCATION.__LOAD_DATE_TS,
+          STG_HASH_LOCATION.__RECORD_SOURCE
+      FROM STG_HASH_LOCATION
+  )
+
+  SELECT * FROM common
+description: ''
+logicalName: LOCATION Hash Stage Hub
+columnSets:
+  - itemName: BK
+    setName: BK_HUB_STG_HASH_LOCATION
+    columns:
+      - columnId: 13cd1567-147d-4184-ac8d-f8203c7a3fac
+        position: 1
+        name: LOCATION_ID
+        useQuotes: false
+    id: 0046153f-fd73-40dc-aeaf-74d21474822d
+  - itemName: LDTS
+    setName: LDTS_HUB_STG_HASH_LOCATION
+    columns:
+      - columnId: 63422325-0f49-4326-9b24-131947a85dad
+        position: 1
+        name: __LOAD_DATE_TS
+        useQuotes: false
+    id: a6984266-0b8a-4d1e-8a44-4aae99022419
+  - itemName: RCS
+    setName: RCS_HUB_STG_HASH_LOCATION
+    columns:
+      - columnId: da1eee3e-1dc1-4dab-ac0a-b0bac92a3eef
+        position: 1
+        name: __RECORD_SOURCE
+        useQuotes: false
+    id: b7d9e849-cb85-401c-8367-e9baacc7da7b
+  - itemName: PK
+    setName: PK_HUB_STG_HASH_LOCATION
+    columns:
+      - columnId: a75fec4b-2de3-4c9e-9844-dfbe9a3d5a95
+        position: 1
+        name: LOCATION_HK
+        useQuotes: false
+    id: 0caad7f8-ea47-4de4-b9a6-798a16f53b76
+useQuotes: false
+templateId: 8dea66d3-79ca-49b1-8392-f07366bb5421
+materialization: table
+storageLocationId: a6f816e1-f6f7-45b8-9b58-7309508c95a1
+id: 944cb950-bb5d-48f0-a0d7-f16fb1cf15e6
+nodeFormat: dynamic
+references:
+  317f3fad-2eb6-4a5c-9b22-34cf7033fd8a:
+    parentTableId: 9d4e81a5-efdd-464a-9218-45dc785a8fa5
+    id: 317f3fad-2eb6-4a5c-9b22-34cf7033fd8a
