@@ -1,0 +1,194 @@
+name: STG_HASH_REGION
+color: '#999999'
+isSource: false
+columns:
+  - name: REGION_HK
+    allowNulls: false
+    dataType: BINARY(20)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    identity: false
+    id: d34dc6b4-2897-4122-83f4-70fa96ec9304
+    isNONDELTA: true
+    isPK: true
+  - name: REGION_ID
+    allowNulls: false
+    dataType: NUMBER(38,0)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    identity: false
+    id: bb706c9b-964b-40e3-87cb-ac2c5a551ce9
+    isBK: true
+  - name: NAME
+    allowNulls: false
+    dataType: VARCHAR(25)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    identity: false
+    id: 25679374-a3c0-462b-9d12-b83784d4a015
+  - name: COMMENT
+    allowNulls: true
+    dataType: VARCHAR(152)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    identity: false
+    id: 2499feca-04fb-402a-97a1-c66ca1302576
+  - name: __LOAD_DTS
+    allowNulls: true
+    dataType: TIMESTAMP_LTZ(9)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    identity: false
+    id: 5ef7bd87-4a4b-4d27-b61e-527e4d3d8ee4
+    isNONDELTA: true
+  - name: __LOAD_DATE_TS
+    allowNulls: false
+    dataType: TIMESTAMP_LTZ(9)
+    defaultValue: CURRENT_TIMESTAMP()
+    description: ''
+    useQuotes: false
+    identity: false
+    id: 7a698506-cc87-4f3b-be30-d50e4278920b
+    isNONDELTA: true
+    isLDTS: true
+  - name: __RECORD_SOURCE
+    allowNulls: false
+    dataType: VARCHAR(3)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    identity: false
+    id: 33dbfb8d-bb7d-4067-88d2-bf5e0f74e2bc
+    isNONDELTA: true
+    isRCS: true
+  - name: __TRANSACTIONAL_DATE_TS
+    allowNulls: true
+    dataType: VARCHAR(0)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    identity: false
+    id: 6b938a9c-9959-4dc9-93aa-55a36f1411d5
+    isNONDELTA: true
+    isTDTS: true
+  - name: __HASHDIFF
+    allowNulls: false
+    dataType: BINARY(20)
+    defaultValue: ''
+    description: ''
+    useQuotes: false
+    identity: false
+    id: 0faf00b3-9417-4901-8d9d-8d9234cb1799
+    isNONDELTA: true
+logic: |-
+  with REGION as (
+      SELECT
+          REGION_ID,
+          NAME,
+          COMMENT,
+          __LOAD_DTS
+      FROM {{ref('RAW', 'REGION')}}
+  )
+  ,
+  common as (
+      SELECT
+          CAST(({{generateHashKey('BK','FALSE')}}) AS BINARY(20)) AS REGION_HK,
+          REGION.REGION_ID,
+          REGION.NAME,
+          REGION.COMMENT,
+          REGION.__LOAD_DTS,
+          current_timestamp() AS __LOAD_DATE_TS,
+          '{{location.name}}' AS __RECORD_SOURCE,
+          {{returnColumn('TDF')}} AS __TRANSACTIONAL_DATE_TS,
+          CAST(({{generateHashKey('NONDELTA','TRUE')}}) AS BINARY(20)) AS __HASHDIFF
+      FROM REGION
+  )
+
+  SELECT * FROM common
+description: ''
+logicalName: REGION Hash Stage
+columnSets:
+  - itemName: BK
+    setName: BK_STG_HASH_REGION
+    columns:
+      - columnId: bb706c9b-964b-40e3-87cb-ac2c5a551ce9
+        position: 1
+        name: REGION_ID
+        useQuotes: false
+    id: bc6817b7-3bac-4316-b95e-efd152ccd1b5
+  - itemName: NONDELTA
+    setName: NONDELTA_STG_HASH_REGION
+    columns:
+      - columnId: 0faf00b3-9417-4901-8d9d-8d9234cb1799
+        position: 1
+        name: __HASHDIFF
+        useQuotes: false
+      - columnId: 7a698506-cc87-4f3b-be30-d50e4278920b
+        position: 2
+        name: __LOAD_DATE_TS
+        useQuotes: false
+      - columnId: 5ef7bd87-4a4b-4d27-b61e-527e4d3d8ee4
+        position: 3
+        name: __LOAD_DTS
+        useQuotes: false
+      - columnId: 33dbfb8d-bb7d-4067-88d2-bf5e0f74e2bc
+        position: 4
+        name: __RECORD_SOURCE
+        useQuotes: false
+      - columnId: 6b938a9c-9959-4dc9-93aa-55a36f1411d5
+        position: 5
+        name: __TRANSACTIONAL_DATE_TS
+        useQuotes: false
+      - columnId: d34dc6b4-2897-4122-83f4-70fa96ec9304
+        position: 6
+        name: REGION_HK
+        useQuotes: false
+    id: feca9f07-2bc8-4859-a27c-a4bf79241dec
+  - itemName: LDTS
+    setName: LDTS_STG_HASH_REGION
+    columns:
+      - columnId: 7a698506-cc87-4f3b-be30-d50e4278920b
+        position: 1
+        name: __LOAD_DATE_TS
+        useQuotes: false
+    id: f9b9bd29-89b4-4db7-b6db-f0722725bd22
+  - itemName: RCS
+    setName: RCS_STG_HASH_REGION
+    columns:
+      - columnId: 33dbfb8d-bb7d-4067-88d2-bf5e0f74e2bc
+        position: 1
+        name: __RECORD_SOURCE
+        useQuotes: false
+    id: 4bcf7d85-aba6-4072-b414-7438daafa09d
+  - itemName: TDTS
+    setName: TDTS_STG_HASH_REGION
+    columns:
+      - columnId: 6b938a9c-9959-4dc9-93aa-55a36f1411d5
+        position: 1
+        name: __TRANSACTIONAL_DATE_TS
+        useQuotes: false
+    id: 746f52df-97ee-436d-aa9a-b1d3db7ce3b8
+  - itemName: PK
+    setName: PK_STG_HASH_REGION
+    columns:
+      - columnId: d34dc6b4-2897-4122-83f4-70fa96ec9304
+        position: 1
+        name: REGION_HK
+        useQuotes: false
+    id: 6456cedb-bfc8-48a7-b1d5-da60a0e560a5
+useQuotes: false
+templateId: c9972b75-8b77-4599-8631-351a18354a4f
+materialization: view
+storageLocationId: a6f816e1-f6f7-45b8-9b58-7309508c95a1
+id: 2e4d32ff-0d2c-425f-a46b-b353f4a5669c
+nodeFormat: dynamic
+status: DataPreviewIncorrectStructure
+references:
+  e4f1eafc-72d8-46a2-90b6-d5495cae020e:
+    parentTableId: 7bf9c6a5-b261-450c-9db4-58fa5fb238d5
+    id: e4f1eafc-72d8-46a2-90b6-d5495cae020e
